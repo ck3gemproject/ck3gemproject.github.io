@@ -128,13 +128,16 @@ function makeEventCode(e) {
       //FIX DESCRIPTIONS ISSUE HERE
 
       let locCounter = 0;
-
+      currentIndent = 1;
+      eText += `${p(currentIndent)}desc = {${ep()}`
+      currentIndent += 1;
       for (let i = 0; i < e.loc.length; i++) {
+
         let arr = e.loc[i];
         if (arr.length === 0) {
 
         } else if (arr.length === 1) {
-          eText += `${p(1)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
+          eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
           locCounter += 1;
           /*if (arr[0].loc.match(spacesOnly)) {
 
@@ -142,16 +145,17 @@ function makeEventCode(e) {
 
           }*/
         } else {
-          eText +=  `${p(1)}desc = {${ep()}`
-          eText += `${p(2)}random_valid = {${ep()}`
+          eText += `${p(currentIndent)}random_valid = {${ep()}`
+          currentIndent += 1;
 
 
 
           for (let j = 0; j < arr.length; j++) {
-            eText += `${p(3)}triggered_desc = {${ep()}`
-            eText += `${p(4)}trigger = {${ep()}`
+            eText += `${p(currentIndent)}triggered_desc = {${ep()}`
+            currentIndent += 1;
+            eText += `${p(currentIndent)}trigger = {${ep()}`
+            currentIndent += 1;
             let c = arr[j];
-            let currentIndent = 5
             for (let j = 0; j < c.locTriggers.length; j++) {
               let currentTrigger = c.locTriggers[j];
               let currentArr = currentTrigger.split(`\n`);
@@ -169,25 +173,22 @@ function makeEventCode(e) {
               }
             }
 
-            /*
-            for (let n = 0; n < c.locTriggers.length; n++) {
-              console.log(c);
-              eText += `${p(5)}${c.locTriggers[n]}${ep()}`
-            }
-            */
-
-            eText += `${p(4)}}${ep()}`
-            eText += `${p(4)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
-
-            eText += `${p(3)}}${ep()}`
+            currentIndent -= 1;
+            eText += `${p(currentIndent)}}${ep()}`
+            eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
+            currentIndent -= 1;
+            eText += `${p(currentIndent)}}${ep()}`
             locCounter += 1;
           }
-          eText += `${p(2)}}${ep()}`
-          eText += `${p(1)}}${ep()}`
+          currentIndent -= 1;
+          eText += `${p(currentIndent)}}${ep()}`
+
         }
       }
 
     }
+    currentIndent -= 1;
+    eText += `${p(currentIndent)}}${ep()}`
 
 
 
