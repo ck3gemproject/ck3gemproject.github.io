@@ -92,13 +92,21 @@ function randFromArray(arr) {
 function fillScopeSelects() {
   for (let i = 0; i < globalScopes.length; i++) {
     let char1 = GID(`scope-select-id${i}-char1`);
-    char1.value = globalScopes[i].char1.code;
+    if (char1) {
+      char1.value = globalScopes[i].char1.code;
+    }
     let char2 = GID(`scope-select-id${i}-char2`);
-    char2.value = globalScopes[i].char2.code;
+    if (char2) {
+      char2.value = globalScopes[i].char2.code;
+    }
     let char3 = GID(`scope-select-id${i}-char3`);
-    char3.value = globalScopes[i].char3.code;
+    if (char3) {
+      char3.value = globalScopes[i].char3.code;
+    }
     let char4 = GID(`scope-select-id${i}-char4`);
-    char4.value = globalScopes[i].char4.code;
+    if (char4) {
+      char4.value = globalScopes[i].char4.code;
+    }
   }
 }
 
