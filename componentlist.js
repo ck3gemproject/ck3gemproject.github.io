@@ -612,7 +612,7 @@ function saveComponentEdits(comp) {
 function setGameTags(c) {
   let tags = c.gameTags;
   let regex = /\([\w\s\:\d\-\_\.\<\>\!\=\{\}]+\)/gi
-  let idRegex = /\(([\w\s\_\-\.\<\>\!\=\{\}]+)\:\s([\w\s\_\-\d\.\<\>\!\=\{\}]+)/i
+  let idRegex = /\(([\w\s\_\-\.\<\>\!\=\{\}]+)\:\s([\w\s\_\-\d\.\<\>\!\=\{\}\:]+)/i
   let res = tags.match(regex);
   if (res) {
     for (let i = 0; i < res.length; i++) {
