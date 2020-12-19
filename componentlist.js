@@ -24,11 +24,11 @@ function fillComponentList() {
     if (currentGrid().grid[y][x].components[i].travel) {
       t += ` [travel: ${currentGrid().grid[y][x].components[i].travel}]`
     }
-    /*
+
     if (currentGrid().grid[y][x].components[i].gameTags) {
       t += ` [gameTags: ${currentGrid().grid[y][x].components[i].gameTags}]`
     }
-    */
+
 
     t += "</p>"
 
