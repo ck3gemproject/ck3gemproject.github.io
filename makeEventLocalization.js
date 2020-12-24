@@ -7,7 +7,7 @@ function makeEventLocalization(e) {
   if (e.title) {
       eLocalization += `${p(1)}${namespace}.${normNum}.t: "${e.title}"${ep()}`
   } else {
-      eLocalization += `${p(1)}${namespace}.${normNum}.t: "Just Another GEM EVENT"${ep()}`
+      //eLocalization += `${p(1)}${namespace}.${normNum}.t: "Just Another GEM EVENT"${ep()}`
   }
 
   let locCounter = 0;

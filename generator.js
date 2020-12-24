@@ -71,7 +71,9 @@ function generateSubgrid(gridObject, e) {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
+            console.log(e.tags);
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
+            console.log(e.tags);
           }
           if (canTravel === false) {
               loop = false
@@ -164,7 +166,9 @@ function generate() {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
+            console.log(e.tags);
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
+            console.log(e.tags);
           }
           if (canTravel === false) {
               loop = false
