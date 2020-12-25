@@ -88,7 +88,7 @@ function setupGrid() {
 }
 
 function clearGrid() {
-  GID("map").innerHTML = createGrid(9, 50);
+  GID("map").innerHTML = createGrid(18, 100);
   setupGrid();
 }
 
@@ -164,14 +164,14 @@ function drawEventMap() {
     refreshGrid();
   }
   GID("event-map").innerHTML += "<div class='grid-buttons' id='add-grid-button'>Add Grid</div><div class='grid-buttons' id='delete-grid-button'>Delete Grid</div>"
-  GID("event-map").innerHTML += `<div id="map">${createGrid(9, 50)}</div>`
+  GID("event-map").innerHTML += `<div id="map">${createGrid(18, 100)}</div>`
 
   //ADD GRID
   GID("add-grid-button").onclick = function() {
 
     let gridName = prompt("What would you like to name the grid?")
     if (gridName.length > 0) {
-      generator.globalGridsArr.push(buildEventGrid(10, 50))
+      generator.globalGridsArr.push(buildEventGrid(20, 100))
       generator.globalGridsArr[generator.globalGridsArr.length - 1].gridName = gridName;
       refillGridSelect();
       GID("select-grid-options").value = generator.globalGridsArr[generator.currentGridIndex].gridName
@@ -197,7 +197,7 @@ function currentGrid() {
   return generator.globalGridsArr[generator.currentGridIndex]
 }
 
-generator.globalGridsArr.push(buildEventGrid(10, 50));
+generator.globalGridsArr.push(buildEventGrid(20, 100));
 drawEventMap();
 
 
