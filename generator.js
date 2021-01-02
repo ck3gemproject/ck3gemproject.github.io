@@ -71,9 +71,7 @@ function generateSubgrid(gridObject, e) {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
-            console.log(e.tags);
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
-            console.log(e.tags);
           }
           if (canTravel === false) {
               loop = false
@@ -166,9 +164,7 @@ function generate() {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
-            console.log(e.tags);
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
-            console.log(e.tags);
           }
           if (canTravel === false) {
               loop = false
@@ -452,9 +448,7 @@ function isLocalizationCell(cell) {
 
 function getTravelProbabilities(neighbors, component) {
   let probabilities = [];
-  console.log(component);
   let t = component.travel.split(", ");
-  console.log(t);
   let regex = /(\w+)\((\d+)\)/
   for (let i = 0; i < t.length; i++) {
     let o = {};
@@ -469,7 +463,6 @@ function getTravelProbabilities(neighbors, component) {
       probabilities.push(o);
     }
   }
-  console.log(probabilities);
   return probabilities;
 }
 
@@ -587,7 +580,6 @@ function getAllowableNeighbors(neighbors, component) {
       allowable.push(neighbors.west)
     }
   }
-  console.log(allowable);
   return allowable;
 }
 
