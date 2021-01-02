@@ -293,6 +293,8 @@ function addComponentToEvent(loc, currentComponent, e) {
     } else {
       e.loc.push(loc)
     }
+  } else if (loc.length > 1) {
+    e.loc.push(loc);
   }
 
 
