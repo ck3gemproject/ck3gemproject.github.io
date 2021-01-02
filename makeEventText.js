@@ -120,9 +120,7 @@ function makeEventCode(e) {
   //DESCRIPTIONS
   if (e.loc.length === 0) {
 
-  } else if (e.loc.length === 1) {
-    eText += `${p(1)}desc = ${namespace}.${normalizeNumber(creationCounter)}.desc${ep()}`
-  } else {
+  }  else {
 
 
       //FIX DESCRIPTIONS ISSUE HERE
