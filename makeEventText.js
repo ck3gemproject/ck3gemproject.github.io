@@ -93,23 +93,6 @@ function makeEventCode(e) {
         eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
       }
     }
-    /*if (typeof(e.triggers[i]) === "string") {
-      eText += `${p(2)}${e.triggers[i]}${ep()}`
-    } else {
-      let lineArr = e.triggers[i];
-      let indentLevel = 2;
-      if (e.triggers[i] && e.triggers[i].length > 0) {
-        for (let j = 0; j < e.triggers[i].length; j++) {
-          if (lineArr[j].includes("}")) {
-            indentLevel -= 1;
-          }
-          eText += `${p(indentLevel)}${lineArr[j]}${ep()}`
-          if (lineArr[j].includes("{")) {
-            indentLevel += 1;
-          }
-        }
-      }
-    }*/
   }
   eText += `${p(1)}}${ep()}`
 
@@ -121,10 +104,7 @@ function makeEventCode(e) {
   if (e.loc.length === 0) {
 
   }  else {
-
-
       //FIX DESCRIPTIONS ISSUE HERE
-
       let locCounter = 0;
       currentIndent = 1;
       eText += `${p(currentIndent)}desc = {${ep()}`
@@ -137,11 +117,6 @@ function makeEventCode(e) {
         } else if (arr.length === 1) {
           eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
           locCounter += 1;
-          /*if (arr[0].loc.match(spacesOnly)) {
-
-          } else {
-
-          }*/
         } else {
           eText += `${p(currentIndent)}random_valid = {${ep()}`
           currentIndent += 1;
