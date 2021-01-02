@@ -296,9 +296,7 @@ function addComponentToEvent(loc, currentComponent, e) {
     } else {
       e.loc.push(loc)
     }
-  } else {
-    e.loc.push(loc);
-  }
+  } 
 
 
   if (currentComponent.tags) {
