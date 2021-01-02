@@ -289,6 +289,7 @@ function addComponentToEvent(loc, currentComponent, e) {
 
 
   //This makes sure that all loc is combined if not a triggered desc
+  console.log(loc);
   if (loc.length === 1) {
     let last = e.loc[e.loc.length - 1];
     if (last && last.length === 1 && last[0].locTriggers.length === 0 && currentComponent.locTriggers.length === 0) {
@@ -296,7 +297,7 @@ function addComponentToEvent(loc, currentComponent, e) {
     } else {
       e.loc.push(loc)
     }
-  } 
+  }
 
 
   if (currentComponent.tags) {
