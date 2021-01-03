@@ -8,7 +8,7 @@
  */
 
 function doAutoIndent(ta, indent) {
-    indent || (indent = "\xa0\xa0");
+    indent || (indent = "\xa0\xa0"); 
 
     function setValue(text) {
         ta.value = text;

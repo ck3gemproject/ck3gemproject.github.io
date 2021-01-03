@@ -37,7 +37,7 @@ function parseTriggers(triggerWiki) {
       }
       n += 1;
     }
-
+ 
     if (arr[i].includes("</tr>")) {
       arr[i] = arr[i].replace("</tr>", "")
       n = 0;

@@ -2,7 +2,7 @@
 
 The CK3 Gem Project is a generator of Crusader Kings 3 events based on generative grammars.
 
-## How does the project work?
+## How does the project work? 
 
 You generate events "brick by brick" by defining each "brick" on a grid (or across multiple grids), setting constraints, and running a generator over your grids from a START point on the grid by pressing a "Generate" button. Each "brick" (component, as I call it here) can have event settings (theme, background etc...), localization, effects, options, and most other CK3 code attached to it. The generator accumulates these bricks as it walks across the grid, combines the components to prevent duplication where possible, and continues moving until it reaches a point where it cannot walk anymore (because you have not given it anywhere to go). At that point, it creates: (1) a localization entry, (2) an event entry, and (3) an on_action entry (if you have defined an on_action). You can then download the event and on_action entries as text files.
 

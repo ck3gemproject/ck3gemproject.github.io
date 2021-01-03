@@ -1,7 +1,7 @@
 let globalEffectsList = [
 
 ]
-
+ 
 function parseWikipedia(wikipedia) {
   let entryRegEx = /\<tr\>[\w\s\d\{\}\<\>\,\_\-\=\+]+<\/tr>/gi
   let entryRegEx2 = /\<td\>[\w\s\d\n\{\}\<\>\,\.\!\_\-\=\+\\\/\'\"\&]+<\/td>/gi

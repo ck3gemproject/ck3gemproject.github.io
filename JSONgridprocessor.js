@@ -17,3 +17,4 @@ GID("select-grid-options").onchange = function() {
   clearGrid();
   refreshGrid();
 }
+ 

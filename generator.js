@@ -4,7 +4,7 @@ function runGenerationMachine(num) {
     generate(namespace);
   }
 }
-
+ 
 function getGridByName(name) {
   for (let i = 0; i < generator.globalGridsArr.length; i++) {
     if (generator.globalGridsArr[i].gridName === name) {

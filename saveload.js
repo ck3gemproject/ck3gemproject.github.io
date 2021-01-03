@@ -4,7 +4,7 @@ function saveGrid(name) {
     generator.globalScopes = globalScopes;
     localStorage.setItem(n, JSON.stringify(generator));
   }
-}
+} 
 
 function loadGrid(name) {
   let n = prompt("What generator would you like to load?")

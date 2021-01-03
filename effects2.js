@@ -1,6 +1,6 @@
 function processEffectsWiki(wikipedia) {
   let arr = wikipedia.split(`\n`);
-
+ 
   let n = 0;
   let objectArr = [];
   let o = {

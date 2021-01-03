@@ -1,4 +1,4 @@
-let generator = {};
+let generator = {}; 
 generator.globalGridsArr = [];
 generator.gridStack = [];
 generator.currentGridIndex = 0;

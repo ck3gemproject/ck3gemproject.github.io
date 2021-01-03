@@ -1,5 +1,5 @@
 let globalScopes = [];
-
+ 
 let t = `
 
 <!DOCTYPE html>

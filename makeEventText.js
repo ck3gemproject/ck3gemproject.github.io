@@ -3,7 +3,7 @@ function makeEventCode(e) {
   let n = `${namespace}.${normNum}`
   let eText = `${p(0)}${n} = {${ep()}`
   eText += `${p(1)}type = ${e.type || "character_event"}${ep()}`
-
+ 
   //TITLES
 
   eText += `${p(1)}title = ${namespace}.${normalizeNumber(creationCounter)}.t${ep()}`

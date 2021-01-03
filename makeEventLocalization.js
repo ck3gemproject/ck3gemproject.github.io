@@ -1,5 +1,5 @@
 function makeEventLocalization(e) {
-
+ 
   let normNum = normalizeNumber(locCreationCounter);
   let eLocalization = "";
 
