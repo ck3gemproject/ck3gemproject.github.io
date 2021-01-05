@@ -1,4 +1,5 @@
 function makeEventCode(e) {
+  console.log(e);
   let normNum = normalizeNumber(creationCounter);
   let n = `${namespace}.${normNum}`
   let eText = `${p(0)}${n} = {${ep()}`
@@ -12,8 +13,8 @@ function makeEventCode(e) {
       eText += `${p(1)}theme = ${e.theme}${ep()}`
   }
 
-  if (e.background) {
-    eText += `${p(1)}override_background = { event_background = ${e.background} }${ep()}`
+  if (e.backgroundOverride) {
+    eText += `${p(1)}override_background = { event_background = ${e.backgroundOverride} }${ep()}`
   }
 
 

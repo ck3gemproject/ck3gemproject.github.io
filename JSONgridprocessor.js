@@ -10,6 +10,11 @@ function processJSONgrid(gridName) {
 
 processJSONgrid(tagSeasonGrid);
 processJSONgrid(setRandomMegaRegion)
+processJSONgrid(setmonth);
+processJSONgrid(setregion);
+processJSONgrid(setbackground);
+processJSONgrid(setonaction)
+processJSONgrid(setlpanimation);
 refillGridSelect();
 
 GID("select-grid-options").onchange = function() {
