@@ -330,15 +330,15 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
       if (nextArr.length > 0) {
         for (let j = 0; j < nextArr.length; j++) {
           if (nextArr[j] === "NW") {
-            workingEventArr.push(generate([currentCell.x - 1, currentCell.y - 1]))
+            workingEventArr.push(generate([currentCell.x - 1, currentCell.y + 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "N") {
-            workingEventArr.push(generate([currentCell.x, currentCell.y - 1]))
+            workingEventArr.push(generate([currentCell.x, currentCell.y + 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "NE") {
-            workingEventArr.push(generate([currentCell.x + 1, currentCell.y - 1]))
+            workingEventArr.push(generate([currentCell.x + 1, currentCell.y + 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "E") {
@@ -346,15 +346,15 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "SE") {
-            workingEventArr.push(generate([currentCell.x + 1, currentCell.y + 1]))
+            workingEventArr.push(generate([currentCell.x + 1, currentCell.y - 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "S") {
-            workingEventArr.push(generate([currentCell.x, currentCell.y + 1]))
+            workingEventArr.push(generate([currentCell.x, currentCell.y - 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "SW") {
-            workingEventArr.push(generate([currentCell.x - 1, currentCell.y + 1]))
+            workingEventArr.push(generate([currentCell.x - 1, currentCell.y - 1]))
             currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
           }
           if (nextArr[j] === "W") {

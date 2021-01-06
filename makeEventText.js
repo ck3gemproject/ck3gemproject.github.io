@@ -306,12 +306,13 @@ function makeEventCode(e) {
       currentIndent = 2
       eText += `${p(currentIndent)}}${ep()}`
       if (e.options[i].triggeredEvents) {
+        console.log(e.options[i])
         for (let q = 0; q < e.options[i].triggeredEvents.length; q++) {
           eText += `${p(currentIndent)}trigger_event = {${ep()}`
           currentIndent += 1;
           nextCounter += 1;
-          let num = q + 1;
-          eText += `${p(currentIndent)}id = ${e.options[i].triggeredEvents[num]}${ep()}`
+          let num = e.options[i].triggeredEvents[q] + 1;
+          eText += `${p(currentIndent)}id = ${num}${ep()}`
           eText += `${p(currentIndent)}days = placeholder${ep()}`
           currentIndent -= 1;
           eText += `${p(currentIndent)}}${ep()}`
