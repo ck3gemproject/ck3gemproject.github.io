@@ -15,6 +15,8 @@ processJSONgrid(setregion);
 processJSONgrid(setbackground);
 processJSONgrid(setonaction)
 processJSONgrid(setlpanimation);
+processJSONgrid(setothercharacter);
+processJSONgrid(endothercharacter);
 refillGridSelect();
 
 GID("select-grid-options").onchange = function() {
