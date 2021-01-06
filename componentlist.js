@@ -363,7 +363,10 @@ function saveComponentEdits(comp) {
     aiSociabilityMod: GID("ai-sociability-mod").value,
     aiVengefulnessMod: GID("ai-vengefulness-mod").value,
     aiZealMod: GID("ai-zeal-mod").value,
+    next: GID("option1next").value,
+    triggeredEvents: [],
   }
+  console.log(o1.next);
   if (optionsSelectedScope !== "") {
     o1.scopeNumber = optionsSelectedScope
   }

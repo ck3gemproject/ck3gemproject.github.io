@@ -1,7 +1,20 @@
+let workingEventArr = [];
+let newEventArr = [];
+
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
+  workingEventArr = [];
   for (let i = 0; i < num; i++) {
-    generate(namespace);
+    workingEventArr.push(generate());
+  }
+  for (let i = 0; i < workingEventArr.length; i++) {
+    let currentEvent = workingEventArr[i];
+    eventLocalizationArr.push(makeEventLocalization(currentEvent))
+    if (eventCodeArr.length === 0) {
+      eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
+    }
+    eventCodeArr.push(makeEventCode(currentEvent));
+    eventsList.push(currentEvent);
   }
 }
 
@@ -48,7 +61,7 @@ function generateSubgrid(gridObject, e) {
         //check has tags
         if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true) {
           timeoutPreventer = 0;
-          addComponentToEvent(loc, currentComponent, e)
+          addComponentToEvent(loc, currentComponent, e, currentCell)
           removeSetTags(currentComponent, e);
 
           //MOVE ON
@@ -96,9 +109,9 @@ function generateSubgrid(gridObject, e) {
   }
 }
 
-function generate() {
+function generate(input) {
   let e = {};
-  let start = getRandomStart();
+  let start = input || getRandomStart();
   if (start) {
     let y = parseInt(start[1]);
     let x = parseInt(start[0]);
@@ -140,7 +153,7 @@ function generate() {
         //check has tags
         if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true) {
           timeoutPreventer = 0;
-          addComponentToEvent(loc, currentComponent, e)
+          addComponentToEvent(loc, currentComponent, e, currentCell)
           removeSetTags(currentComponent, e);
 
           //MOVE ON
@@ -191,12 +204,7 @@ function generate() {
   } else {
     alert("You need to place a START tag before generation.")
   }
-  eventLocalizationArr.push(makeEventLocalization(e))
-  if (eventCodeArr.length === 0) {
-    eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
-  }
-  eventCodeArr.push(makeEventCode(e));
-  eventsList.push(e);
+  return e;
 }
 
 
@@ -227,6 +235,8 @@ function eventHasRequiredTags(currentComponent, e) {
 function eventDoesNotHaveTags(currentComponent, e) {
   if (currentComponent.doesNotHaveTags) {
     let arr2 = e.tags.split(",");
+    console.log(arr2);
+    console.log(currentComponent);
     for (let i = 0; i < arr2.length; i++) {
       if (currentComponent.doesNotHaveTags.includes(arr2[i])) {
         return false
@@ -238,14 +248,16 @@ function eventDoesNotHaveTags(currentComponent, e) {
   return true;
 }
 
-function addComponentToEvent(loc, currentComponent, e) {
+function addComponentToEvent(loc, currentComponent, e, currentCell) {
+
+
 
 
   if (currentComponent.leftPortrait) {
     e.leftPortrait = currentComponent.leftPortrait;
   }
 
-  if (currentComponent.leftPortraitAnimation) {
+  if (currentComponent.leftPortraitAnimation && currentComponent.leftPortraitAnimation !== "unspecified") {
     e.leftPortraitAnimation = currentComponent.leftPortraitAnimation
   }
 
@@ -253,7 +265,7 @@ function addComponentToEvent(loc, currentComponent, e) {
     e.rightPortrait = currentComponent.rightPortrait
   }
 
-  if (currentComponent.rightPortraitAnimation) {
+  if (currentComponent.rightPortraitAnimation && currentComponent.rightPortraitAnimation !== "unspecified") {
     e.rightPortraitAnimation = currentComponent.rightPortraitAnimation;
   }
 
@@ -313,8 +325,46 @@ function addComponentToEvent(loc, currentComponent, e) {
   }
 
   if (currentComponent.options) {
-    for (let i = 0; i < currentComponent.options.length; i++) {
-      e.options.push(currentComponent.options[i])
+    for (let m = 0; m < currentComponent.options.length; m++) {
+      let nextArr = currentComponent.options[m].next.split(",");
+      if (nextArr.length > 0) {
+        for (let j = 0; j < nextArr.length; j++) {
+          if (nextArr[j] === "NW") {
+            workingEventArr.push(generate([currentCell.x - 1, currentCell.y - 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "N") {
+            workingEventArr.push(generate([currentCell.x, currentCell.y - 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "NE") {
+            workingEventArr.push(generate([currentCell.x + 1, currentCell.y - 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "E") {
+            workingEventArr.push(generate([currentCell.x + 1, currentCell.y]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "SE") {
+            workingEventArr.push(generate([currentCell.x + 1, currentCell.y + 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "S") {
+            workingEventArr.push(generate([currentCell.x, currentCell.y + 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "SW") {
+            workingEventArr.push(generate([currentCell.x - 1, currentCell.y + 1]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+          if (nextArr[j] === "W") {
+            workingEventArr.push(generate([currentCell.x - 1, currentCell.y]))
+            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
+          }
+        }
+      }
+      e.options.push(currentComponent.options[m])
+
     }
   }
 

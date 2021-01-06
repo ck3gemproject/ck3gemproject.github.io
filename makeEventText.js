@@ -1,4 +1,5 @@
 function makeEventCode(e) {
+  let nextCounter = creationCounter;
   console.log(e);
   let normNum = normalizeNumber(creationCounter);
   let n = `${namespace}.${normNum}`
@@ -304,6 +305,18 @@ function makeEventCode(e) {
       }
       currentIndent = 2
       eText += `${p(currentIndent)}}${ep()}`
+      if (e.options[i].triggeredEvents) {
+        for (let q = 0; q < e.options[i].triggeredEvents.length; q++) {
+          eText += `${p(currentIndent)}trigger_event = {${ep()}`
+          currentIndent += 1;
+          nextCounter += 1;
+          let num = q + 1;
+          eText += `${p(currentIndent)}id = ${e.options[i].triggeredEvents[num]}${ep()}`
+          eText += `${p(currentIndent)}days = placeholder${ep()}`
+          currentIndent -= 1;
+          eText += `${p(currentIndent)}}${ep()}`
+        }
+      }
       if (e.options[i].tooltip) {
         eText += `${p(currentIndent)}custom_tooltip = ${namespace}.${normNum}_${tipCounter}_tip${ep()}`
         tipCounter += 1;
