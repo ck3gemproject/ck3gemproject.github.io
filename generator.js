@@ -9,11 +9,11 @@ function runGenerationMachine(num) {
   }
   for (let i = 0; i < workingEventArr.length; i++) {
     let currentEvent = workingEventArr[i];
-    eventLocalizationArr.push(makeEventLocalization(currentEvent))
+    //makeEventLocalization(currentEvent);
     if (eventCodeArr.length === 0) {
       eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
     }
-    eventCodeArr.push(makeEventCode(currentEvent));
+    makeEventCode(currentEvent);
     eventsList.push(currentEvent);
   }
 }
@@ -324,47 +324,41 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
     }
   }
 
-  if (currentComponent.options) {
+  if (currentComponent.options.length > 0) {
     for (let m = 0; m < currentComponent.options.length; m++) {
-      let nextArr = currentComponent.options[m].next.split(",");
-      if (nextArr.length > 0) {
-        for (let j = 0; j < nextArr.length; j++) {
-          if (nextArr[j] === "NW") {
-            workingEventArr.push(generate([currentCell.x - 1, currentCell.y + 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "N") {
-            workingEventArr.push(generate([currentCell.x, currentCell.y + 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "NE") {
-            workingEventArr.push(generate([currentCell.x + 1, currentCell.y + 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "E") {
-            workingEventArr.push(generate([currentCell.x + 1, currentCell.y]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "SE") {
-            workingEventArr.push(generate([currentCell.x + 1, currentCell.y - 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "S") {
-            workingEventArr.push(generate([currentCell.x, currentCell.y - 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "SW") {
-            workingEventArr.push(generate([currentCell.x - 1, currentCell.y - 1]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-          if (nextArr[j] === "W") {
-            workingEventArr.push(generate([currentCell.x - 1, currentCell.y]))
-            currentComponent.options[m].triggeredEvents.push(workingEventArr.length - 1);
-          }
-        }
-      }
       e.options.push(currentComponent.options[m])
-
+    }
+    console.log(currentComponent.options);
+    console.log(e.options);
+    let currentOption = e.options[e.options.length - 1]
+    console.log(currentOption);
+    currentOption.nextStartList = [];
+    let nextArr = currentOption.next.split(",");
+    for (let j = 0; j < nextArr.length; j++) {
+      if (nextArr[j] === "NW") {
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y + 1])
+      }
+      if (nextArr[j] === "N") {
+        currentOption.nextStartList.push([currentCell.x, currentCell.y + 1])
+      }
+      if (nextArr[j] === "NE") {
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y + 1])
+      }
+      if (nextArr[j] === "E") {
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y])
+      }
+      if (nextArr[j] === "SE") {
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y - 1])
+      }
+      if (nextArr[j] === "S") {
+        currentOption.nextStartList.push([currentCell.x, currentCell.y - 1]);
+      }
+      if (nextArr[j] === "SW") {
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y - 1])
+      }
+      if (nextArr[j] === "W") {
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y])
+      }
     }
   }
 

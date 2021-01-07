@@ -305,14 +305,14 @@ function makeEventCode(e) {
       }
       currentIndent = 2
       eText += `${p(currentIndent)}}${ep()}`
-      if (e.options[i].triggeredEvents) {
+      if (e.options[i].nextStartList) {
         console.log(e.options[i])
-        for (let q = 0; q < e.options[i].triggeredEvents.length; q++) {
+        for (let q = 0; q < e.options[i].nextStartList.length; q++) {
           eText += `${p(currentIndent)}trigger_event = {${ep()}`
           currentIndent += 1;
           nextCounter += 1;
-          let num = e.options[i].triggeredEvents[q] + 1;
-          eText += `${p(currentIndent)}id = ${num}${ep()}`
+          let num = creationCounter + q + 1
+          eText += `${p(currentIndent)}id = ${namespace}.${normalizeNumber(num)}${ep()}`
           eText += `${p(currentIndent)}days = placeholder${ep()}`
           currentIndent -= 1;
           eText += `${p(currentIndent)}}${ep()}`
@@ -472,7 +472,18 @@ function makeEventCode(e) {
 
   //final bracket
   eText += `${p(0)}}${ep()}`
+  eventCodeArr.push(eText);
+  makeEventLocalization(e);
   creationCounter += 1;
-  //return combined text
-  return eText;
+  console.log(e.options);
+  for (let i = 0; i < e.options.length; i++) {
+    for (let j = 0; j < e.options[i].nextStartList.length; j++) {
+      let nextE = generate(e.options[i].nextStartList[j]);
+      console.log(nextE);
+      makeEventCode(nextE)
+      if (nextE.loc.length > 0) {
+        makeEventLocalization(nextE);
+      }
+    }
+  }
 }

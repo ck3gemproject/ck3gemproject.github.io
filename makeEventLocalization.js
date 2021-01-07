@@ -66,5 +66,5 @@ function makeEventLocalization(e) {
   }
 
   locCreationCounter += 1;
-  return eLocalization;
+  eventLocalizationArr.push(eLocalization);
 }
