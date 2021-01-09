@@ -111,6 +111,90 @@ function generateSubgrid(gridObject, e) {
   }
 }
 
+function doMath(num1, operator, num2) {
+  num1 = parseInt(num1);
+  num2 = parseInt(num2);
+  if (operator === "+=") {
+    return num1 + num2;
+  } else if (operator === "-=") {
+    return num1 - num2;
+  } else if (operator === "=") {
+    return num2;
+  }
+}
+
+function variableCheck(c, e) {
+  let componentVariables = [];
+  let eventVariables = [];
+  if (e.variables.length === 0) {
+
+  } else if (e.variables.length === 1) {
+    eventVariables.push(e.variables);
+  } else {
+    console.log(e.variables);
+    eventVariables = e.variables.split(",")
+    for (let i = 0; i < eventVariables.length; i++) {
+        eventVariables[i] = eventVariables[i].trim();
+    }
+  }
+  if (c.variables.length === 0) {
+
+  } else if (c.variables.length === 1) {
+    componentVariables.push(c.variables);
+  } else {
+    componentVariables = c.variables.split(",")
+    for (let i = 0; i < componentVariables.length; i++) {
+        componentVariables[i] = componentVariables[i].trim();
+    }
+  }
+  let equalityChecks = true;
+  console.log(componentVariables);
+  console.log(eventVariables);
+  if (componentVariables.length > 0) {
+    console.log(componentVariables);
+    for (let i = 0; i < componentVariables.length; i++) {
+      let varName = componentVariables[i].match(/\w+/)[0]
+      let varOperation = componentVariables[i].match(/[\=\+\-]+/)[0]
+      console.log(varOperation);
+      console.log(eventVariables);
+      let varNumber = componentVariables[i].match(/\d+/)[0]
+
+      if (eventVariables.length === 0) {
+        let newNumber = doMath(0, varOperation, varNumber);
+        e.variables += `${varName} = ${newNumber}`
+      } else {
+        for (let j = 0; j < eventVariables.length; j++) {
+          let eVarName = eventVariables[j].match(/\w+/)[0]
+          let eVarNumber = eventVariables[j].match(/\d+/)[0];
+          console.log(eVarNumber);
+          if (varOperation === "===") {
+            console.log(varName);
+            console.log(eVarName);
+            console.log(varNumber);
+            console.log(eVarNumber);
+            if (varName === eVarName) {
+              if (varNumber !== eVarNumber) {
+                equalityChecks = false;
+              }
+            }
+          } else if (varName === eVarName) {
+            let newNumber = doMath(eVarNumber, varOperation, varNumber)
+            eventVariables[j].replace(/\d+/, newNumber)
+          } else if (varName !== eVarName) {
+            let newNumber = doMath(0, varOperation, varNumber)
+            if (eventVariables.length === 0) {
+              e.variables += `${varName} = ${newNumber}`
+            } else {
+              e.variables += `, ${varName} = ${newNumber}`
+            }
+          }
+        }
+      }
+    }
+  }
+  return equalityChecks;
+}
+
 function generate(input) {
   let e = {};
   let start = input || getRandomStart();
@@ -153,7 +237,7 @@ function generate(input) {
 
 
         //check has tags
-        if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true) {
+        if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true && variableCheck(currentComponent, e) === true) {
           timeoutPreventer = 0;
           addComponentToEvent(loc, currentComponent, e, currentCell)
           removeSetTags(currentComponent, e);
@@ -499,7 +583,7 @@ function isLocalizationCell(cell) {
       let c = cell.components[i];
       //need to check for immediate, etc.
       //c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0
-      if (c.loc && c.tags === "" && c.hasTags === "" && c.doesNotHaveTags === "" && c.removeTags === "" && c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0) {
+      if (c.loc && c.tags === "" && c.variables && c.variables === "" && c.hasTags === "" && c.doesNotHaveTags === "" && c.removeTags === "" && c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0) {
 
       } else {
         justLoc = false;

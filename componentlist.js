@@ -54,6 +54,10 @@ function fillComponentList() {
       t += ` [run grid: ${currentGrid().grid[y][x].components[i].runGrid}]`
     }
 
+    if (currentGrid().grid[y][x].components[i].variables.length > 0) {
+      t += ` [variables: ${currentGrid().grid[y][x].components[i].variables}]`
+    }
+
 
     t += "</p>"
 
@@ -75,6 +79,7 @@ GID("create-component-button").onclick = function() {
   let removeTags = GID("tag-removal").value;
   let travel = GID("tag-travel").value;
   let runGrid = GID("run-grid").value;
+  let variables = GID("variable-entry").value;
   let probability = GID("component-probability").value;
   if (probability.value === "") {
     probability.value = 100
@@ -90,6 +95,7 @@ GID("create-component-button").onclick = function() {
     gameTags: "",
     runGrid: runGrid,
     probability: probability,
+    variables: variables,
     immediateEffects: [],
     afterEffects: [],
     options: [],
@@ -105,6 +111,7 @@ GID("create-component-button").onclick = function() {
   GID("tag-travel").value = ""
   GID("tag-removal").value = "";
   GID("run-grid").value = "";
+  GID("variable-entry").value = "";
   //generate();
 
 }
@@ -130,6 +137,7 @@ function makeClickableComponentList() {
       GID("not-edit").value = comp.doesNotHaveTags;
       GID("run-grid-edit").value = comp.runGrid;
       GID("component-probability-edit").value = comp.probability;
+      GID("variable-edit").value = comp.variables;
       GID("settings-block").style.display = "block";
       GID("options-block").style.display = "none";
       GID("trigger-block").style.display = "none";
@@ -264,6 +272,7 @@ function saveComponentEdits(comp) {
   comp.doesNotHaveTags = GID("not-edit").value;
   comp.runGrid = GID("run-grid-edit").value;
   comp.probability = GID("component-probability-edit").value;
+  comp.variables = GID("variable-edit").value;
 
   let title = GID("eventTitle").value;
   if (title.length > 0)  {
