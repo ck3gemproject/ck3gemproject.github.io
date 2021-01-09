@@ -1,6 +1,6 @@
 function makeEventCode(e) {
   let nextCounter = creationCounter;
-  console.log(e);
+
   let normNum = normalizeNumber(creationCounter);
   let n = `${namespace}.${normNum}`
   let eText = `${p(0)}${n} = {${ep()}`
@@ -480,11 +480,11 @@ function makeEventCode(e) {
   eventCodeArr.push(eText);
   makeEventLocalization(e);
   creationCounter += 1;
-  console.log(e.options);
+
   for (let i = 0; i < e.options.length; i++) {
     for (let j = 0; j < e.options[i].nextStartList.length; j++) {
       let nextE = generate(e.options[i].nextStartList[j]);
-      console.log(nextE);
+
       makeEventCode(nextE)
       eventsList.push(nextE);
     }

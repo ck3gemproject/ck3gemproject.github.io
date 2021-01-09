@@ -174,10 +174,10 @@ function makeClickableComponentList() {
       }
 
       //REPLACE APPROPRIATE OPTIONS
-      console.log(comp);
+
       if (comp.options) {
         if (comp.options[0]) {
-          console.log(comp.options);
+
           GID("option1text").value = comp.freestyleOptionText
           GID("option1tooltip").value = comp.freestyleOptionTooltip
           GID("option1code").value = comp.freestyleOptionCode[0]
@@ -366,16 +366,16 @@ function saveComponentEdits(comp) {
     if (afterSelectedScope !== "") {
       ae1.scopeNumber = afterSelectedScope
     }
-    console.log(ae1);
+
 
     if (ae1.code && ae1.code.length > 0 && ae1.code[0] !== "") {
       comp.afterFreestyle = ae1;
       comp.afterEffects.push(ae1);
-      console.log(comp.afterFreestyle);
-      console.log(comp.afterEffects);
+
+
     }
-    console.log(comp.afterFreestyle);
-    console.log(comp.afterEffects);
+
+
   }
 
 
@@ -401,7 +401,7 @@ function saveComponentEdits(comp) {
     nextDays: GID("option1nextdays").value,
     triggeredEvents: [],
   }
-  console.log(o1.next);
+  
   if (optionsSelectedScope !== "") {
     o1.scopeNumber = optionsSelectedScope
   }

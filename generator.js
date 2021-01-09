@@ -27,7 +27,7 @@ function getGridByName(name) {
 }
 
 function getRandomSubgridStart(gridObject) {
-  console.log(gridObject)
+
     let n = gridObject.start.length - 1;
     return gridObject.start[getRandomInt(0, n)]
 }
@@ -85,7 +85,7 @@ function generateSubgrid(gridObject, e) {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
-            console.log(currentComponent.runGrid)
+
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
           }
           if (canTravel === false) {
@@ -131,7 +131,7 @@ function variableCheck(c, e) {
   } else if (e.variables.length === 1) {
     eventVariables.push(e.variables);
   } else {
-    console.log(e.variables);
+
     eventVariables = e.variables.split(",")
     for (let i = 0; i < eventVariables.length; i++) {
         eventVariables[i] = eventVariables[i].trim();
@@ -148,15 +148,15 @@ function variableCheck(c, e) {
     }
   }
   let equalityChecks = true;
-  console.log(componentVariables);
-  console.log(eventVariables);
+
+
   if (componentVariables.length > 0) {
-    console.log(componentVariables);
+
     for (let i = 0; i < componentVariables.length; i++) {
       let varName = componentVariables[i].match(/\w+/)[0]
       let varOperation = componentVariables[i].match(/[\=\+\-]+/)[0]
-      console.log(varOperation);
-      console.log(eventVariables);
+
+
       let varNumber = componentVariables[i].match(/\d+/)[0]
 
       if (eventVariables.length === 0) {
@@ -166,12 +166,8 @@ function variableCheck(c, e) {
         for (let j = 0; j < eventVariables.length; j++) {
           let eVarName = eventVariables[j].match(/\w+/)[0]
           let eVarNumber = eventVariables[j].match(/\d+/)[0];
-          console.log(eVarNumber);
+
           if (varOperation === "===") {
-            console.log(varName);
-            console.log(eVarName);
-            console.log(varNumber);
-            console.log(eVarNumber);
             if (varName === eVarName) {
               if (varNumber !== eVarNumber) {
                 equalityChecks = false;
@@ -430,10 +426,10 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
     for (let m = 0; m < currentComponent.options.length; m++) {
       e.options.push(currentComponent.options[m])
     }
-    console.log(currentComponent.options);
-    console.log(e.options);
+
+
     let currentOption = e.options[e.options.length - 1]
-    console.log(currentOption);
+
     currentOption.nextStartList = [];
     let nextArr = currentOption.next.split(",");
     for (let j = 0; j < nextArr.length; j++) {
@@ -595,9 +591,9 @@ function isLocalizationCell(cell) {
 
 function getTravelProbabilities(neighbors, component) {
   let probabilities = [];
-  console.log(component);
+
   let t = component.travel.split(", ");
-  console.log(t);
+
   let regex = /(\w+)\((\d+)\)/
   for (let i = 0; i < t.length; i++) {
     let o = {};
@@ -612,7 +608,7 @@ function getTravelProbabilities(neighbors, component) {
       probabilities.push(o);
     }
   }
-  console.log(probabilities);
+
   return probabilities;
 }
 
@@ -730,7 +726,7 @@ function getAllowableNeighbors(neighbors, component) {
       allowable.push(neighbors.west)
     }
   }
-  console.log(allowable);
+
   return allowable;
 }
 
