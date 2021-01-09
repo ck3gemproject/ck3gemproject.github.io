@@ -60,7 +60,7 @@ function generateSubgrid(gridObject, e) {
 
 
         //check has tags
-        if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true) {
+        if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true && variableCheck(currentComponent, e) === true) {
           timeoutPreventer = 0;
           addComponentToEvent(loc, currentComponent, e, currentCell)
           removeSetTags(currentComponent, e);
