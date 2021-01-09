@@ -153,90 +153,103 @@ function variableCheck(c, e) {
   if (componentVariables.length > 0) {
 
     for (let i = 0; i < componentVariables.length; i++) {
-      let varName = componentVariables[i].match(/\w+/)[0]
+      let varName = componentVariables[i].match(/[A-Za-z]+/)[0]
       let varOperation = componentVariables[i].match(/[\=\+\-\<\>]+/)[0]
-      let varLetters = componentVariables[i].match(/\s\w+/);
+      let varLetters = componentVariables[i].match(/\s[A-Za-z\s]+/);
       if (varLetters) {
-        varLetters = varLetters[0].trim();;
+        varLetters = varLetters[0];
+        varLetters = varLetters.substring(1);
       }
-      let varNumber = componentVariables[i].match(/\d+/)
+      let varNumber = componentVariables[i].match(/[0-9]+/)
       if (varNumber) {
         varNumber = varNumber[0];
       }
 
-      if (eventVariables.length === 0 && varLetters && varOperation === "=") {
+      if (eventVariables.length === 0 && varLetters && varLetters.length > 0 && varOperation === "=") {
         e.variables += `${varName} = ${varLetters}`
       } else if (eventVariables.length === 0 && varOperation === "=" || varOperation === "+=" || varOperation === "-=") {
         let newNumber = doMath(0, varOperation, varNumber);
         e.variables += `${varName} = ${newNumber}`
       } else {
+        let variableExists = false;
+
         for (let j = 0; j < eventVariables.length; j++) {
-          let eVarName = eventVariables[j].match(/\w+/)[0]
-          let eVarNumber = eventVariables[j].match(/\d+/);
+          let eVarName = eventVariables[j].match(/[A-Za-z]+/)[0]
+          let eVarNumber = eventVariables[j].match(/[0-9]+/);
           if (eVarNumber) {
             eVarNumber = eVarNumber[0];
           }
-          let eVarLetters = eventVariables[j].match(/\s\w+/);
+          let eVarLetters = eventVariables[j].match(/\s[A-Za-z\s]+/);
           if (eVarLetters) {
-            eVarLetters = eVarLetters[0].trim();
+            eVarLetters = eVarLetters[0];
+            eVarLetters = eVarLetters.substring(1);
           }
-          console.log(varLetters);
-          console.log(eVarLetters);
+          console.log(eVarName);
+          console.log(varName);
+          if (varName === eVarName) {
+            variableExists = true;
+          }
+          if (varLetters && varLetters.length > 0 && eVarLetters && eVarLetters.length > 0) {
+            if (varName === eVarName && varLetters !== eVarLetters) {
+              equalityChecks = false;
+            }
+          }
 
-          if (varOperation === "===") {
-            if (varName === eVarName) {
-              if (varLetters && eVarLetters && (varLetters !== eVarLetters)) {
-                equalityChecks = false;
-              } else if (varNumber !== eVarNumber) {
-                equalityChecks = false;
-              }
-            }
-          } else if (varOperation === "!==") {
-            if (varName === eVarName) {
-              if (varLetters && eVarLetters && (varLetters === eVarLetters)) {
-                equalityChecks = false;
-              } else if (varNumber === eVarNumber) {
+          if (variableExists === true) {
+
+            if (varNumber && eVarNumber) {
+              if (varOperation === "!==") {
+                if (varNumber === eVarNumber) {
                   equalityChecks = false;
+                }
+              } else if (varOperation === "===") {
+                if (varNumber !== eVarNumber) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === "<") {
+                if (eVarNumber >= varNumber) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === ">") {
+                if (eVarNumber <= varNumber) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === "<=") {
+                if (eVarNumber > varNumber) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === ">=") {
+                if (eVarNumber < varNumber) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === "+=" || varOperation === "-=" || varOperation === "=") {
+                let newNumber = doMath(eVarNumber, varOperation, varNumber);
+                e.variables.replace(`${eVarName} = ${eVarNumber}`, `${eVarName} = ${newNumber}`)
               }
             }
-          } else if (varOperation === "<") {
-            console.log(varName);
-            console.log(eVarName);
-            console.log(varNumber);
-            console.log(eVarNumber);
-            if (varName === eVarName) {
-              if (eVarNumber >= varNumber) {
-                equalityChecks = false;
+
+            if (varLetters && eVarLetters) {
+              if (varOperation === "===") {
+                if (varLetters !== eVarLetters) {
+                  equalityChecks = false;
+                }
+              } else if (varOperation === "=") {
+                e.variables.replace(`${eVarName} = ${eVarLetters}`, `${varName} = ${varLetters}`)
               }
             }
-          } else if (varOperation === ">") {
-            if (eVarName === varName) {
-              if (eVarNumber <= varNumber) {
-                equalityChecks = false;
-              }
-            }
-          } else if (varOperation === "<=") {
-            if (varName === eVarName) {
-              if (eVarNumber > varNumber) {
-                equalityChecks = false;
-              }
-            }
-          } else if (varOperation === ">=") {
-            if (varName === eVarName) {
-              if (eVarNumber < varNumber) {
-                equalityChecks = false;
-              }
-            }
-          } else if (varName === eVarName) {
-            let newNumber = doMath(eVarNumber, varOperation, varNumber)
-            eventVariables[j].replace(/\d+/, newNumber)
-          } else if (varName !== eVarName) {
-            let newNumber = doMath(0, varOperation, varNumber)
-            if (eventVariables.length === 0) {
-              e.variables += `${varName} = ${newNumber}`
-            } else {
-              e.variables += `, ${varName} = ${newNumber}`
-            }
+          }
+
+
+        }
+        if (variableExists === false) {
+          if (varLetters && varLetters.length > 0 && varOperation === "=") {
+            e.variables += `${varName} = ${varLetters}`
+          } else if (varNumber && varOperation === "+=" || varOperation === "-=" || varOperation === "=") {
+            let newNumber = doMath(0, varOperation, varNumber);
+            e.variables += `${varName} = ${newNumber}`
+          } else {
+            equalityChecks = false;
+            //because otherwise we'd be checking for <, > ===, etc.
           }
         }
       }
