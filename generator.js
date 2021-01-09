@@ -9,7 +9,7 @@ function runGenerationMachine(num) {
   }
   for (let i = 0; i < workingEventArr.length; i++) {
     let currentEvent = workingEventArr[i];
-    //makeEventLocalization(currentEvent);
+    //makeEventLocalization(currentEvent)
     if (eventCodeArr.length === 0) {
       eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
     }
@@ -27,6 +27,7 @@ function getGridByName(name) {
 }
 
 function getRandomSubgridStart(gridObject) {
+  console.log(gridObject)
     let n = gridObject.start.length - 1;
     return gridObject.start[getRandomInt(0, n)]
 }
@@ -84,6 +85,7 @@ function generateSubgrid(gridObject, e) {
           }
 
           if (currentComponent.runGrid && currentComponent.runGrid !== "") {
+            console.log(currentComponent.runGrid)
             let g = generateSubgrid(getGridByName(currentComponent.runGrid), e);
           }
           if (canTravel === false) {
@@ -204,7 +206,6 @@ function generate(input) {
   } else {
     alert("You need to place a START tag before generation.")
   }
-  
   return e;
 }
 
@@ -234,17 +235,33 @@ function eventHasRequiredTags(currentComponent, e) {
 }
 
 function eventDoesNotHaveTags(currentComponent, e) {
-  if (currentComponent.doesNotHaveTags) {
-    let arr2 = e.tags.split(",");
-    console.log(arr2);
-    console.log(currentComponent);
+  if (currentComponent.doesNotHaveTags.length > 0 && e.tags.length > 0) {
+    let arr = [];
+    let arr2 = [];
+    if (currentComponent.doesNotHaveTags.includes(",")) {
+      arr = currentComponent.doesNotHaveTags.split(",");
+    } else {
+      arr.push(currentComponent.doesNotHaveTags)
+    }
+    if (e.tags.includes(",")) {
+      arr2 = e.tags.split(",");
+    } else {
+      arr2.push(e.tags);
+    }
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].trim();
+    }
     for (let i = 0; i < arr2.length; i++) {
-      if (currentComponent.doesNotHaveTags.includes(arr2[i])) {
-        return false
-      } else {
-
+      arr2[i] = arr2[i].trim();
+    }
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr2.length; j++) {
+        if (arr[i] === arr2[j]) {
+          return false;
+        }
       }
     }
+    return true;
   }
   return true;
 }

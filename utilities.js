@@ -155,6 +155,7 @@ let on_explicit_claim_lost = [];
 let on_leave_council = [];
 let on_marriage = [];
 let on_great_holy_war_recipient_replaced = [];
+let on_game_start = [];
 
 function resetOnActions() {
   quarterly_playable_pulse = [];
@@ -195,6 +196,7 @@ function resetOnActions() {
   on_leave_council = [];
   on_marriage = [];
   on_great_holy_war_recipient_replaced = [];
+  on_game_start = [];
 }
 
 function buildOnActions(eventArr) {
@@ -394,6 +396,11 @@ function buildOnActions(eventArr) {
       on_great_holy_war_recipient_replaced.push(`${eventArr[i].factor} = ${namespace}.${normalizeNumber(n)}`)
     }
 
+    if (eventArr[i].onAction === "on_game_start") {
+      let n = i + 1;
+      on_game_start.push(`${eventArr[i].factor} = ${namespace}.${normalizeNumber(n)}`)
+    }
+
   }
 }
 
@@ -410,6 +417,24 @@ GID("on-action-button").onclick = function() {
   GID("generator-settings-box").style.display = "none";
   let t = "";
   buildOnActions(eventsList);
+
+  if (on_game_start.length > 0) {
+    t += `${p()}on_game_start = {${ep()}`
+    t += `${p(2)}on_actions = {${ep()}`
+    t += `${p(4)}delay = { days = ${onActionDelay}}${ep()}`
+    t += `${p(4)}GEM_EVENTS_on_game_start${ep()}`
+    t += `${p(2)}}${ep()}`
+    t += `${p()}}${ep()}`
+
+    t += `${p()}GEM_EVENTS_on_game_start = {${ep()}`
+    t += `${p(2)}random_events = {${ep()}`
+    for (let i = 0; i < on_game_start.length; i++) {
+      t += `${p(4)}${on_game_start[i]}${ep()}`
+    }
+    t += `${p(2)}}${ep()}`
+    t += `${p()}}${ep()}`
+  }
+
   if (quarterly_playable_pulse.length > 0) {
     t += `${p()}quarterly_playable_pulse = {${ep()}`
     t += `${p(2)}on_actions = {${ep()}`

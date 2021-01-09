@@ -50,6 +50,10 @@ function fillComponentList() {
       t += ` [changes after: yes]`
     }
 
+    if (currentGrid().grid[y][x].components[i].runGrid) {
+      t += ` [run grid: ${currentGrid().grid[y][x].components[i].runGrid}]`
+    }
+
 
     t += "</p>"
 
@@ -170,6 +174,7 @@ function makeClickableComponentList() {
           GID("option1tooltip").value = comp.freestyleOptionTooltip
           GID("option1code").value = comp.freestyleOptionCode[0]
           GID("option1next").value = comp.options[0].next;
+          GID("option1nextdays").value = comp.options[0].nextDays;
         }
       }
 
@@ -384,6 +389,7 @@ function saveComponentEdits(comp) {
     aiVengefulnessMod: GID("ai-vengefulness-mod").value,
     aiZealMod: GID("ai-zeal-mod").value,
     next: GID("option1next").value,
+    nextDays: GID("option1nextdays").value,
     triggeredEvents: [],
   }
   console.log(o1.next);

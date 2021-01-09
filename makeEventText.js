@@ -316,7 +316,9 @@ function makeEventCode(e) {
           updater += q;
           updater += 1;
           eText += `${p(currentIndent)}id = ${namespace}.${normalizeNumber(updater)}${ep()}`
-          eText += `${p(currentIndent)}days = placeholder${ep()}`
+          if (e.options[i].nextDays) {
+            eText += `${p(currentIndent)}days = ${e.options[i].nextDays || 1}${ep()}`
+          }
           currentIndent -= 1;
           eText += `${p(currentIndent)}}${ep()}`
         }

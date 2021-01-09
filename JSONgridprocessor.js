@@ -7,7 +7,7 @@ function processJSONgrid(gridName) {
   }
 }
 
-
+/*
 processJSONgrid(tagSeasonGrid);
 processJSONgrid(setRandomMegaRegion)
 processJSONgrid(setmonth);
@@ -17,6 +17,7 @@ processJSONgrid(setonaction)
 processJSONgrid(setlpanimation);
 processJSONgrid(setothercharacter);
 processJSONgrid(endothercharacter);
+*/
 refillGridSelect();
 
 GID("select-grid-options").onchange = function() {
