@@ -277,6 +277,7 @@ function makeEventCode(e) {
   //OPTIONS
   let optionCounter = 0;
   if (e.options.length) {
+    let updater = creationCounter;
     for (let i = 0; i < e.options.length; i++) {
       eText += `${p(1)}option = {${ep()}`
       eText += `${p(2)}name = ${namespace}.${normNum}.${optionLetterArray[optionCounter]}${ep()}`
@@ -307,12 +308,14 @@ function makeEventCode(e) {
       eText += `${p(currentIndent)}}${ep()}`
       if (e.options[i].nextStartList) {
         console.log(e.options[i])
+
         for (let q = 0; q < e.options[i].nextStartList.length; q++) {
           eText += `${p(currentIndent)}trigger_event = {${ep()}`
           currentIndent += 1;
           nextCounter += 1;
-          let num = creationCounter + q + 1
-          eText += `${p(currentIndent)}id = ${namespace}.${normalizeNumber(num)}${ep()}`
+          updater += q;
+          updater += 1;
+          eText += `${p(currentIndent)}id = ${namespace}.${normalizeNumber(updater)}${ep()}`
           eText += `${p(currentIndent)}days = placeholder${ep()}`
           currentIndent -= 1;
           eText += `${p(currentIndent)}}${ep()}`
@@ -481,9 +484,7 @@ function makeEventCode(e) {
       let nextE = generate(e.options[i].nextStartList[j]);
       console.log(nextE);
       makeEventCode(nextE)
-      if (nextE.loc.length > 0) {
-        makeEventLocalization(nextE);
-      }
+      eventsList.push(nextE);
     }
   }
 }

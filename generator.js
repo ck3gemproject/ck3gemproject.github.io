@@ -204,6 +204,7 @@ function generate(input) {
   } else {
     alert("You need to place a START tag before generation.")
   }
+  
   return e;
 }
 

@@ -7,7 +7,12 @@ function fillComponentList() {
   let y = currentGrid().current.y;
   let t = "";
   for (let i = 0; i < currentGrid().grid[y][x].components.length; i++) {
-    t += `<p class="clickable-cell-component-list">${currentGrid().grid[y][x].components[i].loc}`;
+    t += `<p class="clickable-cell-component-list">`;
+
+    if (currentGrid().grid[y][x].components[i].loc) {
+      t += ` [loc: ${currentGrid().grid[y][x].components[i].loc}]`
+    }
+
     if (currentGrid().grid[y][x].components[i].tags) {
       t += ` [set: ${currentGrid().grid[y][x].components[i].tags}]`
     }
@@ -27,6 +32,22 @@ function fillComponentList() {
 
     if (currentGrid().grid[y][x].components[i].gameTags) {
       t += ` [gameTags: ${currentGrid().grid[y][x].components[i].gameTags}]`
+    }
+
+    if (currentGrid().grid[y][x].components[i].options[0] && currentGrid().grid[y][x].components[i].options[0].text) {
+      t += `[option: ${currentGrid().grid[y][x].components[i].options[0].text}]`
+    }
+
+    if (currentGrid().grid[y][x].components[i].options[0] && currentGrid().grid[y][x].components[i].options[0].next) {
+      t += ` [option triggers event to: ${currentGrid().grid[y][x].components[i].options[0].next}]`
+    }
+
+    if (currentGrid().grid[y][x].components[i].immediateEffects.length > 0) {
+      t += ` [changes immediate: yes]`
+    }
+
+    if (currentGrid().grid[y][x].components[i].afterEffects.length > 0) {
+      t += ` [changes after: yes]`
     }
 
 
@@ -54,37 +75,34 @@ GID("create-component-button").onclick = function() {
   if (probability.value === "") {
     probability.value = 100
   }
-  if (loc === "" && tags === "" && hasTags === "" && doesNotHaveTags === "" && removeTags === "" && travel === "" && runGrid === "") {
-    //Do nothing if component is completely empty
-  } else {
-    currentGrid().grid[y][x].components.push({
-      loc: loc,
-      locTriggers: [],
-      tags: tags,
-      hasTags: hasTags,
-      doesNotHaveTags: doesNotHaveTags,
-      removeTags: removeTags,
-      travel: travel,
-      gameTags: "",
-      runGrid: runGrid,
-      probability: probability,
-      immediateEffects: [],
-      afterEffects: [],
-      options: [],
-    })
+  currentGrid().grid[y][x].components.push({
+    loc: loc,
+    locTriggers: [],
+    tags: tags,
+    hasTags: hasTags,
+    doesNotHaveTags: doesNotHaveTags,
+    removeTags: removeTags,
+    travel: travel,
+    gameTags: "",
+    runGrid: runGrid,
+    probability: probability,
+    immediateEffects: [],
+    afterEffects: [],
+    options: [],
+  })
 
-    GID("component-creation").innerHTML = fillComponentList();
-    makeClickableComponentList();
-    refreshGrid();
-    GID("localization-entry").value = "";
-    GID("tag-entry").value = "";
-    GID("tag-check").value = "";
-    GID("tag-not-check").value = "";
-    GID("tag-travel").value = ""
-    GID("tag-removal").value = "";
-    GID("run-grid").value = "";
-    //generate();
-  }
+  GID("component-creation").innerHTML = fillComponentList();
+  makeClickableComponentList();
+  refreshGrid();
+  GID("localization-entry").value = "";
+  GID("tag-entry").value = "";
+  GID("tag-check").value = "";
+  GID("tag-not-check").value = "";
+  GID("tag-travel").value = ""
+  GID("tag-removal").value = "";
+  GID("run-grid").value = "";
+  //generate();
+
 }
 
 function makeClickableComponentList() {
@@ -144,12 +162,14 @@ function makeClickableComponentList() {
       }
 
       //REPLACE APPROPRIATE OPTIONS
-
+      console.log(comp);
       if (comp.options) {
         if (comp.options[0]) {
+          console.log(comp.options);
           GID("option1text").value = comp.freestyleOptionText
           GID("option1tooltip").value = comp.freestyleOptionTooltip
           GID("option1code").value = comp.freestyleOptionCode[0]
+          GID("option1next").value = comp.options[0].next;
         }
       }
 
@@ -602,7 +622,7 @@ function saveComponentEdits(comp) {
   }
 
   //&& comp.locTriggers.length === 0
-  if (comp.immediateEffects.length === 0 && comp.options.length === 0 && comp.afterEffects.length === 0 ) {
+  if (comp.immediateEffects.length === 0 && comp.options.length === 0 && comp.afterEffects.length === 0 && comp.locTriggers.length === 0) {
     if (freestyleTrigger) {
       comp.triggers.push(freestyleTrigger)
     }
