@@ -154,22 +154,76 @@ function variableCheck(c, e) {
 
     for (let i = 0; i < componentVariables.length; i++) {
       let varName = componentVariables[i].match(/\w+/)[0]
-      let varOperation = componentVariables[i].match(/[\=\+\-]+/)[0]
+      let varOperation = componentVariables[i].match(/[\=\+\-\<\>]+/)[0]
+      let varLetters = componentVariables[i].match(/\s\w+/);
+      if (varLetters) {
+        varLetters = varLetters[0].trim();;
+      }
+      let varNumber = componentVariables[i].match(/\d+/)
+      if (varNumber) {
+        varNumber = varNumber[0];
+      }
 
-
-      let varNumber = componentVariables[i].match(/\d+/)[0]
-
-      if (eventVariables.length === 0) {
+      if (eventVariables.length === 0 && varLetters && varOperation === "=") {
+        e.variables += `${varName} = ${varLetters}`
+      } else if (eventVariables.length === 0 && varOperation === "=" || varOperation === "+=" || varOperation === "-=") {
         let newNumber = doMath(0, varOperation, varNumber);
         e.variables += `${varName} = ${newNumber}`
       } else {
         for (let j = 0; j < eventVariables.length; j++) {
           let eVarName = eventVariables[j].match(/\w+/)[0]
-          let eVarNumber = eventVariables[j].match(/\d+/)[0];
+          let eVarNumber = eventVariables[j].match(/\d+/);
+          if (eVarNumber) {
+            eVarNumber = eVarNumber[0];
+          }
+          let eVarLetters = eventVariables[j].match(/\s\w+/);
+          if (eVarLetters) {
+            eVarLetters = eVarLetters[0].trim();
+          }
+          console.log(varLetters);
+          console.log(eVarLetters);
 
           if (varOperation === "===") {
             if (varName === eVarName) {
-              if (varNumber !== eVarNumber) {
+              if (varLetters && eVarLetters && (varLetters !== eVarLetters)) {
+                equalityChecks = false;
+              } else if (varNumber !== eVarNumber) {
+                equalityChecks = false;
+              }
+            }
+          } else if (varOperation === "!==") {
+            if (varName === eVarName) {
+              if (varLetters && eVarLetters && (varLetters === eVarLetters)) {
+                equalityChecks = false;
+              } else if (varNumber === eVarNumber) {
+                  equalityChecks = false;
+              }
+            }
+          } else if (varOperation === "<") {
+            console.log(varName);
+            console.log(eVarName);
+            console.log(varNumber);
+            console.log(eVarNumber);
+            if (varName === eVarName) {
+              if (eVarNumber >= varNumber) {
+                equalityChecks = false;
+              }
+            }
+          } else if (varOperation === ">") {
+            if (eVarName === varName) {
+              if (eVarNumber <= varNumber) {
+                equalityChecks = false;
+              }
+            }
+          } else if (varOperation === "<=") {
+            if (varName === eVarName) {
+              if (eVarNumber > varNumber) {
+                equalityChecks = false;
+              }
+            }
+          } else if (varOperation === ">=") {
+            if (varName === eVarName) {
+              if (eVarNumber < varNumber) {
                 equalityChecks = false;
               }
             }
