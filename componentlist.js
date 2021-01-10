@@ -67,23 +67,36 @@ function fillComponentList() {
 }
 
 GID("quick-fill-cells-button").onclick = function() {
+  let x = currentGrid().current.x;
+  let y = currentGrid().current.y;
   let arr = GID("quick-fill-loc-entry").value.split(",");
-  currentGrid().grid[y][x].components.push({
-    loc: loc,
-    locTriggers: [],
-    tags: tags,
-    hasTags: hasTags,
-    doesNotHaveTags: doesNotHaveTags,
-    removeTags: removeTags,
-    travel: travel,
-    gameTags: "",
-    runGrid: runGrid,
-    probability: probability,
-    variables: variables,
-    immediateEffects: [],
-    afterEffects: [],
-    options: [],
-  })
+  let tags = GID("quick-fill-tags-entry").value;
+  let hasTags = GID("quick-fill-has-tags-entry").value;
+  let doesNotHaveTags = GID("quick-fill-not-tags-entry").value;
+  let travel = GID("quick-fill-travel-entry").value;
+  let runGrid = GID("quick-fill-run-grid").value;
+  let probability = GID("quick-fill-probability").value;
+  let variables = GID("quick-fill-variables").value;
+  for (let i = 0; i < arr.length; i++) {
+    currentGrid().grid[y][x].components.push({
+      loc: arr[i],
+      locTriggers: [],
+      tags: tags,
+      hasTags: hasTags,
+      doesNotHaveTags: doesNotHaveTags,
+      travel: travel,
+      gameTags: "",
+      runGrid: runGrid,
+      probability: probability,
+      variables: variables,
+      immediateEffects: [],
+      afterEffects: [],
+      options: [],
+    })
+  }
+  GID("component-creation").innerHTML = fillComponentList();
+  makeClickableComponentList();
+  refreshGrid();
 }
 
 GID("create-component-button").onclick = function() {

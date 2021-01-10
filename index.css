@@ -301,6 +301,22 @@ table {
   padding-bottom: 10px;
 }
 
+#quick-fill-cells-button {
+	margin-top: 10px;
+  width: 100%;
+  font-size: 1.2em;
+  background: #00916E;
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#quick-fill-cells-button:hover {
+	background: #FA003F;
+	cursor: pointer;
+}
+
 #create-component-button:hover {
 	background: #FA003F;
 	cursor: pointer;
