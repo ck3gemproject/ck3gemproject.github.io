@@ -66,6 +66,26 @@ function fillComponentList() {
   return t;
 }
 
+GID("quick-fill-cells-button").onclick = function() {
+  let arr = GID("quick-fill-loc-entry").value.split(",");
+  currentGrid().grid[y][x].components.push({
+    loc: loc,
+    locTriggers: [],
+    tags: tags,
+    hasTags: hasTags,
+    doesNotHaveTags: doesNotHaveTags,
+    removeTags: removeTags,
+    travel: travel,
+    gameTags: "",
+    runGrid: runGrid,
+    probability: probability,
+    variables: variables,
+    immediateEffects: [],
+    afterEffects: [],
+    options: [],
+  })
+}
+
 GID("create-component-button").onclick = function() {
   let x = currentGrid().current.x;
   let y = currentGrid().current.y;
@@ -401,7 +421,7 @@ function saveComponentEdits(comp) {
     nextDays: GID("option1nextdays").value,
     triggeredEvents: [],
   }
-  
+
   if (optionsSelectedScope !== "") {
     o1.scopeNumber = optionsSelectedScope
   }
