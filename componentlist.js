@@ -77,6 +77,16 @@ GID("quick-fill-cells-button").onclick = function() {
   let runGrid = GID("quick-fill-run-grid").value;
   let probability = GID("quick-fill-probability").value;
   let variables = GID("quick-fill-variables").value;
+  let varArr = variables.split(",") || [`${variables}`]
+  let varObjArr = [];
+  for (let i = 0; i < varArr.length; i++) {
+    let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+    let o = {};
+    o.name = matches[1];
+    o.operation = matches[2];
+    o.value = matches[3];
+    varObjArr.push(o);
+  }
   for (let i = 0; i < arr.length; i++) {
     currentGrid().grid[y][x].components.push({
       loc: arr[i],
@@ -88,7 +98,8 @@ GID("quick-fill-cells-button").onclick = function() {
       gameTags: "",
       runGrid: runGrid,
       probability: probability,
-      variables: variables,
+      variables: varArr,
+      varObjArr: varObjArr,
       immediateEffects: [],
       afterEffects: [],
       options: [],
@@ -113,6 +124,20 @@ GID("create-component-button").onclick = function() {
   let travel = GID("tag-travel").value;
   let runGrid = GID("run-grid").value;
   let variables = GID("variable-entry").value;
+  let varObjArr = [];
+  if (variables.length > 0) {
+    let varArr = variables.split(",") || [`${variables}`]
+    for (let i = 0; i < varArr.length; i++) {
+      let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      let o = {};
+      o.name = matches[1];
+      o.operation = matches[2];
+      o.value = matches[3];
+      varObjArr.push(o);
+    }
+  }
+
+
   let probability = GID("component-probability").value;
   if (probability.value === "") {
     probability.value = 100
@@ -129,6 +154,7 @@ GID("create-component-button").onclick = function() {
     runGrid: runGrid,
     probability: probability,
     variables: variables,
+    varObjArr: varObjArr,
     immediateEffects: [],
     afterEffects: [],
     options: [],
@@ -306,6 +332,18 @@ function saveComponentEdits(comp) {
   comp.runGrid = GID("run-grid-edit").value;
   comp.probability = GID("component-probability-edit").value;
   comp.variables = GID("variable-edit").value;
+  if (comp.variables.length > 0) {
+    comp.varObjArr = [];
+    let varArr = comp.variables.split(",") || [`${comp.variables}`]
+    for (let i = 0; i < varArr.length; i++) {
+      let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      let o = {};
+      o.name = matches[1];
+      o.operation = matches[2];
+      o.value = matches[3];
+      comp.varObjArr.push(o);
+    }
+  }
 
   let title = GID("eventTitle").value;
   if (title.length > 0)  {

@@ -112,145 +112,103 @@ function generateSubgrid(gridObject, e) {
 }
 
 function doMath(num1, operator, num2) {
-  num1 = parseInt(num1);
-  num2 = parseInt(num2);
-  if (operator === "+=") {
-    return num1 + num2;
-  } else if (operator === "-=") {
-    return num1 - num2;
-  } else if (operator === "=") {
+  if (operator === "=") {
     return num2;
+  } else {
+    num1 = parseInt(num1);
+    num2 = parseInt(num2);
+    if (operator === "+=") {
+      return num1 + num2;
+    } else if (operator === "-=") {
+      return num1 - num2;
+    } else if (operator === "=") {
+      return num2;
+    }
+  }
+}
+
+function compare(v, o, nv) {
+  if (v.match(/\d+/) || nv.match(/\d+/)) {
+    v = parseInt(v);
+    nv = parseInt(nv);
+  }
+  if (o === "===") {
+    if (v === nv) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  if (o === ">") {
+    if (v > nv) {
+      return true
+    } else {
+      return false;
+    }
+  }
+  if (o === ">=") {
+    if (v >= nv) {
+      return true
+    } else {
+      return false;
+    }
+  }
+  if (o === "<") {
+    if (v < nv) {
+      return true;
+    } else {
+      return false
+    }
+  }
+  if (o === "<=") {
+    if (v <= nv) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
 function variableCheck(c, e) {
-  let componentVariables = [];
-  let eventVariables = [];
-  if (e.variables.length === 0) {
-
-  } else if (e.variables.length === 1) {
-    eventVariables.push(e.variables);
-  } else {
-
-    eventVariables = e.variables.split(",")
-    for (let i = 0; i < eventVariables.length; i++) {
-        eventVariables[i] = eventVariables[i].trim();
-    }
-  }
-  if (c.variables.length === 0) {
-
-  } else if (c.variables.length === 1) {
-    componentVariables.push(c.variables);
-  } else {
-    componentVariables = c.variables.split(",")
-    for (let i = 0; i < componentVariables.length; i++) {
-        componentVariables[i] = componentVariables[i].trim();
-    }
-  }
   let equalityChecks = true;
-
-
-  if (componentVariables.length > 0) {
-
-    for (let i = 0; i < componentVariables.length; i++) {
-      let varName = componentVariables[i].match(/[A-Za-z]+/)[0]
-      let varOperation = componentVariables[i].match(/[\=\+\-\<\>]+/)[0]
-      let varLetters = componentVariables[i].match(/\s[A-Za-z\s]+/);
-      if (varLetters) {
-        varLetters = varLetters[0];
-        varLetters = varLetters.substring(1);
-      }
-      let varNumber = componentVariables[i].match(/[0-9]+/)
-      if (varNumber) {
-        varNumber = varNumber[0];
-      }
-
-      if (eventVariables.length === 0 && varLetters && varLetters.length > 0 && varOperation === "=") {
-        e.variables += `${varName} = ${varLetters}`
-      } else if (eventVariables.length === 0 && varOperation === "=" || varOperation === "+=" || varOperation === "-=") {
-        let newNumber = doMath(0, varOperation, varNumber);
-        e.variables += `${varName} = ${newNumber}`
-      } else {
-        let variableExists = false;
-
-        for (let j = 0; j < eventVariables.length; j++) {
-          let eVarName = eventVariables[j].match(/[A-Za-z]+/)[0]
-          let eVarNumber = eventVariables[j].match(/[0-9]+/);
-          if (eVarNumber) {
-            eVarNumber = eVarNumber[0];
-          }
-          let eVarLetters = eventVariables[j].match(/\s[A-Za-z\s]+/);
-          if (eVarLetters) {
-            eVarLetters = eVarLetters[0];
-            eVarLetters = eVarLetters.substring(1);
-          }
-          console.log(eVarName);
-          console.log(varName);
-          if (varName === eVarName) {
-            variableExists = true;
-          }
-          if (varLetters && varLetters.length > 0 && eVarLetters && eVarLetters.length > 0) {
-            if (varName === eVarName && varLetters !== eVarLetters) {
-              equalityChecks = false;
-            }
-          }
-
-          if (variableExists === true) {
-
-            if (varNumber && eVarNumber) {
-              if (varOperation === "!==") {
-                if (varNumber === eVarNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === "===") {
-                if (varNumber !== eVarNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === "<") {
-                if (eVarNumber >= varNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === ">") {
-                if (eVarNumber <= varNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === "<=") {
-                if (eVarNumber > varNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === ">=") {
-                if (eVarNumber < varNumber) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === "+=" || varOperation === "-=" || varOperation === "=") {
-                let newNumber = doMath(eVarNumber, varOperation, varNumber);
-                e.variables.replace(`${eVarName} = ${eVarNumber}`, `${eVarName} = ${newNumber}`)
-              }
-            }
-
-            if (varLetters && eVarLetters) {
-              if (varOperation === "===") {
-                if (varLetters !== eVarLetters) {
-                  equalityChecks = false;
-                }
-              } else if (varOperation === "=") {
-                e.variables.replace(`${eVarName} = ${eVarLetters}`, `${varName} = ${varLetters}`)
-              }
-            }
-          }
-
-
-        }
-        if (variableExists === false) {
-          if (varLetters && varLetters.length > 0 && varOperation === "=") {
-            e.variables += `${varName} = ${varLetters}`
-          } else if (varNumber && varOperation === "+=" || varOperation === "-=" || varOperation === "=") {
-            let newNumber = doMath(0, varOperation, varNumber);
-            e.variables += `${varName} = ${newNumber}`
+  let workingArr = [];
+  for (let i = 0; i < c.varObjArr.length; i++) {
+    let name = c.varObjArr[i].name
+    let op = c.varObjArr[i].operation;
+    let value = c.varObjArr[i].value;
+    let exists = false;
+    if (e.varObjArr.length === 0 && (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=")) {
+      //can't compare if doesn't exist
+      equalityChecks = false;
+    } else if (e.varObjArr.length === 0 && (op === "+=" || op === "-=")) {
+      let newValue = doMath(0, op, value);
+      let o = {};
+      o.name = name;
+      o.value = newValue;
+      e.varObjArr.push(o);
+      exists = true;
+    } else {
+      for (let j = 0; j < e.varObjArr.length; j++) {
+        let eName = e.varObjArr[j].name;
+        if (eName === name) {
+          exists = true;
+          if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
+            equalityChecks = compare(e.varObjArr[j].value, op, value)
           } else {
-            equalityChecks = false;
-            //because otherwise we'd be checking for <, > ===, etc.
+            let newValue = doMath(e.varObjArr[j].value, op, value);
+            e.varObj[j].value = newValue;
           }
+        }
+      }
+      if (exists === false) {
+        if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
+          equalityChecks = false;
+        } else {
+          let newValue = doMath(0, op, value);
+          let o = {};
+          o.name = name;
+          o.value = newValue;
+          e.varObjArr.push(o)
         }
       }
     }
@@ -278,6 +236,7 @@ function generate(input) {
     e.doesNotHaveTags = [];
     e.runStack = []
     e.variables = [];
+    e.varObjArr = [];
     e.factor = 100;
     let currentCell = currentGrid().grid[y][x];
     generator.currentX = x;
