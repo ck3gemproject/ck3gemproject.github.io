@@ -7,6 +7,7 @@ let onActionDelay = "30";
 let eventCodeArr = [];
 let eventLocalizationArr = [];
 let eventOnActionArr = [];
+let copiedCell = [];
 
 function removeDuplicates(arr) {
   return arr.filter((value, index) => arr.indexOf(value) === index)
@@ -405,7 +406,17 @@ function buildOnActions(eventArr) {
 }
 
 
+GID("copy-cell-button").onclick = function() {
+  let x = currentGrid().current.x;
+  let y = currentGrid().current.y;
+  copiedCell = currentGrid().grid[y][x];
+}
 
+GID("paste-cell-button").onclick = function() {
+  let x = currentGrid().current.x;
+  let y = currentGrid().current.y;
+  currentGrid().grid[y][x] = copiedCell;
+}
 
 
 GID("on-action-button").onclick = function() {

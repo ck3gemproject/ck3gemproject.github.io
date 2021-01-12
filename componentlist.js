@@ -87,6 +87,7 @@ GID("quick-fill-cells-button").onclick = function() {
     o.value = matches[3];
     varObjArr.push(o);
   }
+  console.log(varArr)
   for (let i = 0; i < arr.length; i++) {
     currentGrid().grid[y][x].components.push({
       loc: arr[i],
@@ -127,8 +128,10 @@ GID("create-component-button").onclick = function() {
   let varObjArr = [];
   if (variables.length > 0) {
     let varArr = variables.split(",") || [`${variables}`]
+    console.log(varArr);
     for (let i = 0; i < varArr.length; i++) {
       let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      console.log(matches);
       let o = {};
       o.name = matches[1];
       o.operation = matches[2];
@@ -335,8 +338,10 @@ function saveComponentEdits(comp) {
   if (comp.variables.length > 0) {
     comp.varObjArr = [];
     let varArr = comp.variables.split(",") || [`${comp.variables}`]
+    console.log(varArr);
     for (let i = 0; i < varArr.length; i++) {
       let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      console.log(matches);
       let o = {};
       o.name = matches[1];
       o.operation = matches[2];

@@ -301,6 +301,38 @@ table {
   padding-bottom: 10px;
 }
 
+#copy-cell-button {
+	margin-top: 10px;
+	width: 100%;
+	font-size: 1.2em;
+	background: #00916E;
+	color: white;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#copy-cell-button:hover {
+	cursor: pointer;
+	background: #FA003F;
+}
+
+#paste-cell-button:hover {
+	cursor: pointer;
+	background: #FA003F;
+}
+
+#paste-cell-button {
+	margin-top: 10px;
+	width: 100%;
+	font-size: 1.2em;
+	background: #00916E;
+	color: white;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 #quick-fill-cells-button {
 	margin-top: 10px;
   width: 100%;

@@ -132,6 +132,10 @@ function compare(v, o, nv) {
     v = parseInt(v);
     nv = parseInt(nv);
   }
+
+  console.log(v);
+  console.log(o);
+  console.log(nv);
   if (o === "===") {
     if (v === nv) {
       return true;
@@ -167,6 +171,14 @@ function compare(v, o, nv) {
       return false;
     }
   }
+
+  if (o === "!==") {
+    if (v !== nv) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 function variableCheck(c, e) {
@@ -180,6 +192,8 @@ function variableCheck(c, e) {
     if (e.varObjArr.length === 0 && (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=")) {
       //can't compare if doesn't exist
       equalityChecks = false;
+    } else if (e.varObjArr.length === 0 && op === "!==") {
+      equalityChecks = true;
     } else if (e.varObjArr.length === 0 && (op === "+=" || op === "-=")) {
       let newValue = doMath(0, op, value);
       let o = {};
@@ -191,9 +205,12 @@ function variableCheck(c, e) {
       for (let j = 0; j < e.varObjArr.length; j++) {
         let eName = e.varObjArr[j].name;
         if (eName === name) {
+          console.log(`Match ${eName} and ${name}`);
           exists = true;
-          if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
+          console.log(op);
+          if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=" || op === "!==") {
             equalityChecks = compare(e.varObjArr[j].value, op, value)
+            console.log(equalityChecks);
           } else {
             let newValue = doMath(e.varObjArr[j].value, op, value);
             e.varObj[j].value = newValue;
@@ -203,6 +220,8 @@ function variableCheck(c, e) {
       if (exists === false) {
         if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
           equalityChecks = false;
+        } else if (op === "!==") {
+          equalityChecks = true;
         } else {
           let newValue = doMath(0, op, value);
           let o = {};
