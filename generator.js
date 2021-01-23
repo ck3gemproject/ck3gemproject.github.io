@@ -5,6 +5,7 @@ function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
   for (let i = 0; i < num; i++) {
+    generator.varObjArr = [];
     workingEventArr.push(generate());
   }
   for (let i = 0; i < workingEventArr.length; i++) {
@@ -16,6 +17,20 @@ function runGenerationMachine(num) {
     makeEventCode(currentEvent);
     eventsList.push(currentEvent);
   }
+
+  for (let i = 0; i < globalOnActionArray.length; i++) {
+    console.log(globalOnActionArray[i])
+    let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
+    console.log(coords);
+    globalOnActionArray[i].eventList = [];
+    for (let z = 0; z < 100; z++) {
+      let nextE = generate(coords);
+      makeEventCode(nextE);
+      eventsList.push(nextE);
+      globalOnActionArray[i].eventList.push(creationCounter);
+    }
+  }
+  console.log(globalOnActionArray)
 }
 
 function getGridByName(name) {
@@ -128,14 +143,12 @@ function doMath(num1, operator, num2) {
 }
 
 function compare(v, o, nv) {
+  v = `${v}`;
+  nv = `${nv}`
   if (v.match(/\d+/) || nv.match(/\d+/)) {
     v = parseInt(v);
     nv = parseInt(nv);
   }
-
-  console.log(v);
-  console.log(o);
-  console.log(nv);
   if (o === "===") {
     if (v === nv) {
       return true;
@@ -205,15 +218,13 @@ function variableCheck(c, e) {
       for (let j = 0; j < e.varObjArr.length; j++) {
         let eName = e.varObjArr[j].name;
         if (eName === name) {
-          console.log(`Match ${eName} and ${name}`);
           exists = true;
-          console.log(op);
           if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=" || op === "!==") {
+            console.log(e.varObjArr);
             equalityChecks = compare(e.varObjArr[j].value, op, value)
-            console.log(equalityChecks);
           } else {
             let newValue = doMath(e.varObjArr[j].value, op, value);
-            e.varObj[j].value = newValue;
+            e.varObjArr[j].value = newValue;
           }
         }
       }
@@ -256,6 +267,7 @@ function generate(input) {
     e.runStack = []
     e.variables = [];
     e.varObjArr = [];
+
     e.factor = 100;
     let currentCell = currentGrid().grid[y][x];
     generator.currentX = x;
@@ -501,6 +513,35 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
       }
       if (nextArr[j] === "W") {
         currentOption.nextStartList.push([currentCell.x - 1, currentCell.y])
+      }
+    }
+    currentOption.onActionStartList = [];
+    let nextOnActions = currentOption.onActions.split(",");
+    for (let j = 0; j < nextOnActions.length; j++) {
+      nextOnActions[j] = nextOnActions[j].trim();
+      if (nextOnActions[j] === "NW") {
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y + 1])
+      }
+      if (nextOnActions[j] === "N") {
+        currentOption.onActionStartList.push([currentCell.x, currentCell.y + 1])
+      }
+      if (nextOnActions[j] === "NE") {
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y + 1])
+      }
+      if (nextOnActions[j] === "E") {
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y])
+      }
+      if (nextOnActions[j] === "SE") {
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y - 1])
+      }
+      if (nextOnActions[j] === "S") {
+        currentOption.onActionStartList.push([currentCell.x, currentCell.y - 1]);
+      }
+      if (nextOnActions[j] === "SW") {
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y - 1])
+      }
+      if (nextOnActions[j] === "W") {
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y])
       }
     }
   }

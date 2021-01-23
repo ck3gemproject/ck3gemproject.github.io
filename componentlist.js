@@ -99,6 +99,7 @@ GID("quick-fill-cells-button").onclick = function() {
       tags: tags,
       hasTags: hasTags,
       doesNotHaveTags: doesNotHaveTags,
+      removeTags: "",
       travel: travel,
       gameTags: "",
       runGrid: runGrid,
@@ -250,6 +251,7 @@ function makeClickableComponentList() {
           GID("option1code").value = comp.freestyleOptionCode[0]
           GID("option1next").value = comp.options[0].next;
           GID("option1nextdays").value = comp.options[0].nextDays;
+          GID("option1onaction").value = comp.options[0].onActions ;
         }
       }
 
@@ -344,11 +346,9 @@ function saveComponentEdits(comp) {
   if (comp.variables.length > 0) {
     comp.varObjArr = [];
     varArr = comp.variables.split(",") || [`${comp.variables}`]
-    console.log(varArr);
     for (let i = 0; i < varArr.length; i++) {
       let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
       if (matches && matches.length > 0) {
-        console.log(matches);
         let o = {};
         o.name = matches[1];
         o.operation = matches[2];
@@ -483,6 +483,7 @@ function saveComponentEdits(comp) {
     aiZealMod: GID("ai-zeal-mod").value,
     next: GID("option1next").value,
     nextDays: GID("option1nextdays").value,
+    onActions: GID("option1onaction").value,
     triggeredEvents: [],
   }
 

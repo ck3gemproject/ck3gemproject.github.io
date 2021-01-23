@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="index.css"></link>
   </head>
   <body>
-    <div id="main-page">
     <div id="header-bar">
       <div class="inner-header-bar" id="generator-settings-button">
         Settings
@@ -39,83 +38,18 @@
 
 
 
-    <div id="json-placeholder">
+    <div id="bars">
+      <div id="left-bar">
+        <div id="grid-selection-box">
 
-    </div>
-
-    <div id="event-entry-wrapper">
-
-      <div id="event-map"></div>
-
-      <div id="copy-cell-button">
-        Copy Cell
-      </div>
+        </div>
+        <div id="copy-cell-button">
+          Copy Cell
+        </div>
 
 
-      <div id="paste-cell-button">
-        Paste Cell
-      </div>
-
-
-
-      <div id="component-entry">
-
-        <div class="component-list">
-          <div class="component-list-inner-grid">
-            Quick Fill Cell (csv):
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-loc-entry">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Set Tags:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-tags-entry">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Has Tags:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-has-tags-entry">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Not Tags:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-not-tags-entry">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Travel:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-travel-entry">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Probability:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-probability">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Variables:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-variables">
-          </div>
-
-          <div class="component-list-inner-grid">
-            Quick Fill Run Grid:
-          </div>
-          <div class="component-list-inner-grid">
-            <input type="text" class="component-list-entry" id="quick-fill-run-grid">
-          </div>
+        <div id="paste-cell-button">
+          Paste Cell
         </div>
 
         <div id="quick-fill-cells-button">
@@ -123,905 +57,859 @@
         </div>
 
 
+        <input type="text" class="component-list-entry-left" id="quick-fill-loc-entry" placeholder="Quick Fill Cells (split with @)">
+        <input type="text" class="component-list-entry-left" id="quick-fill-tags-entry" placeholder="Quick Fill Set Tags">
+        <input type="text" class="component-list-entry-left" id="quick-fill-has-tags-entry" placeholder="Quick Fill Has Tags">
+        <input type="text" class="component-list-entry-left" id="quick-fill-not-tags-entry" placeholder="Quick Fill Not Tags">
+        <input type="text" class="component-list-entry-left" id="quick-fill-travel-entry" placeholder="Quick Fill Travel">
+        <input type="text" class="component-list-entry-left" id="quick-fill-probability" placeholder="Quick Fill Probability">
+        <input type="text" class="component-list-entry-left" id="quick-fill-variables" placeholder="Quick Fill Variables">
+        <input type="text" class="component-list-entry-left" id="quick-fill-run-grid" placeholder="Quick Fill Run Grid">
 
-        <br><hr><br>
+      </div> <!--END LEFT BAR -->
 
-        <div class="component-list" id="tag-sets">
-          <div class="component-list-inner-grid">
-            Localization:
-          </div>
-          <div class="component-list-inner-grid tooltip">
-            <span class="tooltiptext">Each component can have localization. If the generator steps on the component, the localization will be added to the event localization.</span>
-            <input type="text" class="component-list-entry" id="localization-entry">
-            </input>
+      <div id="middle-bar">
+        <div id="event-entry-wrapper">
 
-          </div>
+          <div id="event-map"></div>
 
-          <div class="component-list-inner-grid">
-            Travel:
-          </div>
 
-          <div class="component-list-inner-grid tooltip">
-            <span class="tooltiptext">Travel is defined by cardinal direction (i.e., "NW"), and tells the generator where a component can go from here on the grid.</span>
-            <input type="text" class="component-list-entry" id="tag-travel" placeholder="For example: NW, NE"></input>
-          </div>
 
-          <div class="component-edit-input-label">
-            Run Grid:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="run-grid"></input>
-          </div>
 
 
+          <div id="component-entry">
 
-        </div>
 
-        <br>
-        <hr>
-        <br>
 
-
-        <div class="component-list">
-
-          <div class="component-list-inner-grid">
-            Set Tags:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <span class="tooltiptext">"Set" allows you to set tags, which can be checked later with "has" to determine whether a component can proceed to another component. Each grid must have at least one tag set to START to tell the generator where to start. Otherwise, the tags are entirely arbitrary instructions to the generator about the state of generation. For example, you could tell the generator it is "raining" and later check to see whether it is raining before adding rain-specific localization.</span>
-            <input type="text" class="component-list-entry" id="tag-entry"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Has Tags:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-              <span class="tooltiptext">"Has:" checks to see if a component tag has previously been defined when the generator stepped on a prior component. If not, this component becomes impassable.</span>
-            <input type="text" class="component-list-entry" id="tag-check"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Doesn't Have Tags
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-              <span class="tooltiptext">Adding a tag to "Not" makes the component impassable if the tag has been applied previously by another component.</span>
-            <input type="text" class="component-list-entry" id="tag-not-check"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Remove Tags:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-              <span class="tooltiptext">Any tag listed under "remove" will be deleted from previously set components after the generator steps on this component.</span>
-            <input type="text" class="component-list-entry" id="tag-removal"></input>
-          </div>
-
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-        <div class="component-list">
-
-          <div class="component-list-inner-grid">
-            Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-entry" placeholder="variable_name operator number; e.g., chickens += 4; cats = 2; chickens === 4"></input>
-          </div>
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-          <!--
-
-          <div class="component-list-inner-grid">
-            Has Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-check"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Not Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-not"></input>
-          </div>
-
-        </div>
-
-
-        <br>
-        <hr>
-        <br>
-
-      -->
-
-        <div class="component-list">
-          <div class="component-list-inner-grid">
-            Comp. Probability:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="component-probability"></input>
-          </div>
-        </div>
-
-        <div id="create-component-button">
-          Save Component
-        </div>
-        <div id="component-creation">
-
-        </div>
-
-      </div>
-
-
-
-      <div id="component-edit">
-        <form id="component-edit-form">
-
-        <h2 class="edit-subheading">Tags</h2>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Localization:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="localization-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Travel:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="travel-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Run Grid:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="run-grid-edit"></input>
-          </div>
-
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Set Tags:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="set-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Has Tags:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="has-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Doesn't Have Tags:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="not-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Remove Tags:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="remove-edit"></input>
-          </div>
-
-        </div>
-
-        <div class="component-edit-input">
-
-          <div class="component-edit-input-label">
-            Variables:
-          </div>
-          <div id="component-edit-input-entry">
-            <input type="text" class="component-list-entry" id="variable-edit"></input>
-          </div>
-
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-        <!--
-
-        <div class="component-edit-input">
-
-          <div class="component-list-inner-grid">
-            Set Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-entry-edit"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Has Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-check-edit"></input>
-          </div>
-
-          <div class="component-list-inner-grid">
-            Not Variables:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="variable-not-edit"></input>
-          </div>
-
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-        -->
-
-        <!--
-
-        <div class="component-edit-input">
-          <div class="component-list-inner-grid">
-            Has Game Tags:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="check-game-tags-edit"></input>
-          </div>
-        </div>
-
-        <br>
-        <hr>
-        <br>
-
-        -->
-
-        <div class="component-edit-input">
-          <div class="component-list-inner-grid">
-            Comp. Probability:
-          </div>
-
-          <div class="component-list-inner-grid tooltip">
-            <input type="text" class="component-list-entry" id="component-probability-edit"></input>
-          </div>
-        </div>
-
-        <div id="right-side-menu">
-          <div class="right-heading-button" id="select-save-component-button">
-            Save
-          </div>
-          <div class="right-heading-button" id="select-delete-component-button">
-            Delete
-          </div>
-          <div class="right-heading-button" id="select-scopes-button">
-            Scopes
-          </div>
-          <div class="right-heading-button" id="select-settings-button">
-            Settings
-          </div>
-          <div class="right-heading-button" id="select-immediate-button">
-            Immediate
-          </div>
-          <div class="right-heading-button" id="select-trigger-button">
-            Triggers
-          </div>
-          <div class="right-heading-button" id="select-options-button">
-            Options
-          </div>
-          <div class="right-heading-button" id="select-after-button">
-            After
-          </div>
-        </div>
-
-        <div id="settings-block">
-          <h2 class="edit-subheading">Overall Event Settings</h2>
-
-          <div class="component-edit-input">
-
-            <div class="component-edit-input-label">
-              On Action:
+            <div id="create-component-button">
+              Save Component
             </div>
 
-            <div class="component-edit-input-entry">
-              <select class="component-option" name="on-action-select" id="on-action-select">
-                <option value="unspecified"></option>
-                <option value="quarterly_playable_pulse">quarterly_playable_pulse</option>
-                <option value="random_yearly_playable_pulse">random_yearly_playable_pulse</option>
-                <option value="yearly_playable_pulse">yearly_playable_pulse</option>
-                <option value="yearly_pool_pulse">yearly_pool_pulse</option>
-                <option value="three_year_playable_pulse">three_year_playable_pulse</option>
-                <option value="random_yearly_everyone_pulse">random_yearly_everyone_pulse</option>
-                <option value="five_year_playable_pulse">five_year_playable_pulse</option>
-                <option value="five_year_everyone_pulse">five_year_everyone_pulse</option>
-                <option value="on_game_start">on_game_start</option>
-                <option value="on_weight_changed">on_weight_changed</option>
-                <option value="on_leave_court">on_leave_court</option>
-                <option value="on_guest_ready_to_move_to_pool">on_guest_ready_to_move_to_pool</option>
-                <option value="on_guest_arrived_from_pool">on_guest_arrived_from_pool</option>
-                <option value="on_siege_completion">on_siege_completion</option>
-                <option value="on_war_won_attacker">on_war_won_attacker</option>
-                <option value="on_pregnancy_mother">on_pregnancy_mother</option>
-                <option value="on_release_from_prison">on_release_from_prison</option>
-                <option value="on_death">on_death</option>
-                <option value="on_army_enter_province">on_army_enter_province</option>
-                <option value="on_join_court">on_join_court</option>
-                <option value="on_fired_from_council">on_fired_from_council</option>
-                <option value="on_title_gain">on_title_gain</option>
-                <option value="on_character_culture_change">on_character_culture_change</option>
-                <option value="on_birth_child">on_birth_child</option>
-                <option value="on_commander_combat_pulse">on_commander_combat_pulse</option>
-                <option value="on_faith_created">on_faith_created</option>
-                <option value="on_character_faith_change">on_character_faith_change</option>
-                <option value="on_courtier_decided_to_move_to_pool">on_courtier_decided_to_move_to_pool</option>
-                <option value="on_birthday">on_birthday</option>
-                <option value="on_faith_conversion">on_faith_conversion</option>
-                <option value="on_explicit_claim_gain">on_explicit_claim_gain</option>
-                <option value="on_courtier_ready_to_move_to_pool">on_courtier_ready_to_move_to_pool</option>
-                <option value="on_imprison">on_imprison</option>
-                <option value="on_birth_mother">on_birth_mother</option>
-                <option value="on_join_war_as_secondary">on_join_war_as_secondary</option>
-                <option value="on_explicit_claim_lost">on_explicit_claim_lost</option>
-                <option value="on_leave_council">on_leave_council</option>
-                <option value="on_marriage">on_marriage</option>
-                <option value="on_great_holy_war_recipient_replaced">on_great_holy_war_recipient_replaced</option>
-              </select>
+
+            <div class="component-list" id="tag-sets">
+              <div class="component-list-inner-grid">
+                Localization:
+              </div>
+              <div class="component-list-inner-grid tooltip">
+                <span class="tooltiptext">Each component can have localization. If the generator steps on the component, the localization will be added to the event localization.</span>
+                <input type="text" class="component-list-entry" id="localization-entry">
+                </input>
+
+              </div>
+
+              <div class="component-list-inner-grid">
+                Travel:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                <span class="tooltiptext">Travel is defined by cardinal direction (i.e., "NW"), and tells the generator where a component can go from here on the grid.</span>
+                <input type="text" class="component-list-entry" id="tag-travel" placeholder="For example: NW, NE"></input>
+              </div>
+
+              <div class="component-edit-input-label">
+                Run Grid:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="run-grid"></input>
+              </div>
+
+
+
+            </div>
+
+
+
+            <div class="component-list">
+
+              <div class="component-list-inner-grid">
+                Set Tags:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                <span class="tooltiptext">"Set" allows you to set tags, which can be checked later with "has" to determine whether a component can proceed to another component. Each grid must have at least one tag set to START to tell the generator where to start. Otherwise, the tags are entirely arbitrary instructions to the generator about the state of generation. For example, you could tell the generator it is "raining" and later check to see whether it is raining before adding rain-specific localization.</span>
+                <input type="text" class="component-list-entry" id="tag-entry"></input>
+              </div>
+
+              <div class="component-list-inner-grid">
+                Has Tags:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                  <span class="tooltiptext">"Has:" checks to see if a component tag has previously been defined when the generator stepped on a prior component. If not, this component becomes impassable.</span>
+                <input type="text" class="component-list-entry" id="tag-check"></input>
+              </div>
+
+              <div class="component-list-inner-grid">
+                Not Tags:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                  <span class="tooltiptext">Adding a tag to "Not" makes the component impassable if the tag has been applied previously by another component.</span>
+                <input type="text" class="component-list-entry" id="tag-not-check"></input>
+              </div>
+
+              <div class="component-list-inner-grid">
+                Remove Tags:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                  <span class="tooltiptext">Any tag listed under "remove" will be deleted from previously set components after the generator steps on this component.</span>
+                <input type="text" class="component-list-entry" id="tag-removal"></input>
+              </div>
+
+            </div>
+
+            <div class="component-list">
+
+              <div class="component-list-inner-grid">
+                Variables:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                <input type="text" class="component-list-entry" id="variable-entry" placeholder="Generator variable for a single event"></input>
+              </div>
+            </div>
+
+
+            <div class="component-list">
+              <div class="component-list-inner-grid">
+                Comp. Probability:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                <input type="text" class="component-list-entry" id="component-probability"></input>
+              </div>
+            </div>
+            <br>
 
           </div>
-        </div>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Title:
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="eventTitle"></input>
-            </div>
-          </div>
 
-          <div class="component-edit-input">
 
-            <div class="component-edit-input-label">
-              Theme:
-            </div>
+          <div id="component-edit">
+            <form id="component-edit-form">
 
-            <div class="component-edit-input-entry">
-              <select class="component-option" name="theme" id="theme">
-                <option value="unspecified"></option>
-                <option value="default">default</option>
-                <option value="abduct_scheme">abduct_scheme</option>
-                <option value="befriend_scheme">befriend_scheme</option>
-                <option value="culture_change">culture_change</option>
-                <option value="diplomacy_family_focus">diplomacy_family_focus</option>
-                <option value="dungeon">dungeon</option>
-                <option value="faith">faith</option>
-                <option value="friendly">friendly</option>
-                <option value="hunting">hunting</option>
-                <option value="intrigue_temptation_focus">intrigue_temptation_focus</option>
-                <option value="learning_theology_focus">learning_theology_focus</option>
-                <option value="martial">martial</option>
-                <option value="medicine">medicine</option>
-                <option value="party">party</option>
-                <option value="pregnancy">pregnancy</option>
-                <option value="rival_relation">rival_relation</option>
-                <option value="seduction">seduction</option>
-                <option value="stewardship_duty_focus">stewardship_duty_focus</option>
-                <option value="vassal">vassal</option>
-                <option value="alliance">alliance</option>
-                <option value="claim_throne_scheme">claim_throne_scheme</option>
-                <option value="death">death</option>
-                <option value="diplomacy_foreign_affairs_focus">diplomacy_foreign_affairs_focus</option>
-                <option value="dynasty">dynasty</option>
-                <option value="family">family</option>
-                <option value="generic_intrigue_scheme">generic_intrigue_scheme</option>
-                <option value="intrigue">intrigue</option>
-                <option value="love">love</option>
-                <option value="martial_authority_focus">martial_authority_focus</option>
-                <option value="mental_break">mental_break</option>
-                <option value="pet">pet</option>
-                <option value="prison">prison</option>
-                <option value="romance_scheme">romance_scheme</option>
-                <option value="skull">skull</option>
-                <option value="stewardship_wealth_focus">stewardship_wealth_focus</option>
-                <option value="war">war</option>
-                <option value="bastardy">bastardy</option>
-                <option value="corruption">corruption</option>
-                <option value="diplomacy_majesty_focus">diplomacy_majesty_focus</option>
-                <option value="education">education</option>
-                <option value="feast_activity">feast_activity</option>
-                <option value="healthcare">healthcare</option>
-                <option value="intrigue_intimidation_focus">intrigue_intimidation_focus</option>
-                <option value="learning_medicine_focus">learning_medicine_focus</option>
-                <option value="lover_relation">lover_relation</option>
-                <option value="martial_chivalry_focus">martial_chivalry_focus</option>
-                <option value="mental_health">mental_health</option>
-                <option value="physical_health">physical_health</option>
-                <option value="realm">realm</option>
-                <option value="secret">secret</option>
-                <option value="stewardship">stewardship</option>
-                <option value="sway_scheme">sway_scheme</option>
-                <option value="witchcraft">witchcraft</option>
-                <option value="battle">battle</option>
-                <option value="crown">crown</option>
-                <option value="diplomacy">diplomacy</option>
-                <option value="dread">dread</option>
-                <option value="fabricate_hook_scheme">fabricate_hook_scheme</option>
-                <option value="friend_relation">friend_relation</option>
-                <option value="hunt_activity">hunt_activity</option>
-                <option value="intrigue_skulduggery_focus">intrigue_skulduggery_focus</option>
-                <option value="learning_scholarship_focus">learning_scholarship_focus</option>
-                <option value="marriage">marriage</option>
-                <option value="martial_strategy_focus">martial_strategy_focus</option>
-                <option value="murder_scheme">murder_scheme</option>
-                <option value="pilgrimage_activity">pilgrimage_activity</option>
-                <option value="recovery">recovery</option>
-                <option value="seduce_scheme">seduce_scheme</option>
-                <option value="stewardship_domain_focus">stewardship_domain_focus</option>
-                <option value="unfriendly">unfriendly</option>
-              </select>
-            </div>
-          </div>
+            <h2 class="edit-subheading">Tags</h2>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Override Background:
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Localization:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="localization-edit"></input>
+              </div>
+
             </div>
 
-            <div class="component-edit-input-entry">
-              <select class="component-option" name="override-background" id="override-background">
-                <option value="unspecified"></option>
-                <option value="alley_day">alley_day</option>
-                <option value="alley_night">alley_night</option>
-                <option value="armory">armory</option>
-                <option value="army_camp">army_camp</option>
-                <option value="battlefield">battlefield</option>
-                <option value="bedchamber">bedchamber</option>
-                <option value="burning_building">burning_building</option>
-                <option value="corridor_day">corridor_day</option>
-                <option value="corridor_night">corridor_night</option>
-                <option value="council_chamber">council_chamber</option>
-                <option value="courtyard">courtyard</option>
-                <option value="docks">docks</option>
-                <option value="dungeon">dungeon</option>
-                <option value="farmlands">farmlands</option>
-                <option value="feast">feast</option>
-                <option value="gallows">gallows</option>
-                <option value="garden">garden</option>
-                <option value="market">market</option>
-                <option value="market_east">market_east</option>
-                <option value="market_india">market_india</option>
-                <option value="market_tribal">market_tribal</option>
-                <option value="market_west">market_west</option>
-                <option value="physicians_study">physicians_study</option>
-                <option value="sitting_room">sitting_room</option>
-                <option value="study">study</option>
-                <option value="tavern">tavern</option>
-                <option value="temple">temple</option>
-                <option value="temple_church">temple_church</option>
-                <option value="temple_generic">temple_generic</option>
-                <option value="temple_mosque">temple_mosque</option>
-                <option value="temple_scope">temple_scope</option>
-                <option value="terrain">terrain</option>
-                <option value="terrain_activity">terrain_activity</option>
-                <option value="terrain_scope">terrain_scope</option>
-                <option value="throne_room">throne_room</option>
-                <option value="throne_room_east">throne_room_east</option>
-                <option value="throne_room_india">throne_room_india</option>
-                <option value="throne_room_mediterranean">throne_room_mediterranean</option>
-                <option value="throne_room_scope">throne_room_scope</option>
-                <option value="throne_room_tribal">throne_room_tribal</option>
-                <option value="throne_room_west">throne_room_west</option>
-                <option value="wilderness">wilderness</option>
-                <option value="wilderness_desert">wilderness_desert</option>
-                <option value="wilderness_forest">wilderness_forest</option>
-                <option value="wilderness_forest_pine">wilderness_forest_pine</option>
-                <option value="wilderness_mountains">wilderness_mountains</option>
-                <option value="wilderness_scope">wilderness_scope</option>
-                <option value="wilderness_steppe">wilderness_steppe</option>
-              </select>
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Travel:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="travel-edit"></input>
+              </div>
+
+            </div>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Run Grid:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="run-grid-edit"></input>
+              </div>
+
+            </div>
+
+            <br>
+            <hr>
+            <br>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Set Tags:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="set-edit"></input>
+              </div>
+
+            </div>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Has Tags:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="has-edit"></input>
+              </div>
+
+            </div>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Not Tags:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="not-edit"></input>
+              </div>
+
+            </div>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Remove Tags:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="remove-edit"></input>
+              </div>
+
+            </div>
+
+            <div class="component-edit-input">
+
+              <div class="component-edit-input-label">
+                Variables:
+              </div>
+              <div id="component-edit-input-entry">
+                <input type="text" class="component-list-entry" id="variable-edit"></input>
+              </div>
+
+            </div>
+
+            <br>
+            <hr>
+            <br>
+
+            <div class="component-edit-input">
+              <div class="component-list-inner-grid">
+                Comp. Probability:
+              </div>
+
+              <div class="component-list-inner-grid tooltip">
+                <input type="text" class="component-list-entry" id="component-probability-edit"></input>
+              </div>
+            </div>
+
+            <div id="right-side-menu">
+              <div class="right-heading-button" id="select-save-component-button">
+                Save
+              </div>
+              <div class="right-heading-button" id="select-delete-component-button">
+                Delete
+              </div>
+              <div class="right-heading-button" id="select-scopes-button">
+                Scopes
+              </div>
+              <div class="right-heading-button" id="select-settings-button">
+                Settings
+              </div>
+              <div class="right-heading-button" id="select-immediate-button">
+                Immediate
+              </div>
+              <div class="right-heading-button" id="select-trigger-button">
+                Triggers
+              </div>
+              <div class="right-heading-button" id="select-options-button">
+                Options
+              </div>
+              <div class="right-heading-button" id="select-after-button">
+                After
+              </div>
+            </div>
+
+            <div id="settings-block">
+              <h2 class="edit-subheading">Overall Event Settings</h2>
+
+              <div class="component-edit-input">
+
+                <div class="component-edit-input-label">
+                  On Action:
+                </div>
+
+                <div class="component-edit-input-entry">
+                  <select class="component-option" name="on-action-select" id="on-action-select">
+                    <option value="unspecified"></option>
+                    <option value="quarterly_playable_pulse">quarterly_playable_pulse</option>
+                    <option value="random_yearly_playable_pulse">random_yearly_playable_pulse</option>
+                    <option value="yearly_playable_pulse">yearly_playable_pulse</option>
+                    <option value="yearly_pool_pulse">yearly_pool_pulse</option>
+                    <option value="three_year_playable_pulse">three_year_playable_pulse</option>
+                    <option value="random_yearly_everyone_pulse">random_yearly_everyone_pulse</option>
+                    <option value="five_year_playable_pulse">five_year_playable_pulse</option>
+                    <option value="five_year_everyone_pulse">five_year_everyone_pulse</option>
+                    <option value="on_game_start">on_game_start</option>
+                    <option value="on_weight_changed">on_weight_changed</option>
+                    <option value="on_leave_court">on_leave_court</option>
+                    <option value="on_guest_ready_to_move_to_pool">on_guest_ready_to_move_to_pool</option>
+                    <option value="on_guest_arrived_from_pool">on_guest_arrived_from_pool</option>
+                    <option value="on_siege_completion">on_siege_completion</option>
+                    <option value="on_war_won_attacker">on_war_won_attacker</option>
+                    <option value="on_pregnancy_mother">on_pregnancy_mother</option>
+                    <option value="on_release_from_prison">on_release_from_prison</option>
+                    <option value="on_death">on_death</option>
+                    <option value="on_army_enter_province">on_army_enter_province</option>
+                    <option value="on_join_court">on_join_court</option>
+                    <option value="on_fired_from_council">on_fired_from_council</option>
+                    <option value="on_title_gain">on_title_gain</option>
+                    <option value="on_character_culture_change">on_character_culture_change</option>
+                    <option value="on_birth_child">on_birth_child</option>
+                    <option value="on_commander_combat_pulse">on_commander_combat_pulse</option>
+                    <option value="on_faith_created">on_faith_created</option>
+                    <option value="on_character_faith_change">on_character_faith_change</option>
+                    <option value="on_courtier_decided_to_move_to_pool">on_courtier_decided_to_move_to_pool</option>
+                    <option value="on_birthday">on_birthday</option>
+                    <option value="on_faith_conversion">on_faith_conversion</option>
+                    <option value="on_explicit_claim_gain">on_explicit_claim_gain</option>
+                    <option value="on_courtier_ready_to_move_to_pool">on_courtier_ready_to_move_to_pool</option>
+                    <option value="on_imprison">on_imprison</option>
+                    <option value="on_birth_mother">on_birth_mother</option>
+                    <option value="on_join_war_as_secondary">on_join_war_as_secondary</option>
+                    <option value="on_explicit_claim_lost">on_explicit_claim_lost</option>
+                    <option value="on_leave_council">on_leave_council</option>
+                    <option value="on_marriage">on_marriage</option>
+                    <option value="on_great_holy_war_recipient_replaced">on_great_holy_war_recipient_replaced</option>
+                  </select>
+
+              </div>
+            </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Title:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="eventTitle"></input>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+
+                <div class="component-edit-input-label">
+                  Theme:
+                </div>
+
+                <div class="component-edit-input-entry">
+                  <select class="component-option" name="theme" id="theme">
+                    <option value="unspecified"></option>
+                    <option value="default">default</option>
+                    <option value="abduct_scheme">abduct_scheme</option>
+                    <option value="befriend_scheme">befriend_scheme</option>
+                    <option value="culture_change">culture_change</option>
+                    <option value="diplomacy_family_focus">diplomacy_family_focus</option>
+                    <option value="dungeon">dungeon</option>
+                    <option value="faith">faith</option>
+                    <option value="friendly">friendly</option>
+                    <option value="hunting">hunting</option>
+                    <option value="intrigue_temptation_focus">intrigue_temptation_focus</option>
+                    <option value="learning_theology_focus">learning_theology_focus</option>
+                    <option value="martial">martial</option>
+                    <option value="medicine">medicine</option>
+                    <option value="party">party</option>
+                    <option value="pregnancy">pregnancy</option>
+                    <option value="rival_relation">rival_relation</option>
+                    <option value="seduction">seduction</option>
+                    <option value="stewardship_duty_focus">stewardship_duty_focus</option>
+                    <option value="vassal">vassal</option>
+                    <option value="alliance">alliance</option>
+                    <option value="claim_throne_scheme">claim_throne_scheme</option>
+                    <option value="death">death</option>
+                    <option value="diplomacy_foreign_affairs_focus">diplomacy_foreign_affairs_focus</option>
+                    <option value="dynasty">dynasty</option>
+                    <option value="family">family</option>
+                    <option value="generic_intrigue_scheme">generic_intrigue_scheme</option>
+                    <option value="intrigue">intrigue</option>
+                    <option value="love">love</option>
+                    <option value="martial_authority_focus">martial_authority_focus</option>
+                    <option value="mental_break">mental_break</option>
+                    <option value="pet">pet</option>
+                    <option value="prison">prison</option>
+                    <option value="romance_scheme">romance_scheme</option>
+                    <option value="skull">skull</option>
+                    <option value="stewardship_wealth_focus">stewardship_wealth_focus</option>
+                    <option value="war">war</option>
+                    <option value="bastardy">bastardy</option>
+                    <option value="corruption">corruption</option>
+                    <option value="diplomacy_majesty_focus">diplomacy_majesty_focus</option>
+                    <option value="education">education</option>
+                    <option value="feast_activity">feast_activity</option>
+                    <option value="healthcare">healthcare</option>
+                    <option value="intrigue_intimidation_focus">intrigue_intimidation_focus</option>
+                    <option value="learning_medicine_focus">learning_medicine_focus</option>
+                    <option value="lover_relation">lover_relation</option>
+                    <option value="martial_chivalry_focus">martial_chivalry_focus</option>
+                    <option value="mental_health">mental_health</option>
+                    <option value="physical_health">physical_health</option>
+                    <option value="realm">realm</option>
+                    <option value="secret">secret</option>
+                    <option value="stewardship">stewardship</option>
+                    <option value="sway_scheme">sway_scheme</option>
+                    <option value="witchcraft">witchcraft</option>
+                    <option value="battle">battle</option>
+                    <option value="crown">crown</option>
+                    <option value="diplomacy">diplomacy</option>
+                    <option value="dread">dread</option>
+                    <option value="fabricate_hook_scheme">fabricate_hook_scheme</option>
+                    <option value="friend_relation">friend_relation</option>
+                    <option value="hunt_activity">hunt_activity</option>
+                    <option value="intrigue_skulduggery_focus">intrigue_skulduggery_focus</option>
+                    <option value="learning_scholarship_focus">learning_scholarship_focus</option>
+                    <option value="marriage">marriage</option>
+                    <option value="martial_strategy_focus">martial_strategy_focus</option>
+                    <option value="murder_scheme">murder_scheme</option>
+                    <option value="pilgrimage_activity">pilgrimage_activity</option>
+                    <option value="recovery">recovery</option>
+                    <option value="seduce_scheme">seduce_scheme</option>
+                    <option value="stewardship_domain_focus">stewardship_domain_focus</option>
+                    <option value="unfriendly">unfriendly</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Override Background:
+                </div>
+
+                <div class="component-edit-input-entry">
+                  <select class="component-option" name="override-background" id="override-background">
+                    <option value="unspecified"></option>
+                    <option value="alley_day">alley_day</option>
+                    <option value="alley_night">alley_night</option>
+                    <option value="armory">armory</option>
+                    <option value="army_camp">army_camp</option>
+                    <option value="battlefield">battlefield</option>
+                    <option value="bedchamber">bedchamber</option>
+                    <option value="burning_building">burning_building</option>
+                    <option value="corridor_day">corridor_day</option>
+                    <option value="corridor_night">corridor_night</option>
+                    <option value="council_chamber">council_chamber</option>
+                    <option value="courtyard">courtyard</option>
+                    <option value="docks">docks</option>
+                    <option value="dungeon">dungeon</option>
+                    <option value="farmlands">farmlands</option>
+                    <option value="feast">feast</option>
+                    <option value="gallows">gallows</option>
+                    <option value="garden">garden</option>
+                    <option value="market">market</option>
+                    <option value="market_east">market_east</option>
+                    <option value="market_india">market_india</option>
+                    <option value="market_tribal">market_tribal</option>
+                    <option value="market_west">market_west</option>
+                    <option value="physicians_study">physicians_study</option>
+                    <option value="sitting_room">sitting_room</option>
+                    <option value="study">study</option>
+                    <option value="tavern">tavern</option>
+                    <option value="temple">temple</option>
+                    <option value="temple_church">temple_church</option>
+                    <option value="temple_generic">temple_generic</option>
+                    <option value="temple_mosque">temple_mosque</option>
+                    <option value="temple_scope">temple_scope</option>
+                    <option value="terrain">terrain</option>
+                    <option value="terrain_activity">terrain_activity</option>
+                    <option value="terrain_scope">terrain_scope</option>
+                    <option value="throne_room">throne_room</option>
+                    <option value="throne_room_east">throne_room_east</option>
+                    <option value="throne_room_india">throne_room_india</option>
+                    <option value="throne_room_mediterranean">throne_room_mediterranean</option>
+                    <option value="throne_room_scope">throne_room_scope</option>
+                    <option value="throne_room_tribal">throne_room_tribal</option>
+                    <option value="throne_room_west">throne_room_west</option>
+                    <option value="wilderness">wilderness</option>
+                    <option value="wilderness_desert">wilderness_desert</option>
+                    <option value="wilderness_forest">wilderness_forest</option>
+                    <option value="wilderness_forest_pine">wilderness_forest_pine</option>
+                    <option value="wilderness_mountains">wilderness_mountains</option>
+                    <option value="wilderness_scope">wilderness_scope</option>
+                    <option value="wilderness_steppe">wilderness_steppe</option>
+                  </select>
+                  </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Left Portrait:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="left-portrait" placeholder=""></input>
+                </div>
+              </div>
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Left Portrait Animation:
+                </div>
+                <div class="component-edit-input-entry">
+                  <select class="component-option" name="left-portrait-animation" id="left-portrait-animation">
+                    <option value="unspecified"></option>
+                    <option value="anger">anger</option>
+                    <option value="disbelief">disbelief</option>
+                    <option value="disgust">disgust</option>
+                    <option value="happiness">happiness</option>
+                    <option value="idle">idle</option>
+                    <option value="love">love</option>
+                    <option value="pain">pain</option>
+                    <option value="shock">shock</option>
+                    <option value="sick">sick</option>
+                    <option value="war_attacker">war_attacker</option>
+                    <option value="dismissal">dismissal</option>
+                    <option value="schadenfreude">schadenfreude</option>
+                    <option value="ecstasy">ecstasy</option>
+                    <option value="flirtation_left">flirtation_left</option>
+                    <option value="flirtation">flirtation</option>
+                    <option value="worry">worry</option>
+                    <option value="paranoia">paranoia</option>
+                    <option value="beg">beg</option>
+                    <option value="sadness">sadness</option>
+                    <option value="war_defender">war_defender</option>
+                    <option value="prison_dungeon">prison_dungeon</option>
+                    <option value="stress">stress</option>
+                    <option value="fear">fear</option>
+                    <option value="shame">shame</option>
+                    <option value="scheme">scheme</option>
+                    <option value="severelyinjured">severelyinjured</option>
+                    <option value="war_over_win">war_over_win</option>
+                    <option value="admiration">admiration</option>
+                    <option value="rage">rage</option>
+                    <option value="boredom">boredom</option>
+                    <option value="disapproval">disapproval</option>
+                    <option value="newborn">newborn</option>
+                    <option value="severelywounded">severelywounded</option>
+                    <option value="grief">grief</option>
+                    <option value="personality_callous">personality_callous</option>
+                    <option value="personality_greed">personality_greed</option>
+                    <option value="personality_irrational">personality_irrational</option>
+                    <option value="personality_cynical">personality_cynical</option>
+                    <option value="personality_coward">personality_coward</option>
+                    <option value="personality_content">personality_content</option>
+                    <option value="personality_rational">personality_rational</option>
+                    <option_value="personality-vengeful">personality_vengeful</option>
+                    <option value="personality_zealous">personality_zealous</option>
+                    <option value="personality_honorable">personality_honorable</option>
+                    <option value="personality_compassionate">personality_compassionate</option>
+                    <option value="personality_dishonorable">personality_dishonorable</option>
+                    <option value="personality_bold">personality_bold</option>
+                    <option value="personality_forigivng">personality_forgiving</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Right Portrait
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="right-portrait" placeholder=""></input>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Right Portrait Animation:
+                </div>
+                <div class="component-edit-input-entry">
+                  <select class="component-option" name="right-portrait-animation" id="right-portrait-animation">
+                    <option value="unspecified"></option>
+                    <option value="anger">anger</option>
+                    <option value="disbelief">disbelief</option>
+                    <option value="disgust">disgust</option>
+                    <option value="happiness">happiness</option>
+                    <option value="idle">idle</option>
+                    <option value="love">love</option>
+                    <option value="pain">pain</option>
+                    <option value="shock">shock</option>
+                    <option value="sick">sick</option>
+                    <option value="war_attacker">war_attacker</option>
+                    <option value="dismissal">dismissal</option>
+                    <option value="schadenfreude">schadenfreude</option>
+                    <option value="ecstasy">ecstasy</option>
+                    <option value="flirtation_left">flirtation_left</option>
+                    <option value="flirtation">flirtation</option>
+                    <option value="worry">worry</option>
+                    <option value="paranoia">paranoia</option>
+                    <option value="beg">beg</option>
+                    <option value="sadness">sadness</option>
+                    <option value="war_defender">war_defender</option>
+                    <option value="prison_dungeon">prison_dungeon</option>
+                    <option value="stress">stress</option>
+                    <option value="fear">fear</option>
+                    <option value="shame">shame</option>
+                    <option value="scheme">scheme</option>
+                    <option value="severelyinjured">severelyinjured</option>
+                    <option value="war_over_win">war_over_win</option>
+                    <option value="admiration">admiration</option>
+                    <option value="rage">rage</option>
+                    <option value="boredom">boredom</option>
+                    <option value="disapproval">disapproval</option>
+                    <option value="newborn">newborn</option>
+                    <option value="severelywounded">severelywounded</option>
+                    <option value="grief">grief</option>
+                    <option value="personality_callous">personality_callous</option>
+                    <option value="personality_greed">personality_greed</option>
+                    <option value="personality_irrational">personality_irrational</option>
+                    <option value="personality_cynical">personality_cynical</option>
+                    <option value="personality_coward">personality_coward</option>
+                    <option value="personality_content">personality_content</option>
+                    <option value="personality_rational">personality_rational</option>
+                    <option_value="personality-vengeful">personality_vengeful</option>
+                    <option value="personality_zealous">personality_zealous</option>
+                    <option value="personality_honorable">personality_honorable</option>
+                    <option value="personality_compassionate">personality_compassionate</option>
+                    <option value="personality_dishonorable">personality_dishonorable</option>
+                    <option value="personality_bold">personality_bold</option>
+                    <option value="personality_forigivng">personality_forgiving</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Lower Left Portrait:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="lower-left-portrait" placeholder=""></input>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Lower Center Portrait:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="lower-center-portrait" placeholder=""></input>
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  Lower Right Portrait:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="lower-right-portrait" placeholder=""></input>
+                </div>
+              </div>
+
+            </div>
+
+            <div id="trigger-block">
+
+              <h2 class="edit-subheading">Freestyle Triggers</h2>
+              <br><br><br>
+              <br>
+              <textarea class="freestyle-text-entry" wrap="hard" placeholder="If desired, write anything that would go in a trigger block." id="freestyle-trigger"></textarea>
+              <br><br>
+
+              <div id="trigger-input-list">
+
+              </div>
+
+            </div>
+            <div id="scopes-div">
+              <h2 class="edit-subheading">
+                Event Scopes
+              </h2>
+              <!--EVENT SCOPES WILL WORK BY ALLOWING TO CHOOSE SCOPE (e.g., mother, random_courtier), then click on that character to pull up triggers/limit scene-->
+              <div class="scope-add-delete-buttons" id="add-scope">
+                Add Scope
+              </div>
+              <div class="scope-add-delete-buttons" id="delete-scope">
+                Delete Scope
+              </div>
+              <br>
+              <div id="scopes-div-inner">
+
+              </div>
+
+            </div>
+
+            <div id="immediate-block">
+              <h2 class="edit-subheading">Immediate Effects</h2>
+              <br>
+              <br>
+              <h2 class="big-underlined-text">Effect:</h2>
+              <input type="text" class="big-input" placeholder="Tooltip" id="immediatetooltip1"></input>
+              <textarea class="big-option-textarea" placeholder="Effect Code" wrap="hard" id="immediate1"></textarea>
+
+              <br><br>
+              <h2 class="big-underlined-text">Apply to:</h2>
+              <div id="immediate-scopes-block">
+
               </div>
           </div>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Left Portrait:
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="left-portrait" placeholder=""></input>
-            </div>
-          </div>
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Left Portrait Animation:
-            </div>
-            <div class="component-edit-input-entry">
-              <select class="component-option" name="left-portrait-animation" id="left-portrait-animation">
-                <option value="unspecified"></option>
-                <option value="anger">anger</option>
-                <option value="disbelief">disbelief</option>
-                <option value="disgust">disgust</option>
-                <option value="happiness">happiness</option>
-                <option value="idle">idle</option>
-                <option value="love">love</option>
-                <option value="pain">pain</option>
-                <option value="shock">shock</option>
-                <option value="sick">sick</option>
-                <option value="war_attacker">war_attacker</option>
-                <option value="dismissal">dismissal</option>
-                <option value="schadenfreude">schadenfreude</option>
-                <option value="ecstasy">ecstasy</option>
-                <option value="flirtation_left">flirtation_left</option>
-                <option value="flirtation">flirtation</option>
-                <option value="worry">worry</option>
-                <option value="paranoia">paranoia</option>
-                <option value="beg">beg</option>
-                <option value="sadness">sadness</option>
-                <option value="war_defender">war_defender</option>
-                <option value="prison_dungeon">prison_dungeon</option>
-                <option value="stress">stress</option>
-                <option value="fear">fear</option>
-                <option value="shame">shame</option>
-                <option value="scheme">scheme</option>
-                <option value="severelyinjured">severelyinjured</option>
-                <option value="war_over_win">war_over_win</option>
-                <option value="admiration">admiration</option>
-                <option value="rage">rage</option>
-                <option value="boredom">boredom</option>
-                <option value="disapproval">disapproval</option>
-                <option value="newborn">newborn</option>
-                <option value="severelywounded">severelywounded</option>
-                <option value="grief">grief</option>
-                <option value="personality_callous">personality_callous</option>
-                <option value="personality_greed">personality_greed</option>
-                <option value="personality_irrational">personality_irrational</option>
-                <option value="personality_cynical">personality_cynical</option>
-                <option value="personality_coward">personality_coward</option>
-                <option value="personality_content">personality_content</option>
-                <option value="personality_rational">personality_rational</option>
-                <option_value="personality-vengeful">personality_vengeful</option>
-                <option value="personality_zealous">personality_zealous</option>
-                <option value="personality_honorable">personality_honorable</option>
-                <option value="personality_compassionate">personality_compassionate</option>
-                <option value="personality_dishonorable">personality_dishonorable</option>
-                <option value="personality_bold">personality_bold</option>
-                <option value="personality_forigivng">personality_forgiving</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Right Portrait
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="right-portrait" placeholder=""></input>
-            </div>
-          </div>
+            <div id="options-block">
+              <h2 class="edit-subheading">Options</h2>
+              <br>
+              <br><br>
+              <br>
+              <h2 class="big-underlined-text">Option:</h2>
+              <input type="text" class="big-input" placeholder="Option Text" id="option1text"></input>
+              <input type="text" class="big-input" placeholder="Tooltip" id="option1tooltip"></input>
+              <textarea class="big-option-textarea" placeholder="Option Effects Code" wrap="hard" id="option1code"></textarea>
+              <input type="text" class="big-input" placeholder="Trigger Another Event by Direction (e.g., NW, N, E, etc.)" id="option1next"></input>
+              <input type="text" class="big-input" placeholder="Trigger An On Action by Direction (e.g., NW, N, E, etc.)" id="option1onaction"></input>
+              <input type="text" class="big-input" placeholder="Trigger in How Many Days?" id="option1nextdays"></input>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Right Portrait Animation:
-            </div>
-            <div class="component-edit-input-entry">
-              <select class="component-option" name="right-portrait-animation" id="right-portrait-animation">
-                <option value="unspecified"></option>
-                <option value="anger">anger</option>
-                <option value="disbelief">disbelief</option>
-                <option value="disgust">disgust</option>
-                <option value="happiness">happiness</option>
-                <option value="idle">idle</option>
-                <option value="love">love</option>
-                <option value="pain">pain</option>
-                <option value="shock">shock</option>
-                <option value="sick">sick</option>
-                <option value="war_attacker">war_attacker</option>
-                <option value="dismissal">dismissal</option>
-                <option value="schadenfreude">schadenfreude</option>
-                <option value="ecstasy">ecstasy</option>
-                <option value="flirtation_left">flirtation_left</option>
-                <option value="flirtation">flirtation</option>
-                <option value="worry">worry</option>
-                <option value="paranoia">paranoia</option>
-                <option value="beg">beg</option>
-                <option value="sadness">sadness</option>
-                <option value="war_defender">war_defender</option>
-                <option value="prison_dungeon">prison_dungeon</option>
-                <option value="stress">stress</option>
-                <option value="fear">fear</option>
-                <option value="shame">shame</option>
-                <option value="scheme">scheme</option>
-                <option value="severelyinjured">severelyinjured</option>
-                <option value="war_over_win">war_over_win</option>
-                <option value="admiration">admiration</option>
-                <option value="rage">rage</option>
-                <option value="boredom">boredom</option>
-                <option value="disapproval">disapproval</option>
-                <option value="newborn">newborn</option>
-                <option value="severelywounded">severelywounded</option>
-                <option value="grief">grief</option>
-                <option value="personality_callous">personality_callous</option>
-                <option value="personality_greed">personality_greed</option>
-                <option value="personality_irrational">personality_irrational</option>
-                <option value="personality_cynical">personality_cynical</option>
-                <option value="personality_coward">personality_coward</option>
-                <option value="personality_content">personality_content</option>
-                <option value="personality_rational">personality_rational</option>
-                <option_value="personality-vengeful">personality_vengeful</option>
-                <option value="personality_zealous">personality_zealous</option>
-                <option value="personality_honorable">personality_honorable</option>
-                <option value="personality_compassionate">personality_compassionate</option>
-                <option value="personality_dishonorable">personality_dishonorable</option>
-                <option value="personality_bold">personality_bold</option>
-                <option value="personality_forigivng">personality_forgiving</option>
-              </select>
-            </div>
-          </div>
+              <br><br>
+              <h2 class="big-underlined-text">Apply to:</h2>
+              <div id="options-scopes-block">
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Lower Left Portrait:
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="lower-left-portrait" placeholder=""></input>
-            </div>
-          </div>
+              </div>
+              <br>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Lower Center Portrait:
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="lower-center-portrait" placeholder=""></input>
-            </div>
-          </div>
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai base chance:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-base-chance" placeholder="integer">
+                </div>
+              </div>
 
-          <div class="component-edit-input">
-            <div class="component-edit-input-label">
-              Lower Right Portrait:
-            </div>
-            <div class="component-edit-input-entry">
-              <input class="component-option" id="lower-right-portrait" placeholder=""></input>
-            </div>
-          </div>
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai boldness mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-boldness-mod" placeholder="integer">
+                </div>
+              </div>
 
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai compassion mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-compassion-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai honor mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-honor-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai energy mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-energy-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai greed mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-greed-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai rationality mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-rationality-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai sociability mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-sociability-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai vengefulness mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-vengefulness-mod" placeholder="integer">
+                </div>
+              </div>
+
+              <div class="component-edit-input">
+                <div class="component-edit-input-label">
+                  ai zeal mod.:
+                </div>
+                <div class="component-edit-input-entry">
+                  <input class="component-option" id="ai-zeal-mod" placeholder="integer">
+                </div>
+              </div>
+
+
+
+              <div id="component-option-effects">
+
+              </div>
+
+              <br><br>
+              <hr>
+              <br><br>
+
+            </div>
+
+            <div id="after-block">
+              <h2 class="edit-subheading">After Effects</h2>
+              <br>
+              <br>
+              <h2 class="big-underlined-text">Effect:</h2>
+              <input type="text" class="big-input" placeholder="Tooltip" id="aftertooltip1"></input>
+              <textarea class="big-option-textarea" placeholder="Effect Code" wrap="hard" id="after1"></textarea>
+
+              <br><br>
+              <h2 class="big-underlined-text">Apply to:</h2>
+              <div id="after-scopes-block">
+
+              </div>
+              <br>
+            </div>
+
+
+            </div><!--END middle BAR-->
+              </form>
+          </div>
         </div>
 
-    <div id="trigger-block">
 
-      <h2 class="edit-subheading">Freestyle Triggers</h2>
-      <br><br><br>
-      <br>
-      <textarea class="freestyle-text-entry" wrap="hard" placeholder="If desired, write anything that would go in a trigger block." id="freestyle-trigger"></textarea>
-      <br><br>
+      <div id="right-bar">
+        <div id="component-creation">
 
-      <div id="trigger-input-list">
-
+        </div>
       </div>
+    </div> <!-- END BARS-->
 
-    </div>
-
-    <div id="scopes-div">
-      <h2 class="edit-subheading">
-        Event Scopes
-      </h2>
-      <!--EVENT SCOPES WILL WORK BY ALLOWING TO CHOOSE SCOPE (e.g., mother, random_courtier), then click on that character to pull up triggers/limit scene-->
-      <div class="scope-add-delete-buttons" id="add-scope">
-        Add Scope
-      </div>
-      <div class="scope-add-delete-buttons" id="delete-scope">
-        Delete Scope
-      </div>
-      <br>
-      <div id="scopes-div-inner">
-
-      </div>
+    <div id="json-placeholder">
 
     </div>
 
 
 
-    <div id="immediate-block">
-      <h2 class="edit-subheading">Immediate Effects</h2>
-      <br>
-      <br>
-      <h2 class="big-underlined-text">Effect:</h2>
-      <input type="text" class="big-input" placeholder="Tooltip" id="immediatetooltip1"></input>
-      <textarea class="big-option-textarea" placeholder="Effect Code" wrap="hard" id="immediate1"></textarea>
-
-      <br><br>
-      <h2 class="big-underlined-text">Apply to:</h2>
-      <div id="immediate-scopes-block">
-
-      </div>
-
-    </div>
-
-    <div id="options-block">
-      <h2 class="edit-subheading">Options</h2>
-      <br>
-      <br><br>
-      <br>
-      <h2 class="big-underlined-text">Option:</h2>
-      <input type="text" class="big-input" placeholder="Option Text" id="option1text"></input>
-      <input type="text" class="big-input" placeholder="Tooltip" id="option1tooltip"></input>
-      <textarea class="big-option-textarea" placeholder="Option Effects Code" wrap="hard" id="option1code"></textarea>
-      <input type="text" class="big-input" placeholder="Trigger Another Event by Direction (e.g., NW, N, E, etc.)" id="option1next"></input>
-      <input type="text" class="big-input" placeholder="Trigger in How Many Days?" id="option1nextdays"></input>
-
-      <br><br>
-      <h2 class="big-underlined-text">Apply to:</h2>
-      <div id="options-scopes-block">
-
-      </div>
-      <br>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai base chance:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-base-chance" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai boldness mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-boldness-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai compassion mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-compassion-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai honor mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-honor-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai energy mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-energy-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai greed mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-greed-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai rationality mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-rationality-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai sociability mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-sociability-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai vengefulness mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-vengefulness-mod" placeholder="integer">
-        </div>
-      </div>
-
-      <div class="component-edit-input">
-        <div class="component-edit-input-label">
-          ai zeal mod.:
-        </div>
-        <div class="component-edit-input-entry">
-          <input class="component-option" id="ai-zeal-mod" placeholder="integer">
-        </div>
-      </div>
 
 
 
-      <div id="component-option-effects">
-
-      </div>
-
-      <br><br>
-      <hr>
-      <br><br>
-
-    </div>
-
-    <div id="after-block">
-      <h2 class="edit-subheading">After Effects</h2>
-      <br>
-      <br>
-      <h2 class="big-underlined-text">Effect:</h2>
-      <input type="text" class="big-input" placeholder="Tooltip" id="aftertooltip1"></input>
-      <textarea class="big-option-textarea" placeholder="Effect Code" wrap="hard" id="after1"></textarea>
-
-      <br><br>
-      <h2 class="big-underlined-text">Apply to:</h2>
-      <div id="after-scopes-block">
-
-      </div>
-      <br>
 
 
-    </div>
-    </form>
+
+
+
+
   </div>
 
   </div> <!--EVENT ENTRY WRAPPER END -->

@@ -26,7 +26,6 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: monospace;
-	font-size: 1.2em;
 	padding-bottom: 700px;
 }
 
@@ -102,91 +101,92 @@ table {
 	cursor: pointer;
 }
 
+.component-list-entry-left {
+	width: 98%
+}
+
 .component-list {
   display: grid;
-  grid-template-columns: 15% 85%;
+  grid-template-columns: 20% 80%;
   padding-left: 10px;
 }
 
 #localization-entry {
   width: 95%;
-  font-size: 1.2em;
 }
 
 #tag-travel {
 	width: 95%;
-	font-size: 1.2em;
 }
 
 #tag-entry {
 	width: 95%;
-  font-size: 1.2em;
 }
 
 #tag-removal {
   width: 95%;
-  font-size: 1.2em;
+
 }
 
 #tag-check {
   width: 95%;
-  font-size: 1.2em;
+
 }
 
 #run-grid-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #run-grid {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #tag-not-check {
   width: 95%;
-  font-size: 1.2em;
+
 }
 
 #variable-entry {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #variable-check {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #variable-not {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #variable-entry-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #variable-check-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #variable-not-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 .component-option {
 	width: 90%;
-	font-size: 1.2em;
+
 	margin-left: 5%;
 }
 
 .component-trigger {
 	width: 90%;
-	font-size: 1.2em;
+
 	margin-left: 5%;
 }
 
@@ -217,52 +217,56 @@ table {
 
 #localization-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #travel-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #set-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #remove-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #has-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #not-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #check-game-tags {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #check-game-tags-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #component-probability-edit {
 	width: 95%;
-	font-size: 1.2em;
+
 }
 
 #component-probability {
 	width: 95%;
-	font-size: 1.2em;
+
+}
+
+#variable-edit {
+	width: 95%;
 }
 
 #bottom-component-edit-bar {
@@ -291,20 +295,18 @@ table {
 }
 
 #create-component-button {
-	margin-top: 10px;
-  width: 100%;
-  font-size: 1.2em;
-  background: #00916E;
-  color: white;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+	width: 100%;
+	background: #00916E;
+	color: white;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 #copy-cell-button {
-	margin-top: 10px;
 	width: 100%;
-	font-size: 1.2em;
 	background: #00916E;
 	color: white;
 	text-align: center;
@@ -323,25 +325,25 @@ table {
 }
 
 #paste-cell-button {
-	margin-top: 10px;
 	width: 100%;
-	font-size: 1.2em;
 	background: #00916E;
 	color: white;
 	text-align: center;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 #quick-fill-cells-button {
-	margin-top: 10px;
-  width: 100%;
-  font-size: 1.2em;
-  background: #00916E;
-  color: white;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+	width: 100%;
+	background: #00916E;
+	color: white;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 #quick-fill-cells-button:hover {
@@ -355,9 +357,6 @@ table {
 }
 
 #component-creation {
-	position: absolute;
-  z-index: 1;
-	width: 100%;
 }
 
 .inner-header-bar {
@@ -389,8 +388,6 @@ table {
 #event-entry-wrapper {
   display: block;
   height: 97vh;
-	padding-left: 50px;
-	padding-right: 50px;
 }
 
 
@@ -407,7 +404,7 @@ table {
 }
 
 .component-list-entry {
-  width: 70%
+	width: 95%;
 }
 
 .tooltip {
@@ -462,6 +459,12 @@ table {
 }
 
 .freestyle-text-entry {
+	width: 97%;
+	height: 200px;
+	resize: none;
+}
+
+.large-text-area {
 	width: 97%;
 	height: 200px;
 	resize: none;
@@ -600,7 +603,7 @@ table {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	text-align: center;
-	font-size: 1.2em
+	font-size: 1em
 }
 
 .full-select-no-margin {
@@ -608,7 +611,7 @@ table {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	text-align: center;
-	font-size: 1.2em
+	font-size: 1em;
 }
 
 .scope-add-delete-buttons {
@@ -673,4 +676,19 @@ table {
 
 .scope-trigger-selection {
 	width: 90%;
+}
+
+#bars {
+	display: grid;
+	grid-template-columns: 25vw 55vw 20vw;
+}
+
+#left-bar {
+	border-right: 1px solid black;
+	border-collapse: collapse;
+}
+
+#right-bar {
+	border-left: 1px solid black;
+	border-collapse: collapse;
 }

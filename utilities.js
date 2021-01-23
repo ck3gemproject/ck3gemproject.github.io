@@ -421,7 +421,7 @@ GID("paste-cell-button").onclick = function() {
 
 GID("on-action-button").onclick = function() {
   GID("code-box").style.display = "none";
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
   GID("json-placeholder").style.display = "none";
   GID("on-action-box").style.display = "block";
@@ -1093,6 +1093,16 @@ GID("on-action-button").onclick = function() {
     t += `${p(2)}}${ep()}`
     t+= `${p()}}${ep()}`
   }
+  for (let i = 0; i < globalOnActionArray.length; i++) {
+    t += `${p()}${globalOnActionArray[i].name} = {${ep()}`
+    t += `${p(2)}random_events = {${ep()}`
+    for (let j = 0; j < globalOnActionArray[i].eventList.length; j++) {
+      let num = normalizeNumber(globalOnActionArray[i].eventList[j])
+      t += `${p(4)}100 = ${namespace}.${num}${ep()}`
+    }
+    t += `${p(2)}}${ep()}`
+    t += `${p()}}${ep()}`
+  }
   let othert = t;
   othert = othert.replace(/\&nbsp/gi, " ")
   othert = othert.replace(/\<\/br\>/gi, "\n")
@@ -1113,7 +1123,7 @@ GID("event-code-button").onclick = function() {
   GID("code-box").innerHTML = "";
   GID("code-box").innerHTML += `<a id="code-download-link" download="${namespace}_events.txt" href="">Download as Text File</a></br></br>`
   GID("code-box").innerHTML += `${t}`;
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
   GID("json-placeholder").style.display = "none";
   GID("on-action-box").style.display = "none";
@@ -1127,7 +1137,7 @@ GID("event-code-button").onclick = function() {
 
 GID("creator-button").onclick = function() {
   GID("code-box").style.display = "none";
-  GID("event-entry-wrapper").style.display = "grid";
+  GID("bars").style.display = "grid";
   GID("localization-box").style.display = "none";
   GID("json-placeholder").style.display = "none";
   GID("on-action-box").style.display = "none";
@@ -1136,7 +1146,7 @@ GID("creator-button").onclick = function() {
 
 GID("generator-settings-button").onclick = function() {
   GID("code-box").style.display = "none";
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
   GID("json-placeholder").style.display = "none";
   GID("on-action-box").style.display = "none";
@@ -1145,7 +1155,7 @@ GID("generator-settings-button").onclick = function() {
 
 
 GID("event-localization-button").onclick = function() {
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   let t = "";
 
   for (let i = 0; i < eventLocalizationArr.length; i++) {
@@ -1154,7 +1164,7 @@ GID("event-localization-button").onclick = function() {
     }
     t += eventLocalizationArr[i];
   }
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "block";
   GID("code-box").style.display = "none";
   GID("json-placeholder").style.display = "none";
@@ -1174,7 +1184,7 @@ GID("export-grid-to-JSON-button").onclick = function() {
   let j = JSON.stringify(currentGrid());
   GID("json-placeholder").innerHTML = j;
   GID("json-placeholder").style.display = "block";
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
   GID("code-box").style.display = "none";
   GID("on-action-box").style.display = "none";
@@ -1185,7 +1195,7 @@ GID("export-grid-to-JSON-button").onclick = function() {
   let j = JSON.stringify(generator);
   GID("json-placeholder").innerHTML = j;
   GID("json-placeholder").style.display = "block";
-  GID("event-entry-wrapper").style.display = "none";
+  GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
   GID("code-box").style.display = "none";
   GID("on-action-box").style.display = "none";

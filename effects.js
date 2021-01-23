@@ -99,7 +99,6 @@ function parseWikipedia(wikipedia) {
         unfiltered: []
       };
     }
-    console.log(newObjects);
   }
   */
 }

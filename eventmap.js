@@ -1,4 +1,5 @@
 let generator = {};
+generator.varObjArr = [];
 generator.globalGridsArr = [];
 generator.gridStack = [];
 generator.currentGridIndex = 0;
@@ -149,7 +150,7 @@ function refillGridSelect() {
 
 
 function drawEventMap() {
-  GID("event-map").innerHTML = "<div id=select-grid></div>"
+  GID("grid-selection-box").innerHTML = "<div id=select-grid></div>"
   let t = "";
   t += `<select class=full-select id="select-grid-options">`
   for (let i = 0; i < generator.globalGridsArr.length; i++) {
@@ -163,8 +164,10 @@ function drawEventMap() {
     clearGrid();
     refreshGrid();
   }
-  GID("event-map").innerHTML += "<div class='grid-buttons' id='add-grid-button'>Add Grid</div><div class='grid-buttons' id='delete-grid-button'>Delete Grid</div>"
-  GID("event-map").innerHTML += `<div id="map">${createGrid(9, 50)}</div>`
+  GID("grid-selection-box").innerHTML += "<div class='grid-buttons' id='add-grid-button'>Add Grid</div><div class='grid-buttons' id='delete-grid-button'>Delete Grid</div>"
+  let mapText = `<div id="map">${createGrid(9, 50)}</div>${GID("middle-bar").innerHTML}`
+  GID("middle-bar").innerHTML = `${mapText}`;
+
 
   //ADD GRID
   GID("add-grid-button").onclick = function() {
@@ -187,7 +190,19 @@ function drawEventMap() {
   GID("delete-grid-button").onclick = function() {
     generator.globalGridsArr.splice(generator.currentGridIndex, 1);
     refillGridSelect();
+    let t = "";
+    t += `<select class=full-select id="select-grid-options">`
+    for (let i = 0; i < generator.globalGridsArr.length; i++) {
+      t += `<option value="${generator.globalGridsArr[i].gridName}">${generator.globalGridsArr[i].gridName}</option>`
+    }
+    t += "</select>"
     GID("select-grid").innerHTML = t;
+    GID("select-grid-options").value = generator.globalGridsArr[generator.currentGridIndex].gridName
+    GID("select-grid").onchange = function() {
+      generator.currentGridIndex = GID("select-grid-options").selectedIndex;
+      clearGrid();
+      refreshGrid();
+    }
 
     setupGrid();
   }
