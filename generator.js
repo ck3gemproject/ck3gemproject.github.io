@@ -5,7 +5,6 @@ function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
   for (let i = 0; i < num; i++) {
-    generator.varObjArr = [];
     workingEventArr.push(generate());
   }
   for (let i = 0; i < workingEventArr.length; i++) {
@@ -77,7 +76,7 @@ function generateSubgrid(gridObject, e) {
         //check has tags
         if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true && variableCheck(currentComponent, e) === true) {
           timeoutPreventer = 0;
-          addComponentToEvent(loc, currentComponent, e, currentCell)
+          addComponentToEvent(loc, currentComponent, e, currentCell, gridObject.gridName)
           removeSetTags(currentComponent, e);
 
           //MOVE ON
@@ -246,7 +245,8 @@ function variableCheck(c, e) {
   return equalityChecks;
 }
 
-function generate(input) {
+function generate(input, varObjArr) {
+  console.log(currentGrid().gridName);
   let e = {};
   let start = input || getRandomStart();
   if (start) {
@@ -266,7 +266,7 @@ function generate(input) {
     e.doesNotHaveTags = [];
     e.runStack = []
     e.variables = [];
-    e.varObjArr = [];
+    e.varObjArr = varObjArr || [];
 
     e.factor = 100;
     let currentCell = currentGrid().grid[y][x];
@@ -292,7 +292,7 @@ function generate(input) {
         //check has tags
         if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true && variableCheck(currentComponent, e) === true) {
           timeoutPreventer = 0;
-          addComponentToEvent(loc, currentComponent, e, currentCell)
+          addComponentToEvent(loc, currentComponent, e, currentCell, currentGrid().gridName)
           removeSetTags(currentComponent, e);
 
           //MOVE ON
@@ -403,7 +403,7 @@ function eventDoesNotHaveTags(currentComponent, e) {
   return true;
 }
 
-function addComponentToEvent(loc, currentComponent, e, currentCell) {
+function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
 
 
 
@@ -489,30 +489,35 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
 
     currentOption.nextStartList = [];
     let nextArr = currentOption.next.split(",");
+    if (gridName) {
+
+    } else {
+      gridName = currentGrid().gridName
+    }
     for (let j = 0; j < nextArr.length; j++) {
       if (nextArr[j] === "NW") {
-        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y + 1])
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y + 1], gridName)
       }
       if (nextArr[j] === "N") {
-        currentOption.nextStartList.push([currentCell.x, currentCell.y + 1])
+        currentOption.nextStartList.push([currentCell.x, currentCell.y + 1, gridName])
       }
       if (nextArr[j] === "NE") {
-        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y + 1])
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y + 1, gridName])
       }
       if (nextArr[j] === "E") {
-        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y])
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y, gridName])
       }
       if (nextArr[j] === "SE") {
-        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y - 1])
+        currentOption.nextStartList.push([currentCell.x + 1, currentCell.y - 1, gridName])
       }
       if (nextArr[j] === "S") {
-        currentOption.nextStartList.push([currentCell.x, currentCell.y - 1]);
+        currentOption.nextStartList.push([currentCell.x, currentCell.y - 1, gridName]);
       }
       if (nextArr[j] === "SW") {
-        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y - 1])
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y - 1, gridName])
       }
       if (nextArr[j] === "W") {
-        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y])
+        currentOption.nextStartList.push([currentCell.x - 1, currentCell.y, gridName])
       }
     }
     currentOption.onActionStartList = [];
@@ -520,28 +525,28 @@ function addComponentToEvent(loc, currentComponent, e, currentCell) {
     for (let j = 0; j < nextOnActions.length; j++) {
       nextOnActions[j] = nextOnActions[j].trim();
       if (nextOnActions[j] === "NW") {
-        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y + 1])
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y + 1, gridName])
       }
       if (nextOnActions[j] === "N") {
-        currentOption.onActionStartList.push([currentCell.x, currentCell.y + 1])
+        currentOption.onActionStartList.push([currentCell.x, currentCell.y + 1, gridName])
       }
       if (nextOnActions[j] === "NE") {
-        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y + 1])
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y + 1, gridName])
       }
       if (nextOnActions[j] === "E") {
-        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y])
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y, gridName])
       }
       if (nextOnActions[j] === "SE") {
-        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y - 1])
+        currentOption.onActionStartList.push([currentCell.x + 1, currentCell.y - 1, gridName])
       }
       if (nextOnActions[j] === "S") {
-        currentOption.onActionStartList.push([currentCell.x, currentCell.y - 1]);
+        currentOption.onActionStartList.push([currentCell.x, currentCell.y - 1, gridName]);
       }
       if (nextOnActions[j] === "SW") {
-        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y - 1])
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y - 1, gridName])
       }
       if (nextOnActions[j] === "W") {
-        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y])
+        currentOption.onActionStartList.push([currentCell.x - 1, currentCell.y, gridName])
       }
     }
   }

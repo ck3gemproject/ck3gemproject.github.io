@@ -329,7 +329,7 @@ function makeEventCode(e) {
         currentIndent += 1;
         //eText += `${p(currentIndent)}on_action = ${namespace}_on_action_${normalizeNumber(globalOnActionArray.length + 1)}${ep()}`
         let rand = getRandomInt(0, e.options[i].onActionStartList.length - 1);
-        eText += `${p(currentIndent)}on_action = onAction${currentGrid().gridName}X${e.options[i].onActionStartList[rand][0]}Y${e.options[i].onActionStartList[rand][1]}${ep()}`
+        eText += `${p(currentIndent)}on_action = onAction${e.options[i].onActionStartList[rand][2]}X${e.options[i].onActionStartList[rand][0]}Y${e.options[i].onActionStartList[rand][1]}${ep()}`
         if (e.options[i].nextDays) {
           eText += `${p(currentIndent)}days = ${e.options[i].nextDays || 1}${ep()}`
         }
@@ -497,7 +497,7 @@ function makeEventCode(e) {
 
   for (let i = 0; i < e.options.length; i++) {
     for (let j = 0; j < e.options[i].nextStartList.length; j++) {
-      let nextE = generate(e.options[i].nextStartList[j]);
+      let nextE = generate(e.options[i].nextStartList[j], e.varObjArr);
 
       makeEventCode(nextE)
       eventsList.push(nextE);
@@ -507,7 +507,7 @@ function makeEventCode(e) {
     if (e.options[i].onActionStartList && e.options[i].onActionStartList.length > 0) {
       for (let j = 0; j < e.options[i].onActionStartList.length; j++) {
         let o = {};
-        o.name = `onAction${currentGrid().gridName}X${e.options[i].onActionStartList[j][0]}Y${e.options[i].onActionStartList[j][1]}`
+        o.name = `onAction${e.options[i].onActionStartList[j][2]}X${e.options[i].onActionStartList[j][0]}Y${e.options[i].onActionStartList[j][1]}`
         o.x = e.options[i].onActionStartList[j][0]
         o.y = e.options[i].onActionStartList[j][1];
         let exists = false;

@@ -21,6 +21,7 @@ GID("save-grid-button").onclick = function() {
 
 GID("load-grid-button").onclick = function() {
   generator = loadGrid()
+  generator.currentGridIndex = 0;
   globalScopes = generator.globalScopes;
   scopeCounter = 0;
   GID("scopes-div-inner").innerHTML = "";
