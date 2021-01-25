@@ -124,9 +124,10 @@ function makeEventCode(e) {
   //DESCRIPTIONS
   if (e.loc.length === 0) {
 
-  } else if (e.loc.length === 1) {
+  } /*else if (e.loc.length === 1) {
     eText += `${p(1)}desc = ${namespace}.${normalizeNumber(creationCounter)}.desc${ep()}`
-  } else {
+  } */
+  else {
 
 
       //FIX DESCRIPTIONS ISSUE HERE
@@ -141,7 +142,11 @@ function makeEventCode(e) {
         if (arr.length === 0) {
 
         } else if (arr.length === 1) {
-          eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
+          if (e.loc.length === 1) {
+            eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.desc${ep()}`
+          } else {
+            eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
+          }
           locCounter += 1;
           /*if (arr[0].loc.match(spacesOnly)) {
 
