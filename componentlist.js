@@ -91,6 +91,8 @@ GID("quick-fill-cells-button").onclick = function() {
         varObjArr.push(o);
       }
     }
+  } else {
+    variables =[];
   }
   for (let i = 0; i < arr.length; i++) {
     currentGrid().grid[y][x].components.push({
@@ -144,6 +146,8 @@ GID("create-component-button").onclick = function() {
         varObjArr.push(o);
       }
     }
+  } else {
+    variables = [];
   }
 
 
@@ -356,6 +360,8 @@ function saveComponentEdits(comp) {
         comp.varObjArr.push(o);
       }
     }
+  } else {
+    comp.variables = [];
   }
 
   let title = GID("eventTitle").value;

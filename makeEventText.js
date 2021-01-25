@@ -142,11 +142,8 @@ function makeEventCode(e) {
         if (arr.length === 0) {
 
         } else if (arr.length === 1) {
-          if (e.loc.length === 1) {
-            eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.desc${ep()}`
-          } else {
-            eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
-          }
+          eText += `${p(currentIndent)}desc = ${namespace}.${normalizeNumber(creationCounter)}.loc_${locCounter}.desc${ep()}`
+
           locCounter += 1;
           /*if (arr[0].loc.match(spacesOnly)) {
 

@@ -680,7 +680,7 @@ function isLocalizationCell(cell) {
       let c = cell.components[i];
       //need to check for immediate, etc.
       //c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0
-      if (c.loc && c.tags === "" && c.variables && c.variables === "" && c.hasTags === "" && c.doesNotHaveTags === "" && c.removeTags === "" && c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0) {
+      if (c.loc && c.tags.length === 0 && c.variables && c.variables.length === 0 && c.hasTags.length === 0 && c.doesNotHaveTags.length === 0 && c.removeTags.length === 0 && c.immediateEffects && c.immediateEffects.length === 0 && c.afterEffects && c.afterEffects.length === 0 && c.options && c.options.length === 0) {
 
       } else {
         justLoc = false;
