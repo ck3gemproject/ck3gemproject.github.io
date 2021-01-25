@@ -69,7 +69,7 @@ function fillComponentList() {
 GID("quick-fill-cells-button").onclick = function() {
   let x = currentGrid().current.x;
   let y = currentGrid().current.y;
-  let arr = GID("quick-fill-loc-entry").value.split(",");
+  let arr = GID("quick-fill-loc-entry").value.split("@");
   let tags = GID("quick-fill-tags-entry").value;
   let hasTags = GID("quick-fill-has-tags-entry").value;
   let doesNotHaveTags = GID("quick-fill-not-tags-entry").value;

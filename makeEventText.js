@@ -497,7 +497,7 @@ function makeEventCode(e) {
 
   for (let i = 0; i < e.options.length; i++) {
     for (let j = 0; j < e.options[i].nextStartList.length; j++) {
-      let nextE = generate(e.options[i].nextStartList[j], e.varObjArr);
+      let nextE = generate(e.options[i].nextStartList[j]);
 
       makeEventCode(nextE)
       eventsList.push(nextE);
@@ -510,6 +510,7 @@ function makeEventCode(e) {
         o.name = `onAction${e.options[i].onActionStartList[j][2]}X${e.options[i].onActionStartList[j][0]}Y${e.options[i].onActionStartList[j][1]}`
         o.x = e.options[i].onActionStartList[j][0]
         o.y = e.options[i].onActionStartList[j][1];
+        o.varObjArr = e.varObjArr;
         let exists = false;
         for (let x = 0; x < globalOnActionArray.length; x++) {
           if (globalOnActionArray[x].name === o.name) {

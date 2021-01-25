@@ -1,9 +1,12 @@
 let workingEventArr = [];
 let newEventArr = [];
 
+let globalVariables = [];
+
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
+
   for (let i = 0; i < num; i++) {
     workingEventArr.push(generate());
   }
@@ -19,11 +22,12 @@ function runGenerationMachine(num) {
 
   for (let i = 0; i < globalOnActionArray.length; i++) {
     console.log(globalOnActionArray[i])
+    let vArr = globalOnActionArray[i].varObjArr;
     let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
     console.log(coords);
     globalOnActionArray[i].eventList = [];
     for (let z = 0; z < 100; z++) {
-      let nextE = generate(coords);
+      let nextE = generate(coords, vArr);
       makeEventCode(nextE);
       eventsList.push(nextE);
       globalOnActionArray[i].eventList.push(creationCounter);
@@ -245,7 +249,7 @@ function variableCheck(c, e) {
   return equalityChecks;
 }
 
-function generate(input, varObjArr) {
+function generate(input, varArr) {
   console.log(currentGrid().gridName);
   let e = {};
   let start = input || getRandomStart();
@@ -266,7 +270,11 @@ function generate(input, varObjArr) {
     e.doesNotHaveTags = [];
     e.runStack = []
     e.variables = [];
-    e.varObjArr = varObjArr || [];
+    if (varArr) {
+      e.varObjArr = varArr;
+    } else {
+      e.varObjArr = globalVariables;
+    }
 
     e.factor = 100;
     let currentCell = currentGrid().grid[y][x];
@@ -343,6 +351,8 @@ function generate(input, varObjArr) {
   } else {
     alert("You need to place a START tag before generation.")
   }
+  globalVariables = e.varObjArr;
+  console.log(globalVariables);
   return e;
 }
 
