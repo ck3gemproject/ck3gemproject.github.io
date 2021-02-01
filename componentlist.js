@@ -208,6 +208,15 @@ function makeClickableComponentList() {
       GID("remove-edit").value = comp.removeTags;
       GID("not-edit").value = comp.doesNotHaveTags;
       GID("run-grid-edit").value = comp.runGrid;
+      if (comp.title) {
+        GID("eventTitle").value = comp.title
+      }
+      if (comp.fileName) {
+        GID("file-name").value = comp.fileName
+      }
+      if (comp.fileCode) {
+        GID("file-code").value = comp.fileCode;
+      }
       GID("component-probability-edit").value = comp.probability;
       GID("variable-edit").value = comp.variables;
       GID("settings-block").style.display = "block";
@@ -284,6 +293,14 @@ function makeClickableComponentList() {
 
 function saveComponentEdits(comp) {
   comp.triggers = [];
+  let fn = GID("file-name").value;
+  let fc = GID("file-code").value;
+  console.log(fn);
+  console.log(fc);
+  if (fn.length > 0 && fc.length > 0) {
+    comp.fileName = fn;
+    comp.fileCode = fc;
+  }
   let onActions = GID("on-action-select").value;
   if (onActions !== "unspecified") {
     comp.onAction = onActions

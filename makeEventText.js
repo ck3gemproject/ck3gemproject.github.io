@@ -1,5 +1,27 @@
 let globalOnActionArray = [];
 
+function appropriateSpacing(eText, currentIndent, codeArr) {
+  for (let z = 0; z < codeArr.length; z++) {
+    let currentOption = codeArr[z];
+    let currentArr = currentOption.split(`\n`);
+
+    for (let n = 0; n < currentArr.length; n++) {
+      currentArr[n] = currentArr[n].replace(/^\s+/, "")
+      if (currentArr[n].includes("{")) {
+        eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+        currentIndent += 1;
+      } else if (currentArr[n].includes("}")) {
+        currentIndent -= 1;
+        eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+      } else {
+        eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+      }
+    }
+    //eText += `${p(2)}${e.options[i].code[z]}${ep()}`
+    return eText
+  }
+}
+
 function makeEventCode(e) {
   let nextCounter = creationCounter;
 
@@ -252,18 +274,20 @@ function makeEventCode(e) {
         }
         currentIndent -= 1
         eText += `${p(currentIndent)}}${ep()}`
+        currentIndent -= 1;
+        eText += `${p(currentIndent)}}${ep()}`
         if (tt === true) {
           eText += `${p(currentIndent)}custom_tooltip = ${namespace}.${normNum}_${tipCounter}_tip${ep()}`
           tipCounter += 1;
         }
-        eText += `${p(currentIndent)}${e.immediateEffects[i].code}${ep()}`;
+        eText = appropriateSpacing(eText, currentIndent, e.immediateEffects[i].code)
 
       } else {
         if (tt === true) {
           eText += `${p(currentIndent)}custom_tooltip = ${namespace}.${normNum}_${tipCounter}_tip${ep()}`
           tipCounter += 1;
         }
-        eText += `${p(currentIndent)}${e.immediateEffects[i].code}${ep()}`;
+        eText = appropriateSpacing(eText, currentIndent, e.immediateEffects[i].code)
       }
       //end scope
       if (e.immediateEffects[i].scopeNumber && e.immediateEffects[i].scopeNumber !== "") {
@@ -346,9 +370,7 @@ function makeEventCode(e) {
           eText += `${p(currentIndent)}scope:scope${e.options[i].scopeNumber} = {${ep()}`
           currentIndent += 1;
         }
-        for (let z = 0; z < e.options[i].code.length; z++) {
-          eText += `${p(currentIndent)}${e.options[i].code[z]}${ep()}`;
-        }
+        eText = appropriateSpacing(eText, currentIndent, e.options[i].code)
         if (e.options[i].scopeNumber && e.options[i].scopeNumber !== "") {
           currentIndent -= 1
           eText += `${p(currentIndent)}}${ep()}`
@@ -359,24 +381,7 @@ function makeEventCode(e) {
           eText += `${p(currentIndent)}scope:scope${e.options[i].scopeNumber} = {${ep()}`
           currentIndent += 1;
         }
-        for (let z = 0; z < e.options[i].code.length; z++) {
-          let currentOption = e.options[i].code[z];
-          let currentArr = currentOption.split(`\n`);
-
-          for (let n = 0; n < currentArr.length; n++) {
-            currentArr[n] = currentArr[n].replace(/^\s+/, "")
-            if (currentArr[n].includes("{")) {
-              eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
-              currentIndent += 1;
-            } else if (currentArr[n].includes("}")) {
-              currentIndent -= 1;
-              eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
-            } else {
-              eText += `${p(currentIndent)}${currentArr[n]}${ep()}`;
-            }
-          }
-          //eText += `${p(2)}${e.options[i].code[z]}${ep()}`
-        }
+        eText = appropriateSpacing(eText, currentIndent, e.options[i].code)
         if (e.options[i].scopeNumber && e.options[i].scopeNumber !== "") {
           currentIndent -= 1
           eText += `${p(currentIndent)}}${ep()}`
@@ -468,17 +473,19 @@ function makeEventCode(e) {
       }
       currentIndent -= 1;
       eText += `${p(currentIndent)}}${ep()}`
+      currentIndent -= 1;
+      eText += `${p(currentIndent)}}${ep()}`
       if (tt === true) {
         eText += `${p(currentIndent)}custom_tooltip = ${namespace}.${normNum}_${tipCounter}_tip${ep()}`
         tipCounter += 1;
       }
-      eText += `${p(currentIndent)}${e.afterEffects[i].code}${ep()}`;
+      eText = appropriateSpacing(eText, currentIndent, e.afterEffects[i].code);
     } else {
       if (tt === true) {
         eText += `${p(currentIndent)}custom_tooltip = ${namespace}.${normNum}_${tipCounter}_tip${ep()}`
         tipCounter += 1;
       }
-      eText += `${p(currentIndent)}${e.afterEffects[i].code}${ep()}`;
+      eText = appropriateSpacing(eText, currentIndent, e.afterEffects[i].code);
     }
     //end scope
     if (e.afterEffects[i].scopeNumber && e.afterEffects[i].scopeNumber !== "") {
@@ -513,6 +520,7 @@ function makeEventCode(e) {
         o.x = e.options[i].onActionStartList[j][0]
         o.y = e.options[i].onActionStartList[j][1];
         o.varObjArr = e.varObjArr;
+        o.eventList = [];
         let exists = false;
         for (let x = 0; x < globalOnActionArray.length; x++) {
           if (globalOnActionArray[x].name === o.name) {

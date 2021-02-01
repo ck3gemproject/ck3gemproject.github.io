@@ -1,5 +1,7 @@
 let workingEventArr = [];
 let newEventArr = [];
+let buildWorld = false;
+let globalFileList = [];
 
 let globalVariables = [];
 
@@ -7,33 +9,37 @@ function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
 
-  for (let i = 0; i < num; i++) {
-    workingEventArr.push(generate());
-  }
-  for (let i = 0; i < workingEventArr.length; i++) {
-    let currentEvent = workingEventArr[i];
-    //makeEventLocalization(currentEvent)
-    if (eventCodeArr.length === 0) {
-      eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
-    }
-    makeEventCode(currentEvent);
-    eventsList.push(currentEvent);
-  }
+  if (buildWorld === true) {
 
-  for (let i = 0; i < globalOnActionArray.length; i++) {
-    console.log(globalOnActionArray[i])
-    let vArr = globalOnActionArray[i].varObjArr;
-    let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
-    console.log(coords);
-    globalOnActionArray[i].eventList = [];
-    for (let z = 0; z < 100; z++) {
-      let nextE = generate(coords, vArr);
-      makeEventCode(nextE);
-      eventsList.push(nextE);
-      globalOnActionArray[i].eventList.push(creationCounter);
+  } else {
+    for (let i = 0; i < num; i++) {
+      workingEventArr.push(generate());
     }
+    for (let i = 0; i < workingEventArr.length; i++) {
+      let currentEvent = workingEventArr[i];
+      //makeEventLocalization(currentEvent)
+      if (eventCodeArr.length === 0) {
+        eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
+      }
+      makeEventCode(currentEvent);
+      eventsList.push(currentEvent);
+    }
+
+    for (let i = 0; i < globalOnActionArray.length; i++) {
+      console.log(globalOnActionArray[i])
+      let vArr = globalOnActionArray[i].varObjArr;
+      let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
+      console.log(coords);
+      for (let z = 0; z < 100; z++) {
+        let nextE = generate(coords, vArr);
+        makeEventCode(nextE);
+        eventsList.push(nextE);
+        globalOnActionArray[i].eventList.push(creationCounter);
+      }
+    }
+    console.log(globalOnActionArray)
   }
-  console.log(globalOnActionArray)
+  console.log(globalFileList);
 }
 
 function getGridByName(name) {
@@ -413,9 +419,31 @@ function eventDoesNotHaveTags(currentComponent, e) {
   return true;
 }
 
+function addCodeToFileList(name, code) {
+  let exists = false;
+  for (let i = 0; i < globalFileList.length; i++) {
+    if (globalFileList[i].fileName === name) {
+      exists = true;
+      globalFileList[i].code += `</br>${code}`;
+    }
+  }
+  if (exists === false) {
+    globalFileList.push(
+      {
+        fileName: name,
+        code: code
+      }
+    )
+  }
+}
+
 function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
 
 
+
+  if (currentComponent.fileName && currentComponent.fileCode) {
+    addCodeToFileList(currentComponent.fileName, currentComponent.fileCode)
+  }
 
 
   if (currentComponent.leftPortrait) {
@@ -454,7 +482,7 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
     e.theme = currentComponent.theme;
   }
   if (currentComponent.title) {
-    e.title = currentComponent.title
+    e.title = replaceVariable(e, currentComponent.title)
   }
   if (currentComponent.backgroundOverride) {
     e.backgroundOverride = currentComponent.backgroundOverride
@@ -485,13 +513,31 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
 
   if (currentComponent.immediateEffects) {
     for (let i = 0; i < currentComponent.immediateEffects.length; i++) {
-      e.immediateEffects.push(currentComponent.immediateEffects[i])
+      e.immediateEffects.push(_.cloneDeep(currentComponent.immediateEffects[i]))
+      let lastEffect = e.immediateEffects.length - 1;
+      let o = e.immediateEffects[lastEffect]
+      if (o.tooltip) {
+        o.tooltip = replaceVariable(e, o.tooltip);
+      }
+      if (o.code.length > 0) {
+        for (let z = 0; z < o.code.length; z++) {
+          o.code[z] = replaceVariable(e, o.code[z])
+        }
+      }
     }
   }
 
   if (currentComponent.options.length > 0) {
     for (let m = 0; m < currentComponent.options.length; m++) {
-      e.options.push(currentComponent.options[m])
+      let o = _.cloneDeep(currentComponent.options[m]);
+      e.options.push(o)
+      console.log(o);
+      o.text = replaceVariable(e, o.text);
+      o.tooltip = replaceVariable(e, o.tooltip);
+      for (let z = 0; z < o.code.length; z++) {
+        o.code[z] = replaceVariable(e, o.code[z]);
+      }
+      o.nextDays = replaceVariable(e, o.nextDays);
     }
 
 
@@ -563,7 +609,17 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
 
   if (currentComponent.afterEffects) {
     for (let i = 0; i < currentComponent.afterEffects.length; i++) {
-      e.afterEffects.push(currentComponent.afterEffects[i])
+      e.afterEffects.push(_.cloneDeep(currentComponent.afterEffects[i]))
+      let lastEffect = e.afterEffects.length - 1
+      let o = e.afterEffects[lastEffect]
+      if (o.tooltip) {
+        o.tooltip = replaceVariable(e, o.tooltip);
+      }
+      if (o.code.length > 0) {
+        for (let z = 0; z < o.code.length; z++) {
+          o.code[z] = replaceVariable(e, o.code[z])
+        }
+      }
     }
   }
 
@@ -866,10 +922,12 @@ function getLocFromComponent(c, e) {
   let arr = [];
   if (c.loc) {
     let o = {};
+    let l = c.loc;
+    l = replaceVariable(e, l);
     if (e.loc.loc) {
-      o.loc = ` ${c.loc}`;
+      o.loc = ` ${l}`; //extra space
     } else {
-      o.loc = `${c.loc}`
+      o.loc = `${l}`
     }
 
     //Do not want triggered localization mixed with tags, etc...?
@@ -885,14 +943,41 @@ function getLocTriggers(component) {
   return [];
 }
 
+function replaceVariable(e, localization) {
+  let regex = /\$[\w\s]+\$/g;
+  let l = localization;
+  if (l && l.length > 0) {
+    let matches = l.match(regex);
+    console.log(matches);
+    if (matches) {
+      for (let j = 0; j < matches.length; j++) {
+
+        let noDollars = matches[j].replace(/\$/g, "")
+        for (let n = 0; n <  e.varObjArr.length; n++) {
+          console.log(noDollars);
+          console.log(e.varObjArr)
+          console.log(e.varObjArr[n].name)
+          if (noDollars && e.varObjArr[n].name === noDollars) {
+            l = l.replace(matches[j], e.varObjArr[n].value)
+          }
+        }
+      }
+    }
+  }
+  return l;
+}
+
 function getAllComponentLocs(cell, e) {
   let arr = [];
   for (let i = 0; i < cell.components.length; i++) {
     let o = {};
+    //replacement method for variable names
+    let l = replaceVariable(e, cell.components[i].loc)
+    //adding component loc to object loc
     if (e.loc.loc) {
-      o.loc = ` ${cell.components[i].loc}`;
+      o.loc = ` ${l}`;
     } else {
-      o.loc = `${cell.components[i].loc}`;
+      o.loc = `${l}`;
     }
 
     o.locTriggers = cell.components[i].locTriggers;

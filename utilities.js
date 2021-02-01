@@ -409,13 +409,13 @@ function buildOnActions(eventArr) {
 GID("copy-cell-button").onclick = function() {
   let x = currentGrid().current.x;
   let y = currentGrid().current.y;
-  copiedCell = currentGrid().grid[y][x];
+  copiedCell = _.cloneDeep(currentGrid().grid[y][x]);
 }
 
 GID("paste-cell-button").onclick = function() {
   let x = currentGrid().current.x;
   let y = currentGrid().current.y;
-  currentGrid().grid[y][x] = copiedCell;
+  currentGrid().grid[y][x] = _.cloneDeep(copiedCell);
 }
 
 
@@ -1112,6 +1112,36 @@ GID("on-action-button").onclick = function() {
   GID("on-action-box").innerHTML = `${link}<br>${t}`;
   document.getElementById('on-action-download-link').href = url
 }
+
+function showFileCode(el) {
+  console.log(globalFileList);
+
+  for (let i = 0; i < globalFileList.length; i++) {
+    let t = "";
+    let currentIndent = 0;
+    let currentArr = globalFileList[i].code.split(`\n`);
+    for (let n = 0; n < currentArr.length; n++) {
+      currentArr[n] = currentArr[n].replace(/^\s+/, "")
+      if (currentArr[n].includes("{")) {
+        t += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+        currentIndent += 1;
+      } else if (currentArr[n].includes("}")) {
+        currentIndent -= 1;
+        t += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+      } else {
+        t += `${p(currentIndent)}${currentArr[n]}${ep()}`;
+      }
+    }
+    console.log(t);
+    t = t.replace(/\&nbsp/gi, " ")
+    t = t.replace(/\<\/br\>/gi, "\n")
+    var data = new Blob([t], {type: 'text/plain'})
+    var url = window.URL.createObjectURL(data);
+    let link = `<a id="${globalFileList[i].fileName}-download-link" download="${globalFileList[i].fileName}.txt" href="">Download ${globalFileList[i].fileName} as Text File</a></br></br>`
+    el.innerHTML += `${link}<br>`;
+    document.getElementById(`${globalFileList[i].fileName}-download-link`).href = url
+  }
+}
 //end on actions
 
 GID("event-code-button").onclick = function() {
@@ -1121,7 +1151,8 @@ GID("event-code-button").onclick = function() {
   }
   GID("code-box").style.display = "block";
   GID("code-box").innerHTML = "";
-  GID("code-box").innerHTML += `<a id="code-download-link" download="${namespace}_events.txt" href="">Download as Text File</a></br></br>`
+  GID("code-box").innerHTML += `<a id="code-download-link" download="${namespace}_events.txt" href="">Download Event Code as Text File</a></br></br>`
+  showFileCode(GID("code-box"))
   GID("code-box").innerHTML += `${t}`;
   GID("bars").style.display = "none";
   GID("localization-box").style.display = "none";
