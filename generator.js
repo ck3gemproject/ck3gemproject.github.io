@@ -4,6 +4,7 @@ let buildWorld = false;
 let globalFileList = [];
 
 let globalVariables = [];
+console.log("REMEMBER - SPLITTING ON @ NOW. Update documentation.")
 
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
@@ -135,12 +136,20 @@ function generateSubgrid(gridObject, e) {
   }
 }
 
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
 function doMath(num1, operator, num2) {
   if (operator === "=") {
     return num2;
   } else {
-    num1 = parseInt(num1);
-    num2 = parseInt(num2);
+    if (isNumeric(num1) && isNumeric(num2)) {
+      num1 = parseInt(num1);
+      num2 = parseInt(num2);
+    }
     if (operator === "+=") {
       return num1 + num2;
     } else if (operator === "-=") {
@@ -208,8 +217,12 @@ function variableCheck(c, e) {
   let workingArr = [];
   for (let i = 0; i < c.varObjArr.length; i++) {
     let name = c.varObjArr[i].name
+    name = replaceVariable(e, name);
+    name = replaceFunction(e, name);
     let op = c.varObjArr[i].operation;
     let value = c.varObjArr[i].value;
+    value = replaceVariable(e, value);
+    value = replaceFunction(e, value)
     let exists = false;
     if (e.varObjArr.length === 0 && (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=")) {
       //can't compare if doesn't exist
@@ -365,7 +378,7 @@ function generate(input, varArr) {
 
 function removeSetTags(currentComponent,e) {
   if (currentComponent.removeTags) {
-    let arr = currentComponent.removeTags.split(",");
+    let arr = currentComponent.removeTags.split("@");
     for (let i = 0; i < arr.length; i++) {
       e.tags.replace(arr[i], "")
     }
@@ -375,7 +388,7 @@ function removeSetTags(currentComponent,e) {
 
 function eventHasRequiredTags(currentComponent, e) {
   if (currentComponent.hasTags) {
-    let arr1 = currentComponent.hasTags.split(",")
+    let arr1 = currentComponent.hasTags.split("@")
     for (let i = 0; i < arr1.length; i++) {
       if (e.tags.includes(arr1[i])) {
 
@@ -391,13 +404,13 @@ function eventDoesNotHaveTags(currentComponent, e) {
   if (currentComponent.doesNotHaveTags.length > 0 && e.tags.length > 0) {
     let arr = [];
     let arr2 = [];
-    if (currentComponent.doesNotHaveTags.includes(",")) {
-      arr = currentComponent.doesNotHaveTags.split(",");
+    if (currentComponent.doesNotHaveTags.includes("@")) {
+      arr = currentComponent.doesNotHaveTags.split("@");
     } else {
       arr.push(currentComponent.doesNotHaveTags)
     }
-    if (e.tags.includes(",")) {
-      arr2 = e.tags.split(",");
+    if (e.tags.includes("@")) {
+      arr2 = e.tags.split("@");
     } else {
       arr2.push(e.tags);
     }
@@ -483,6 +496,7 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
   }
   if (currentComponent.title) {
     e.title = replaceVariable(e, currentComponent.title)
+    e.title = replaceFunction(e, e.title);
   }
   if (currentComponent.backgroundOverride) {
     e.backgroundOverride = currentComponent.backgroundOverride
@@ -518,10 +532,12 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
       let o = e.immediateEffects[lastEffect]
       if (o.tooltip) {
         o.tooltip = replaceVariable(e, o.tooltip);
+        o.tooltip = replaceFunction(e, o.tooltip);
       }
       if (o.code.length > 0) {
         for (let z = 0; z < o.code.length; z++) {
           o.code[z] = replaceVariable(e, o.code[z])
+          o.code[z] = replaceFunction(e, o.code[z])
         }
       }
     }
@@ -533,18 +549,22 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
       e.options.push(o)
       console.log(o);
       o.text = replaceVariable(e, o.text);
+      o.text = replaceFunction(e, o.text);
       o.tooltip = replaceVariable(e, o.tooltip);
+      o.tooltip = replaceFunction(e, o.tooltip);
       for (let z = 0; z < o.code.length; z++) {
         o.code[z] = replaceVariable(e, o.code[z]);
+        o.code[z] = replaceFunction(e, o.code[z]);
       }
       o.nextDays = replaceVariable(e, o.nextDays);
+      o.nextDays = replaceFunction(e, o.nextDays);
     }
 
 
     let currentOption = e.options[e.options.length - 1]
 
     currentOption.nextStartList = [];
-    let nextArr = currentOption.next.split(",");
+    let nextArr = currentOption.next.split("@");
     if (gridName) {
 
     } else {
@@ -577,7 +597,7 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
       }
     }
     currentOption.onActionStartList = [];
-    let nextOnActions = currentOption.onActions.split(",");
+    let nextOnActions = currentOption.onActions.split("@");
     for (let j = 0; j < nextOnActions.length; j++) {
       nextOnActions[j] = nextOnActions[j].trim();
       if (nextOnActions[j] === "NW") {
@@ -614,10 +634,12 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
       let o = e.afterEffects[lastEffect]
       if (o.tooltip) {
         o.tooltip = replaceVariable(e, o.tooltip);
+        o.tooltip = replaceFunction(e, o.tooltip);
       }
       if (o.code.length > 0) {
         for (let z = 0; z < o.code.length; z++) {
           o.code[z] = replaceVariable(e, o.code[z])
+          o.code[z] = replaceFunction(e, o.code[z])
         }
       }
     }
@@ -924,6 +946,7 @@ function getLocFromComponent(c, e) {
     let o = {};
     let l = c.loc;
     l = replaceVariable(e, l);
+    l = replaceFunction(e, l);
     if (e.loc.loc) {
       o.loc = ` ${l}`; //extra space
     } else {
@@ -944,7 +967,7 @@ function getLocTriggers(component) {
 }
 
 function replaceVariable(e, localization) {
-  let regex = /\$[\w\s]+\$/g;
+  let regex = /\$[\w\s\.]+\$/g;
   let l = localization;
   if (l && l.length > 0) {
     let matches = l.match(regex);
@@ -967,12 +990,53 @@ function replaceVariable(e, localization) {
   return l;
 }
 
+function replaceFunction(e, localization) {
+  let regex = /\![\w\s]+\([\w\s,]+\)\!/
+  let parseRegEx = /\!([\w\s]+)\(([\w\s,]+)\)\!/
+  let l = localization;
+  if (l && l.length > 0) {
+    let matches = l.match(regex);
+    console.log(matches);
+    if (matches) {
+      for (let j = 0; j < matches.length; j++) {
+        let parseArr = matches[j].match(parseRegEx);
+        let f = parseArr[1];
+        let p = parseArr[2];
+        if (p.includes(",")) {
+          p = p.split(",");
+        } else {
+          p = [`${p}`]
+        }
+        for (let i = 0; i < p.length; i++) {
+          p[i] = p[i].trim();
+        }
+        l = applyFunctions(matches[j], f, p, l);
+      }
+    }
+  }
+  return l;
+}
+
+function applyFunctions(m, f, p, l) {
+  console.log(l);
+  if (f.includes("getRandomInt")) {
+    console.log(p);
+    let n1 = parseInt(p[0]);
+    let n2 = parseInt(p[1])
+    let num = `${getRandomInt(n1, n2)}`
+    l = l.replace(m, num)
+  }
+
+  return l
+}
+
 function getAllComponentLocs(cell, e) {
   let arr = [];
   for (let i = 0; i < cell.components.length; i++) {
     let o = {};
     //replacement method for variable names
     let l = replaceVariable(e, cell.components[i].loc)
+    l = replaceFunction(e, l);
     //adding component loc to object loc
     if (e.loc.loc) {
       o.loc = ` ${l}`;
