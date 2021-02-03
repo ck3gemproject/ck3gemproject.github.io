@@ -99,3 +99,8 @@ var tas = document.querySelectorAll('textarea');
 [].forEach.call(tas, function(ta) {
     doAutoIndent(ta, "\xa0\xa0");
 });
+
+var preText = document.querySelectorAll('pre');
+[].forEach.call(preText, function(ta) {
+    doAutoIndent(ta, "\xa0\xa0");
+});
