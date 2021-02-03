@@ -80,9 +80,10 @@ GID("quick-fill-cells-button").onclick = function() {
   let varArr = [];
   let varObjArr = [];
   if (variables.length > 0) {
-    varArr = variables.split(",") || [`${variables}`]
+    varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
         o.name = matches[1];
@@ -135,9 +136,10 @@ GID("create-component-button").onclick = function() {
   let varObjArr = [];
   let varArr = [];
   if (variables.length > 0) {
-    varArr = variables.split(",") || [`${variables}`]
+    varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
         o.name = matches[1];
@@ -366,9 +368,10 @@ function saveComponentEdits(comp) {
   let varArr = [];
   if (comp.variables.length > 0) {
     comp.varObjArr = [];
-    varArr = comp.variables.split(",") || [`${comp.variables}`]
+    varArr = comp.variables.split("@") || [`${comp.variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?(\w+)\s([\+\=\-\!\<\>]+)\s([\w\d]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
         o.name = matches[1];
@@ -621,7 +624,7 @@ function saveComponentEdits(comp) {
         }
       } else if (v && v.length > 0) {
         let o = {};
-        let commaSeparatedArray = v.split(", ");
+        let commaSeparatedArray = v.split("@ ");
         for (let n = 0; n < commaSeparatedArray.length; n++) {
           let t = "";
           let firstCharacter = commaSeparatedArray[n].split("")[0]
@@ -670,7 +673,7 @@ function saveComponentEdits(comp) {
         }
         */
 
-        let commaSeparatedArray = v.split(",");
+        let commaSeparatedArray = v.split("@");
         for (let n = 0; n < commaSeparatedArray.length; n++) {
           let t = "";
           let firstCharacter = commaSeparatedArray[n].split("")[0]
