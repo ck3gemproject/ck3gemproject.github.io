@@ -1119,7 +1119,8 @@ function showFileCode(el) {
   for (let i = 0; i < globalFileList.length; i++) {
     let t = "";
     let currentIndent = 0;
-    let currentArr = globalFileList[i].code.split(`\n`);
+    let currentArr = globalFileList[i].code.split(/\n|<\/br>/);
+    console.log(currentArr);
     for (let n = 0; n < currentArr.length; n++) {
       currentArr[n] = currentArr[n].replace(/^\s+/, "")
       if (currentArr[n].includes("{")) {
@@ -1132,9 +1133,14 @@ function showFileCode(el) {
         t += `${p(currentIndent)}${currentArr[n]}${ep()}`;
       }
     }
+    if (t.length === 0) {
+      t = globalFileList[i].code;
+    }
+
     console.log(t);
-    t = t.replace(/\&nbsp/gi, " ")
     t = t.replace(/\<\/br\>/gi, "\n")
+    t = t.replace(/\&nbsp/gi, " ")
+    console.log(t);
     var data = new Blob([t], {type: 'text/plain'})
     var url = window.URL.createObjectURL(data);
     let link = `<a id="${globalFileList[i].fileName}-download-link" download="${globalFileList[i].fileName}.txt" href="">Download ${globalFileList[i].fileName} as Text File</a></br></br>`
