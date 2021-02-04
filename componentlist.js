@@ -82,7 +82,7 @@ GID("quick-fill-cells-button").onclick = function() {
   if (variables.length > 0) {
     varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\.\!\(\)\$\?]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\.\(\)\$\?]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
@@ -138,7 +138,7 @@ GID("create-component-button").onclick = function() {
   if (variables.length > 0) {
     varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.\?]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.\?]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
@@ -370,7 +370,7 @@ function saveComponentEdits(comp) {
     comp.varObjArr = [];
     varArr = comp.variables.split("@") || [`${comp.variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.\?\;\:]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.\?\;\:]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
