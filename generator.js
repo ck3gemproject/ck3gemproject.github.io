@@ -2,9 +2,9 @@ let workingEventArr = [];
 let newEventArr = [];
 let buildWorld = false;
 let globalFileList = [];
-
 let globalVariables = [];
-console.log("REMEMBER - SPLITTING ON @ NOW. Update documentation.")
+let generatorVariables = [];
+let localVariables = [];
 
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
@@ -15,6 +15,7 @@ function runGenerationMachine(num) {
   } else {
     for (let i = 0; i < num; i++) {
       workingEventArr.push(generate());
+      generatorVariables = [];
     }
     for (let i = 0; i < workingEventArr.length; i++) {
       let currentEvent = workingEventArr[i];
@@ -27,20 +28,16 @@ function runGenerationMachine(num) {
     }
 
     for (let i = 0; i < globalOnActionArray.length; i++) {
-      console.log(globalOnActionArray[i])
       let vArr = globalOnActionArray[i].varObjArr;
       let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
-      console.log(coords);
       for (let z = 0; z < 100; z++) {
-        let nextE = generate(coords, vArr);
+        let nextE = generate(coords, _.cloneDeep(vArr));
         makeEventCode(nextE);
         eventsList.push(nextE);
-        globalOnActionArray[i].eventList.push(creationCounter);
+        globalOnActionArray[i].eventList.push(creationCounter - 1);
       }
     }
-    console.log(globalOnActionArray)
   }
-  console.log(globalFileList);
 }
 
 function getGridByName(name) {
@@ -146,7 +143,7 @@ function doMath(num1, operator, num2) {
   if (operator === "=") {
     return num2;
   } else {
-    if (isNumeric(num1) && isNumeric(num2)) {
+    if ((Number.isInteger(num1) || isNumeric(num1)) && (Number.isInteger(num2) || isNumeric(num2))) {
       num1 = parseInt(num1);
       num2 = parseInt(num2);
     }
@@ -229,7 +226,42 @@ function variableCheck(c, e) {
       equalityChecks = false;
     } else if (e.varObjArr.length === 0 && op === "!==") {
       equalityChecks = true;
-    } else if (e.varObjArr.length === 0 && (op === "+=" || op === "-=")) {
+    } else {
+      for (let j = 0; j < e.varObjArr.length; j++) {
+        let eName = e.varObjArr[j].name;
+        if (eName === name) {
+          exists = true;
+          if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=" || op === "!==") {
+            equalityChecks = compare(e.varObjArr[j].value, op, value)
+          }
+        }
+      }
+      if (exists === false) {
+        if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
+          equalityChecks = false;
+        } else if (op === "!==") {
+          equalityChecks = true;
+        }
+      }
+    }
+    if (equalityChecks === false) {
+      return equalityChecks;
+    }
+  }
+  return true;
+}
+
+function variableChange(c, e) {
+  for (let i = 0; i < c.varObjArr.length; i++) {
+    let name = c.varObjArr[i].name
+    name = replaceVariable(e, name);
+    name = replaceFunction(e, name);
+    let op = c.varObjArr[i].operation;
+    let value = c.varObjArr[i].value;
+    value = replaceVariable(e, value);
+    value = replaceFunction(e, value)
+    let exists = false;
+    if (e.varObjArr.length === 0 && (op === "+=" || op === "-=")) {
       let newValue = doMath(0, op, value);
       let o = {};
       o.name = name;
@@ -241,35 +273,22 @@ function variableCheck(c, e) {
         let eName = e.varObjArr[j].name;
         if (eName === name) {
           exists = true;
-          if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=" || op === "!==") {
-            console.log(e.varObjArr);
-            equalityChecks = compare(e.varObjArr[j].value, op, value)
-          } else {
-            let newValue = doMath(e.varObjArr[j].value, op, value);
-            e.varObjArr[j].value = newValue;
-          }
+          let newValue = doMath(e.varObjArr[j].value, op, value);
+          e.varObjArr[j].value = newValue;
         }
       }
       if (exists === false) {
-        if (op === "===" || op === "<" || op === ">" || op === ">=" || op === "<=") {
-          equalityChecks = false;
-        } else if (op === "!==") {
-          equalityChecks = true;
-        } else {
-          let newValue = doMath(0, op, value);
-          let o = {};
-          o.name = name;
-          o.value = newValue;
-          e.varObjArr.push(o)
-        }
+        let newValue = doMath(0, op, value);
+        let o = {};
+        o.name = name;
+        o.value = newValue;
+        e.varObjArr.push(o)
       }
     }
   }
-  return equalityChecks;
 }
 
 function generate(input, varArr) {
-  console.log(currentGrid().gridName);
   let e = {};
   let start = input || getRandomStart();
   if (start) {
@@ -289,11 +308,27 @@ function generate(input, varArr) {
     e.doesNotHaveTags = [];
     e.runStack = []
     e.variables = [];
+    e.varObjArr = [];
+
+
     if (varArr) {
-      e.varObjArr = varArr;
+      for (let i = 0; i < varArr.length; i++) {
+        if (varArr[i].name.includes("local")) {
+
+        } else {
+          e.varObjArr.push(varArr[i])
+        }
+      }
     } else {
-      e.varObjArr = globalVariables;
+      for (let i = 0; i < generatorVariables.length; i++) {
+        e.varObjArr.push(generatorVariables[i])
+      }
+      for (let i = 0; i < globalVariables.length; i++) {
+        e.varObjArr.push(globalVariables[i])
+      }
     }
+
+
 
     e.factor = 100;
     let currentCell = currentGrid().grid[y][x];
@@ -318,6 +353,7 @@ function generate(input, varArr) {
 
         //check has tags
         if (eventHasRequiredTags(currentComponent, e) === true  && eventDoesNotHaveTags(currentComponent, e) === true && variableCheck(currentComponent, e) === true) {
+          variableChange(currentComponent, e);
           timeoutPreventer = 0;
           addComponentToEvent(loc, currentComponent, e, currentCell, currentGrid().gridName)
           removeSetTags(currentComponent, e);
@@ -370,8 +406,17 @@ function generate(input, varArr) {
   } else {
     alert("You need to place a START tag before generation.")
   }
-  globalVariables = e.varObjArr;
-  console.log(globalVariables);
+  generatorVariables = [];
+  globalVariables = [];
+  for (let i = 0; i < e.varObjArr.length; i++) {
+    if (e.varObjArr[i].name.includes("global")) {
+      globalVariables.push(e.varObjArr[i])
+    } else if (e.varObjArr[i].name.includes("local")) {
+
+    } else {
+      generatorVariables.push(e.varObjArr[i])
+    }
+  }
   return e;
 }
 
@@ -452,7 +497,9 @@ function addCodeToFileList(name, code) {
 
 function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
 
-
+  if (currentComponent.hidden) {
+    e.hidden = currentComponent.hidden;
+  }
 
   if (currentComponent.fileName && currentComponent.fileCode) {
     addCodeToFileList(currentComponent.fileName, currentComponent.fileCode)
@@ -547,7 +594,6 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
     for (let m = 0; m < currentComponent.options.length; m++) {
       let o = _.cloneDeep(currentComponent.options[m]);
       e.options.push(o)
-      console.log(o);
       o.text = replaceVariable(e, o.text);
       o.text = replaceFunction(e, o.text);
       o.tooltip = replaceVariable(e, o.tooltip);
@@ -971,15 +1017,11 @@ function replaceVariable(e, localization) {
   let l = localization;
   if (l && l.length > 0) {
     let matches = l.match(regex);
-    console.log(matches);
     if (matches) {
       for (let j = 0; j < matches.length; j++) {
 
         let noDollars = matches[j].replace(/\$/g, "")
         for (let n = 0; n <  e.varObjArr.length; n++) {
-          console.log(noDollars);
-          console.log(e.varObjArr)
-          console.log(e.varObjArr[n].name)
           if (noDollars && e.varObjArr[n].name === noDollars) {
             l = l.replace(matches[j], e.varObjArr[n].value)
           }
@@ -996,7 +1038,6 @@ function replaceFunction(e, localization) {
   let l = localization;
   if (l && l.length > 0) {
     let matches = l.match(regex);
-    console.log(matches);
     if (matches) {
       for (let j = 0; j < matches.length; j++) {
         let parseArr = matches[j].match(parseRegEx);
@@ -1018,9 +1059,7 @@ function replaceFunction(e, localization) {
 }
 
 function applyFunctions(m, f, p, l) {
-  console.log(l);
   if (f.includes("getRandomInt")) {
-    console.log(p);
     let n1 = parseInt(p[0]);
     let n2 = parseInt(p[1])
     let num = `${getRandomInt(n1, n2)}`

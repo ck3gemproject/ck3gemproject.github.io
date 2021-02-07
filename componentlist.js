@@ -82,7 +82,7 @@ GID("quick-fill-cells-button").onclick = function() {
   if (variables.length > 0) {
     varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\.\!\(\)\$\?]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\.\(\)\$\?]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
@@ -138,7 +138,7 @@ GID("create-component-button").onclick = function() {
   if (variables.length > 0) {
     varArr = variables.split("@") || [`${variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.\?]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.\?]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
@@ -213,6 +213,9 @@ function makeClickableComponentList() {
       if (comp.title) {
         GID("eventTitle").value = comp.title
       }
+      if (comp.hidden) {
+        GID("hidden").value = comp.hidden
+      }
       if (comp.fileName) {
         GID("file-name").value = comp.fileName
       }
@@ -272,6 +275,7 @@ function makeClickableComponentList() {
 
       GID("select-delete-component-button").onclick = function() {
         currentGrid().grid[currY][currX].components.splice(i, 1);
+        console.log(currentGrid().grid[currY][currX].components);
         GID("component-edit").style.display = "none";
         GID("component-entry").style.display = "block";
         GID("component-creation").innerHTML = fillComponentList();
@@ -370,7 +374,7 @@ function saveComponentEdits(comp) {
     comp.varObjArr = [];
     varArr = comp.variables.split("@") || [`${comp.variables}`]
     for (let i = 0; i < varArr.length; i++) {
-      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.\?\;\:]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.\?\;\:]+)/)
+      let matches = varArr[i].match(/\s?([\w\s\d,\!\(\)\$\.]+)\s([\+\=\-\!\<\>]+)\s([\w\s\d,\!\(\)\$\.]+)/)
       console.log(matches);
       if (matches && matches.length > 0) {
         let o = {};
@@ -387,6 +391,11 @@ function saveComponentEdits(comp) {
   let title = GID("eventTitle").value;
   if (title.length > 0)  {
     comp.title = title;
+  }
+
+  let hidden = GID("hidden").value;
+  if (hidden.length > 0) {
+    comp.hidden = hidden;
   }
 
   let onAction = GID("on-action-select").value;

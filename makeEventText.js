@@ -30,6 +30,9 @@ function makeEventCode(e) {
   let eText = `${p(0)}${n} = {${ep()}`
   eText += `${p(1)}type = ${e.type || "character_event"}${ep()}`
 
+  if (e.hidden) {
+    eText += `${p(1)}hidden = ${e.hidden}${ep()}`
+  }
   //TITLES
 
   eText += `${p(1)}title = ${namespace}.${normalizeNumber(creationCounter)}.t${ep()}`
@@ -506,7 +509,7 @@ function makeEventCode(e) {
 
   for (let i = 0; i < e.options.length; i++) {
     for (let j = 0; j < e.options[i].nextStartList.length; j++) {
-      let nextE = generate(e.options[i].nextStartList[j]);
+      let nextE = generate(e.options[i].nextStartList[j], _.cloneDeep(e.varObjArr));
 
       makeEventCode(nextE)
       eventsList.push(nextE);
@@ -519,7 +522,7 @@ function makeEventCode(e) {
         o.name = `onAction${e.options[i].onActionStartList[j][2]}X${e.options[i].onActionStartList[j][0]}Y${e.options[i].onActionStartList[j][1]}`
         o.x = e.options[i].onActionStartList[j][0]
         o.y = e.options[i].onActionStartList[j][1];
-        o.varObjArr = e.varObjArr;
+        o.varObjArr = _.cloneDeep(e.varObjArr);
         o.eventList = [];
         let exists = false;
         for (let x = 0; x < globalOnActionArray.length; x++) {
@@ -552,5 +555,4 @@ function makeEventCode(e) {
       */
     }
   }
-  console.log(globalOnActionArray);
 }
