@@ -11623,6 +11623,8 @@ min can be larger than max, in this case we wrap around to the next year (i.e., 
 </td></tr>
 `
 
-
+let globalTriggersArray = [];
+/*
 let globalTriggersArray = parseTriggers(triggerT);
 globalTriggersArray = removeDuplicates(globalTriggersArray);
+*/

@@ -815,14 +815,14 @@ GID("select-immediate-button").onclick = function() {
   GID("scopes-div").style.display = "none";
 }
 
-GID("select-scopes-button").onclick = function() {
+/*GID("select-scopes-button").onclick = function() {
   GID("immediate-block").style.display = "none";
   GID("settings-block").style.display = "none";
   GID("trigger-block").style.display = "none";
   GID("options-block").style.display = "none";
   GID("after-block").style.display = "none";
   GID("scopes-div").style.display = "block";
-}
+}*/
 
 GID("select-trigger-button").onclick = function() {
   GID("trigger-block").style.display = "block";

@@ -5243,5 +5243,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 `
 
+let globalEffectsArray = [];
+/*
 var globalEffectsArray = processEffectsWiki(effectsWiki)
 globalEffectsArray = removeDuplicates(globalEffectsArray);
+*/
