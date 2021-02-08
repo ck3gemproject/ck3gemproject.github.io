@@ -26,17 +26,6 @@ function runGenerationMachine(num) {
       makeEventCode(currentEvent);
       eventsList.push(currentEvent);
     }
-
-    for (let i = 0; i < globalOnActionArray.length; i++) {
-      let vArr = globalOnActionArray[i].varObjArr;
-      let coords = [globalOnActionArray[i].x, globalOnActionArray[i].y]
-      for (let z = 0; z < 100; z++) {
-        let nextE = generate(coords, _.cloneDeep(vArr));
-        makeEventCode(nextE);
-        eventsList.push(nextE);
-        globalOnActionArray[i].eventList.push(creationCounter - 1);
-      }
-    }
   }
 }
 

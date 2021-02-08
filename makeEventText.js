@@ -23,6 +23,7 @@ function appropriateSpacing(eText, currentIndent, codeArr) {
 }
 
 function makeEventCode(e) {
+  e.localOnActionList = [];
   let nextCounter = creationCounter;
 
   let normNum = normalizeNumber(creationCounter);
@@ -358,7 +359,15 @@ function makeEventCode(e) {
         currentIndent += 1;
         //eText += `${p(currentIndent)}on_action = ${namespace}_on_action_${normalizeNumber(globalOnActionArray.length + 1)}${ep()}`
         let rand = getRandomInt(0, e.options[i].onActionStartList.length - 1);
-        eText += `${p(currentIndent)}on_action = onAction${e.options[i].onActionStartList[rand][2]}X${e.options[i].onActionStartList[rand][0]}Y${e.options[i].onActionStartList[rand][1]}${ep()}`
+        let randomCounter = getRandomInt(1, 5000)
+        let oa = {
+          name: `onAction${e.options[i].onActionStartList[rand][2]}X${e.options[i].onActionStartList[rand][0]}Y${e.options[i].onActionStartList[rand][1]}ID${randomCounter}`,
+          x: e.options[i].onActionStartList[rand][0],
+          y: e.options[i].onActionStartList[rand][1],
+          uID: randomCounter,
+        }
+        eText += `${p(currentIndent)}on_action = ${oa.name}${ep()}`
+        e.localOnActionList.push(oa)
         if (e.options[i].nextDays) {
           eText += `${p(currentIndent)}days = ${e.options[i].nextDays || 1}${ep()}`
         }
@@ -515,44 +524,22 @@ function makeEventCode(e) {
       eventsList.push(nextE);
     }
   }
-  for (let i = 0; i < e.options.length; i++) {
-    if (e.options[i].onActionStartList && e.options[i].onActionStartList.length > 0) {
-      for (let j = 0; j < e.options[i].onActionStartList.length; j++) {
-        let o = {};
-        o.name = `onAction${e.options[i].onActionStartList[j][2]}X${e.options[i].onActionStartList[j][0]}Y${e.options[i].onActionStartList[j][1]}`
-        o.x = e.options[i].onActionStartList[j][0]
-        o.y = e.options[i].onActionStartList[j][1];
-        o.varObjArr = _.cloneDeep(e.varObjArr);
-        o.eventList = [];
-        let exists = false;
-        for (let x = 0; x < globalOnActionArray.length; x++) {
-          if (globalOnActionArray[x].name === o.name) {
-            exists = true;
-          }
-        }
-        if (exists === false) {
-          globalOnActionArray.push(o);
-        }
-      }
-      /*
-      let t = "";
-      let num = globalOnActionArray.length + 1;
-      t += `${p(0)}${namespace}_on_action_${normalizeNumber(num)} = {${ep()}`
-      t += `${p(2)}random_events = {${ep()}`
-      for (let j = 0; j < e.options[i].onActionStartList.length; j++) {
-        //100 works as default but needs to be modifiable
-        //stack dies out for some reason here
-        for (let x = 0; x < 5; x++) {
-          let nextE = generate(e.options[i].onActionStartList[j]);
-          makeEventCode(nextE);
-          eventsList.push(nextE);
-          t += `${p(4)}100 = ${namespace}.${normalizeNumber(creationCounter - 1)}${ep()}`;
-        }
-      }
-      t += `${p(2)}}${ep()}`
-      t += `${p(0)}}${ep()}`
-      globalOnActionArray.push(t)
-      */
+
+  for (let i = 0; i < e.localOnActionList.length; i++) {
+    let x = e.localOnActionList[i].x;
+    let y = e.localOnActionList[i].y;
+    let o = {};
+    o.name = e.localOnActionList[i].name
+    o.x = x
+    o.y = y
+    o.eventList = [];
+    globalOnActionArray.push(o);
+    for (let n = 0; n < 100; n++) {
+      globalOnActionArray[globalOnActionArray.length - 1].eventList.push(creationCounter);
+      let nextE = generate([x, y], _.cloneDeep(e.varObjArr))
+      makeEventCode(nextE);
+      eventsList.push(nextE);
     }
+
   }
 }
