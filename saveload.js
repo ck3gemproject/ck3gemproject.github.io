@@ -1,7 +1,7 @@
 function saveGrid(name) {
   let n = prompt("What name should this generator be saved under?")
   if (n) {
-    generator.globalScopes = globalScopes;
+    //generator.globalScopes = globalScopes;
     localStorage.setItem(n, JSON.stringify(generator));
   }
 }
@@ -22,6 +22,7 @@ GID("save-grid-button").onclick = function() {
 GID("load-grid-button").onclick = function() {
   generator = loadGrid()
   generator.currentGridIndex = 0;
+  /*
   globalScopes = generator.globalScopes;
   scopeCounter = 0;
   GID("scopes-div-inner").innerHTML = "";
@@ -48,6 +49,7 @@ GID("load-grid-button").onclick = function() {
     }
   }
   setScopes();
+  */
   clearGrid();
   refreshGrid();
   let t = "";
