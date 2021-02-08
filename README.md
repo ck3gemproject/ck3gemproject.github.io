@@ -1,6 +1,6 @@
-# The CK3 Gem Project
+# The CK3 Gem Project (README IS WAY OUT OF DATE - WORK IN PROGRESS)
 
-The CK3 Gem Project is a generator of Crusader Kings 3 events based on generative grammars.
+The CK3 Gem Project is a generator of Crusader Kings 3 events based on generative grammars. It is currently in alpha.
 
 ## How does the project work?
 
