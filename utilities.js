@@ -1093,11 +1093,12 @@ GID("on-action-button").onclick = function() {
     t += `${p(2)}}${ep()}`
     t+= `${p()}}${ep()}`
   }
-  for (let i = 0; i < globalOnActionArray.length; i++) {
-    t += `${p()}${globalOnActionArray[i].name} = {${ep()}`
+  for (let i = 0; i < oaa.length; i++) {
+    console.log(oaa);
+    t += `${p()}${oaa[i].name} = {${ep()}`
     t += `${p(2)}random_events = {${ep()}`
-    for (let j = 0; j < globalOnActionArray[i].eventList.length; j++) {
-      let num = normalizeNumber(globalOnActionArray[i].eventList[j])
+    for (let j = 0; j < oaa[i].eventList.length; j++) {
+      let num = normalizeNumber(oaa[i].eventList[j])
       t += `${p(4)}100 = ${namespace}.${num}${ep()}`
     }
     t += `${p(2)}}${ep()}`

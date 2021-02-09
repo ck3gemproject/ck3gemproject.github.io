@@ -358,16 +358,8 @@ function makeEventCode(e) {
         eText += `${p(currentIndent)}trigger_event = {${ep()}`
         currentIndent += 1;
         //eText += `${p(currentIndent)}on_action = ${namespace}_on_action_${normalizeNumber(globalOnActionArray.length + 1)}${ep()}`
-        let rand = getRandomInt(0, e.options[i].onActionStartList.length - 1);
-        let randomCounter = getRandomInt(1, 5000)
-        let oa = {
-          name: `onAction${e.options[i].onActionStartList[rand][2]}X${e.options[i].onActionStartList[rand][0]}Y${e.options[i].onActionStartList[rand][1]}ID${randomCounter}`,
-          x: e.options[i].onActionStartList[rand][0],
-          y: e.options[i].onActionStartList[rand][1],
-          uID: randomCounter,
-        }
-        eText += `${p(currentIndent)}on_action = ${oa.name}${ep()}`
-        e.localOnActionList.push(oa)
+        let randOnAction = e.options[i].onActions[getRandomInt(0, e.options[i].onActions.length - 1)].name
+        eText += `${p(currentIndent)}on_action = ${randOnAction}${ep()}`
         if (e.options[i].nextDays) {
           eText += `${p(currentIndent)}days = ${e.options[i].nextDays || 1}${ep()}`
         }
@@ -525,21 +517,4 @@ function makeEventCode(e) {
     }
   }
 
-  for (let i = 0; i < e.localOnActionList.length; i++) {
-    let x = e.localOnActionList[i].x;
-    let y = e.localOnActionList[i].y;
-    let o = {};
-    o.name = e.localOnActionList[i].name
-    o.x = x
-    o.y = y
-    o.eventList = [];
-    globalOnActionArray.push(o);
-    for (let n = 0; n < 100; n++) {
-      globalOnActionArray[globalOnActionArray.length - 1].eventList.push(creationCounter);
-      let nextE = generate([x, y], _.cloneDeep(e.varObjArr))
-      makeEventCode(nextE);
-      eventsList.push(nextE);
-    }
-
-  }
 }

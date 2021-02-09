@@ -6,27 +6,51 @@ let globalVariables = [];
 let generatorVariables = [];
 let localVariables = [];
 
+let onActionCounter = 1
+
+let oaa = []
+
+function recursiveGenerate(coords, variables) {
+  //onactions
+  if (coords && variables) {
+    let e = generate(coords, variables);
+    makeEventCode(e);
+    eventsList.push(e)
+    for (let i = 0; i < e.options.length; i++) {
+      for (let j = 0; j < e.options[i].onActions.length; j++) {
+        oaa.push(e.options[i].onActions[j])
+        for (let n = 0; n < 100; n++) {
+          recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
+          oaa[oaa.length - 1].eventList.push(creationCounter - 1);
+        }
+      }
+    }
+  } else {
+    //regular generation run
+    let e = generate();
+    makeEventCode(e)
+    eventsList.push(e);
+    for (let i = 0; i < e.options.length; i++) {
+      for (let j = 0; j < e.options[i].onActions.length; j++) {
+        oaa.push(e.options[i].onActions[j])
+        console.log(oaa);
+        for (let n = 0; n < 100; n++) {
+          oaa[0].eventList.push(creationCounter);
+          recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
+        }
+      }
+    }
+  }
+}
+
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
-
-  if (buildWorld === true) {
-
-  } else {
-    for (let i = 0; i < num; i++) {
-      workingEventArr.push(generate());
-      generatorVariables = [];
-    }
-    for (let i = 0; i < workingEventArr.length; i++) {
-      let currentEvent = workingEventArr[i];
-      //makeEventLocalization(currentEvent)
-      if (eventCodeArr.length === 0) {
-        eventCodeArr.push(`${p(0)}namespace = ${namespace}${ep()}${ep()}`)
-      }
-      makeEventCode(currentEvent);
-      eventsList.push(currentEvent);
-    }
+  for (let i = 0; i < num; i++) {
+    recursiveGenerate();
   }
+  console.log(eventsList);
+  console.log(oaa);
 }
 
 function getGridByName(name) {
@@ -395,6 +419,9 @@ function generate(input, varArr) {
   } else {
     alert("You need to place a START tag before generation.")
   }
+
+
+
   generatorVariables = [];
   globalVariables = [];
   for (let i = 0; i < e.varObjArr.length; i++) {
@@ -406,6 +433,22 @@ function generate(input, varArr) {
       generatorVariables.push(e.varObjArr[i])
     }
   }
+  for (let i = 0; i < e.options.length; i++) {
+    let currentOption = e.options[i];
+    e.options[i].onActions = [];
+    for (let j = 0; j < currentOption.onActionStartList.length; j++) {
+      let onAction = {};
+      onAction.x = currentOption.onActionStartList[j][0];
+      onAction.y = currentOption.onActionStartList[j][1];
+      onAction.grid = currentOption.onActionStartList[j][2]
+      onAction.name = `onAction${onAction.grid}X${onAction.x}Y${onAction.y}ID${onActionCounter}`
+      onActionCounter += 1;
+      onAction.eventList = []
+      console.log(onAction);
+      e.options[i].onActions.push(onAction);
+    }
+  }
+  console.log(e);
   return e;
 }
 
