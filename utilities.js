@@ -1094,7 +1094,6 @@ GID("on-action-button").onclick = function() {
     t+= `${p()}}${ep()}`
   }
   for (let i = 0; i < oaa.length; i++) {
-    console.log(oaa);
     t += `${p()}${oaa[i].name} = {${ep()}`
     t += `${p(2)}random_events = {${ep()}`
     for (let j = 0; j < oaa[i].eventList.length; j++) {
@@ -1115,13 +1114,11 @@ GID("on-action-button").onclick = function() {
 }
 
 function showFileCode(el) {
-  console.log(globalFileList);
 
   for (let i = 0; i < globalFileList.length; i++) {
     let t = "";
     let currentIndent = 0;
     let currentArr = globalFileList[i].code.split(/\n|<\/br>/);
-    console.log(currentArr);
     for (let n = 0; n < currentArr.length; n++) {
       currentArr[n] = currentArr[n].replace(/^\s+/, "")
       if (currentArr[n].includes("{")) {
@@ -1138,10 +1135,8 @@ function showFileCode(el) {
       t = globalFileList[i].code;
     }
 
-    console.log(t);
     t = t.replace(/\<\/br\>/gi, "\n")
     t = t.replace(/\&nbsp/gi, " ")
-    console.log(t);
     var data = new Blob([t], {type: 'text/plain'})
     var url = window.URL.createObjectURL(data);
     let link = `<a id="${globalFileList[i].fileName}-download-link" download="${globalFileList[i].fileName}.txt" href="">Download ${globalFileList[i].fileName} as Text File</a></br></br>`

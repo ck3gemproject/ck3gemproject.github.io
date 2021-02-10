@@ -7,48 +7,51 @@ let generatorVariables = [];
 let localVariables = [];
 
 let onActionCounter = 1
-
+let eventsListCounter = 1
+let done = false;
 let oaa = []
-
 function recursiveGenerate(coords, variables) {
   //onactions
-  if (coords && variables) {
-    let e = generate(coords, variables);
-    makeEventCode(e);
-    eventsList.push(e)
-    for (let i = 0; i < e.options.length; i++) {
-      for (let j = 0; j < e.options[i].onActions.length; j++) {
-        oaa.push(e.options[i].onActions[j])
-        for (let n = 0; n < 100; n++) {
-          recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
-          oaa[oaa.length - 1].eventList.push(creationCounter - 1);
-        }
+  let e = generate(coords, variables);
+  eventsList.push(e)
+  eventsListCounter += 1;
+
+  for (let i = 0; i < e.options.length; i++) {
+    for (let j = 0; j < e.options[i].onActions.length; j++) {
+      for (let n = 0; n < 30; n++) {
+        e.options[i].onActions[j].eventList.push(eventsListCounter);
+        recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
+
       }
-    }
-  } else {
-    //regular generation run
-    let e = generate();
-    makeEventCode(e)
-    eventsList.push(e);
-    for (let i = 0; i < e.options.length; i++) {
-      for (let j = 0; j < e.options[i].onActions.length; j++) {
-        oaa.push(e.options[i].onActions[j])
-        console.log(oaa);
-        for (let n = 0; n < 100; n++) {
-          oaa[0].eventList.push(creationCounter);
-          recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
-        }
-      }
+      oaa.push(e.options[i].onActions[j])
     }
   }
+
 }
 
 function runGenerationMachine(num) {
   let namespace = GID("namespace-entry").value;
   workingEventArr = [];
   for (let i = 0; i < num; i++) {
-    recursiveGenerate();
+    let e = generate();
+    eventsList.push(e);
+    eventsListCounter += 1;
+    for (let i = 0; i < e.options.length; i++) {
+      for (let j = 0; j < e.options[i].onActions.length; j++) {
+        oaa.push(e.options[i].onActions[j])
+        for (let n = 0; n < 30; n++) {
+          oaa[0].eventList.push(eventsListCounter);
+          recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
+        }
+      }
+    }
   }
+
+  for (let i = 0; i < eventsList.length; i++) {
+    makeEventCode(eventsList[i]);
+  }
+
+
   console.log(eventsList);
   console.log(oaa);
 }
