@@ -269,7 +269,8 @@ function makeClickableComponentList() {
           GID("option1code").value = comp.freestyleOptionCode[0]
           GID("option1next").value = comp.options[0].next;
           GID("option1nextdays").value = comp.options[0].nextDays;
-          GID("option1onaction").value = comp.options[0].onActions ;
+          GID("option1onaction").value = comp.options[0].onActions;
+          GID("option1onactionnumber").value = comp.options[0].onActionNumber || "";
         }
       }
 
@@ -519,6 +520,7 @@ function saveComponentEdits(comp) {
     next: GID("option1next").value,
     nextDays: GID("option1nextdays").value,
     onActions: GID("option1onaction").value,
+    onActionNumber: GID("option1onactionnumber").value,
     triggeredEvents: [],
   }
 

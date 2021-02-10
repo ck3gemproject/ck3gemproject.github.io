@@ -508,13 +508,4 @@ function makeEventCode(e) {
   makeEventLocalization(e);
   creationCounter += 1;
 
-  for (let i = 0; i < e.options.length; i++) {
-    for (let j = 0; j < e.options[i].nextStartList.length; j++) {
-      let nextE = generate(e.options[i].nextStartList[j], _.cloneDeep(e.varObjArr));
-
-      makeEventCode(nextE)
-      eventsList.push(nextE);
-    }
-  }
-
 }
