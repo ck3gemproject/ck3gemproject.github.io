@@ -66,7 +66,7 @@ function runGenerationMachine(num) {
     makeEventCode(eventsList[i]);
   }
 
-
+  eventsList = [];
   console.log(eventsList);
   console.log(oaa);
 }
