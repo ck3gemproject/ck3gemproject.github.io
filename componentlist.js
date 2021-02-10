@@ -70,6 +70,9 @@ GID("quick-fill-cells-button").onclick = function() {
   let x = currentGrid().current.x;
   let y = currentGrid().current.y;
   let arr = GID("quick-fill-loc-entry").value.split("@");
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].trim();
+  }
   let tags = GID("quick-fill-tags-entry").value;
   let hasTags = GID("quick-fill-has-tags-entry").value;
   let doesNotHaveTags = GID("quick-fill-not-tags-entry").value;
