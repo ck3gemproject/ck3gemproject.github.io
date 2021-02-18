@@ -10,6 +10,7 @@ let onActionCounter = 1
 let eventsListCounter = 1
 let done = false;
 let oaa = []
+let globalEventsList = [];
 
 function recursiveGenerate(coords, variables) {
   console.log("Recursive Generation!")
@@ -52,7 +53,7 @@ function runGenerationMachine(num) {
           num = parseInt(e.options[i].onActionNumber);
         }
         for (let n = 0; n < num; n++) {
-          oaa[0].eventList.push(eventsListCounter);
+          oaa[oaa.length - 1].eventList.push(eventsListCounter);
           recursiveGenerate([e.options[i].onActions[j].x, e.options[i].onActions[j].y], _.cloneDeep(e.varObjArr))
         }
       }
@@ -64,8 +65,8 @@ function runGenerationMachine(num) {
 
   for (let i = 0; i < eventsList.length; i++) {
     makeEventCode(eventsList[i]);
+    globalEventsList.push(_.cloneDeep(eventsList[i]))
   }
-
   eventsList = [];
   console.log(eventsList);
   console.log(oaa);

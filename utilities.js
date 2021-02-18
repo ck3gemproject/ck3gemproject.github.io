@@ -427,7 +427,7 @@ GID("on-action-button").onclick = function() {
   GID("on-action-box").style.display = "block";
   GID("generator-settings-box").style.display = "none";
   let t = "";
-  buildOnActions(eventsList);
+  buildOnActions(globalEventsList);
 
   if (on_game_start.length > 0) {
     t += `${p()}on_game_start = {${ep()}`
