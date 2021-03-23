@@ -554,6 +554,10 @@ function addComponentToEvent(loc, currentComponent, e, currentCell, gridName) {
   }
 
   if (currentComponent.fileName && currentComponent.fileCode) {
+    currentComponent.fileName = replaceVariable(e, currentComponent.fileName)
+    currentComponent.fileName = replaceFunction(e, currentComponent.fileName)
+    currentComponent.fileCode = replaceVariable(e, currentComponent.fileCode)
+    currentComponent.fileCode = replaceFunction(e, currentComponent.fileCode)
     addCodeToFileList(currentComponent.fileName, currentComponent.fileCode)
   }
 

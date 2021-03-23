@@ -1251,6 +1251,8 @@ GID("generate-button").onclick = function() {
 GID("save-generator-settings").onclick = function() {
   namespace = GID("namespace-entry").value;
   onActionDelay = GID("on-action-delay-entry").value;
+  creationCounter = parseInt(GID("on-action-delay-entry").value)
+  locCreationCounter = parseInt(GID("on-action-delay-entry").value)
 }
 
 
